@@ -1,0 +1,13 @@
+tbody {
+    height: calc(100vh - 310px); 
+    table-layout: fixed;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  thead, tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }

@@ -1,0 +1,26 @@
+
+.product__details {
+    margin-top: 50px;
+}
+
+.product__details h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.add__btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 25px;
+    transition: 0.2s;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+.add__btn:hover {
+   scale: 1.1
+}
+
+/* .product__img{
+    height: 200px;
+    width: 300px;
+} */

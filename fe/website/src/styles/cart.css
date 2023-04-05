@@ -1,0 +1,58 @@
+
+.table tr td img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+}
+
+td i {
+    cursor: pointer;
+    color: rgb(235, 7, 7);
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+td i:hover {
+    color: var(--primary-color);
+}
+
+td {
+    color: var(--primary-color);
+}
+
+.btn-continue, .btn-checkout {
+    padding: 10px 20px;
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    transition: .2s;
+}
+.btn-continue a, .btn-checkout a {
+    color: inherit;
+    text-decoration: none !important;
+}
+.btn-checkout {
+    color: #fff;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+}
+
+.btn-continue {
+    color: var(--primary-color);
+    background: #fff;
+}
+
+.btn-continue:hover, .btn-checkout:hover {
+   scale: 1.05;
+}
+
+.checkout-info h4 {
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.checkout-info span {
+    font-size: 20px;
+    color: var(--main-color);
+}
