@@ -9,8 +9,8 @@ router.use('/Delete', sanPhamController.xoaSp)
 router.use('/Update', sanPhamController.capNhatSp)
 router.use('/Sale', sanPhamController.getListSale)
 router.use('/Best', sanPhamController.getListBest)
-router.use('/Best', sanPhamController.getListBest)
 router.use('/New', sanPhamController.getListNew)
+router.use('/Filter', sanPhamController.locSp)
 
 router.use('/', sanPhamController.index)
 

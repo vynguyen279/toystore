@@ -35,14 +35,19 @@ export async function deleteProduct(data) {
 export async function searchProduct(data) {
     return axios.get(`/SanPham/Search`, data);
 }
+
+export async function filterProduct(data) {
+    return axios.post(`/SanPham/Filter`, data);
+}
+
 export async function getListSale(data) {
-    return axios.get(`/SanPham/Sale`, data);
+    return axios.post(`/SanPham/Sale`, data);
 }
 export async function getListNew(data) {
-    return axios.get(`/SanPham/New`, data);
+    return axios.post(`/SanPham/New`, data);
 }
 export async function getListBest(data) {
-    return axios.get(`/SanPham/Best`, data);
+    return axios.post(`/SanPham/Best`, data);
 }
 
 // KHACH HANG

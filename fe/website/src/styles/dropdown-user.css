@@ -11,6 +11,7 @@ ul li{
 
 .dropdown-container {
     border: 1px solid #000;
+    background: #fff;
     position: absolute;
     margin: 0;
     top: 3rem;
