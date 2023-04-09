@@ -1,18 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Color from '../res/color';
+import { getListCate } from '../services/untils';
 
-function CardCate({ props, navigation, index }) {
+function CardCate({ item, navigation, index }) {
+    const [cate, setCate] = useState([]);
+    const key = String(item.text);
+    const getCate = () => {
+        let data = {
+            KEY: key,
+        };
+
+        getListCate(data)
+            .then((response) => {
+                setCate(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        getCate();
+        console.log(cate);
+    }, []);
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('AllProduct', { data: cate })}>
             <View style={[style.card]}>
                 <Image
                     style={style.img}
                     source={{
-                        uri: props.url,
+                        uri: item.url,
                     }}
                 />
-                <Text style={style.txt}>{props.text}</Text>
+                <Text style={style.txt}>{item.text}</Text>
             </View>
         </TouchableOpacity>
     );

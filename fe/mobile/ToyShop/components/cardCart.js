@@ -1,45 +1,46 @@
-import React,{ useState } from 'react';
-import { Text,View,StyleSheet,TouchableOpacity,Image } from 'react-native';
-import { useSelector,useDispatch } from 'react-redux'
-import { removeFromCart,incrementQuantity,decrementQuantity } from '../store/CartReducer';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart, incrementQuantity, decrementQuantity } from '../store/CartReducer';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import Color from '../res/color';
 
 function CardCart({ item }) {
-    const dispatch=useDispatch();
+    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE } = item;
+    const sale = SALE * 100;
+    const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-    const incrementCart=(items) => {
+    const dispatch = useDispatch();
+
+    const incrementCart = (items) => {
         dispatch(incrementQuantity(items));
-    }
+    };
 
-    const removeItemFromCart=(items) => {
+    const removeItemFromCart = (items) => {
         dispatch(removeFromCart(items));
-    }
+    };
 
-    const decrementCart=(items) => {
-        if (item.quantity==1) {
+    const decrementCart = (items) => {
+        if (item.quantity == 1) {
             dispatch(removeFromCart(items));
         } else {
             dispatch(decrementQuantity(items));
         }
-    }
+    };
     return (
         <View style={style.card}>
-            <Image
-                source={{ uri: item.img }}
-                style={style.img}
-            />
+            <Image source={{ uri: HINHANH }} style={style.img} />
             <View style={style.txt}>
-                <Text style={style.txtName}>{item.name}</Text>
-                <Text style={style.txtMI}>{item.madeIn}</Text>
+                <Text style={style.txtName}>{TENSP}</Text>
+                <Text style={style.txtMI}>{NUOCSX}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={style.txtPrice}>{item.price}</Text>
-                    <Text style={{ color: Color.btn }}>{' '}đ</Text>
+                    <Text style={style.txtPrice}>{cost}</Text>
+                    <Text style={{ color: Color.btn }}> đ</Text>
                 </View>
             </View>
-            <View style={{ height: 100,width: 70 }}>
-                <View style={{ marginLeft: 30,marginTop: 10 }}>
+            <View style={{ height: 100, width: 70 }}>
+                <View style={{ marginLeft: 30, marginTop: 10 }}>
                     <TouchableOpacity onPress={() => removeItemFromCart(item)}>
                         <FontAwesome name="times" size={30} color={Color.btn} />
                     </TouchableOpacity>
@@ -64,7 +65,7 @@ function CardCart({ item }) {
 }
 export default CardCart;
 
-const style=StyleSheet.create({
+const style = StyleSheet.create({
     card: {
         height: 100,
         width: 350,
@@ -72,31 +73,31 @@ const style=StyleSheet.create({
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10
+        marginBottom: 10,
     },
     img: {
         height: 90,
         width: 90,
         borderRadius: 10,
-        marginLeft: 5
+        marginLeft: 5,
     },
     txt: {
         marginLeft: 10,
         height: 100,
         justifyContent: 'center',
-        width: 160
+        width: 160,
     },
     txtName: {
         fontSize: 16,
         fontWeight: '700',
         color: Color.btn,
-        width: 160
+        width: 160,
     },
     txtMI: {
         fontSize: 14,
         fontWeight: '500',
         color: Color.btn,
-        marginBottom: 10
+        marginBottom: 10,
     },
     txtPrice: {
         fontSize: 16,
@@ -109,7 +110,7 @@ const style=StyleSheet.create({
         alignItems: 'center',
         width: 70,
         height: 40,
-        marginTop: 15
+        marginTop: 15,
     },
     btn: {
         backgroundColor: Color.btn,
@@ -122,6 +123,6 @@ const style=StyleSheet.create({
     },
     txtNum: {
         fontSize: 16,
-        fontWeight: 'bold'
-    }
-})
+        fontWeight: 'bold',
+    },
+});

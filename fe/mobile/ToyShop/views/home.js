@@ -1,5 +1,6 @@
-import React,{ useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
+    Alert,
     Text,
     TextInput,
     View,
@@ -11,94 +12,107 @@ import {
     FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Line,Card,Cart } from '../components';
+import { Line, Card, Cart } from '../components';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AppContext } from './';
+import { getListSale, getListBest, getListNew } from '../services/untils';
 import Color from '../res/color';
-//import { connect,useSelector,useDispatch } from 'react-redux'
-//import { addToCart } from '../store/CartReducer';
 
 function Home({ navigation }) {
-    // const cart=useSelector((state) => state.cart.cart);
-    // console.log(cart);
-    // const dispatch=useDispatch();
-    // const addItemToCart=(item) => {
-    //     dispatch(addToCart(item));
-    // }
+    const {
+        listBest,
+        setListBest,
+        listAllBest,
+        setListAllBest,
+        listSale,
+        setListSale,
+        listAllSale,
+        setListAllSale,
+        listNew,
+        setListNew,
+        listAllNew,
+        setListAllNew,
+    } = useContext(AppContext);
 
-    const DATA=[
-        {
-            id: '1',
-            name: '280pcs',
-            price: Number(250000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2021/07/Voi-3-510x510.jpg'
-        },
-        {
-            id: '2',
-            name: 'Ngôi làng tuyết',
-            price: Number(240000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2021/10/9701048963_2103832436-510x510.jpg'
-        },
-        {
-            id: '3',
-            name: 'Bàn bán bánh',
-            price: Number(230000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2022/07/O1CN01DGgHuD241eHc0KfVp_2210042677331-0-cib-510x510.jpg'
-        },
-        {
-            id: '4',
-            name: 'Gato thỏ gấu',
-            price: Number(390000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2022/08/Thiet-ke-chua-co-ten-15-510x510.png'
-        },
-        {
-            id: '5',
-            name: 'Biệt thự cao cấp',
-            price: Number(1290000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2021/10/a.png'
-        },
-        {
-            id: '6',
-            name: 'Villa 3 tầng',
-            price: Number(950000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2021/09/Untitled-e1661010449524.png'
-        },
-        {
-            id: '7',
-            name: 'Đầu khủng long',
-            price: Number(475000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2022/02/3-1536x1365.png'
-        },
-        {
-            id: '8',
-            name: 'Xe bồn',
-            price: Number(59000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2021/07/DSCF0345-e1667291836835-1536x1058.png'
-        },
-        {
-            id: '9',
-            name: 'Xe cứu hỏa',
-            price: Number(59000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2021/07/DSCF0344-e1667292236848-1536x929.png'
-        },
-        {
-            id: '10',
-            name: 'Bể cá cho bé',
-            price: Number(290000),
-            madeIn: 'USA',
-            img: 'https://toystorevn.com/wp-content/uploads/2022/07/O1CN01IDHKA61ENJ0luyGv1_2449590339-0-cib-510x510.jpg'
-        },
+    const getBestProducts = () => {
+        let data = {
+            KEY: 5,
+        };
 
-    ];
+        getListBest(data)
+            .then((response) => {
+                setListBest(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getSaleProducts = () => {
+        let data = {
+            KEY: 5,
+        };
+
+        getListSale(data)
+            .then((response) => {
+                setListSale(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getAllSaleProducts = () => {
+        let data = {
+            KEY: 0,
+        };
+
+        getListSale(data)
+            .then((response) => {
+                setListAllSale(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getNewProducts = () => {
+        let data = {
+            KEY: 5,
+        };
+
+        getListNew(data)
+            .then((response) => {
+                setListNew(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getAllNewProducts = () => {
+        let data = {
+            KEY: 0,
+        };
+
+        getListNew(data)
+            .then((response) => {
+                setListAllNew(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        getBestProducts();
+        getSaleProducts();
+        getAllSaleProducts();
+        getNewProducts();
+        getAllNewProducts();
+        console.log(listBest);
+    }, []);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -149,56 +163,51 @@ function Home({ navigation }) {
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
                     <Line title="Sản phẩm bán chạy" navigate={navigation} nameNavi="AllProduct" />
                     <FlatList
+                        key={'#'}
                         horizontal
                         style={{}}
-                        data={DATA}
-                        renderItem={({ item }) => <Card items={item} navigation={navigation} />}
-                        keyExtractor={(item) => item.id}
-                    // // onMomentumScrollEnd={loadMore1}
-                    // onEndReached={loadMore1}
-                    // onEndReachedThreshold={0.1}
-                    // ListFooterComponent={renderFooter}
+                        data={listBest}
+                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} />}
+                        keyExtractor={(item) => '#' + item.MASP}
+                        // // onMomentumScrollEnd={loadMore1}
+                        // onEndReached={loadMore1}
+                        // onEndReachedThreshold={0.1}
+                        // ListFooterComponent={renderFooter}
                     />
-                    {/* <Line title="Giảm giá sốc" navigate={navigation} nameNavi="AllProduct"  />
+                    <Line title="Giảm giá sốc" navigate={navigation} nameNavi="AllProduct" data={listAllSale} />
                     <FlatList
+                        key={'.'}
                         horizontal
                         style={{}}
-                        data={DATA}
-                        keyExtractor={(item) => item.id}
-                    // // onMomentumScrollEnd={loadMore1}
-                    // onEndReached={loadMore1}
-                    // onEndReachedThreshold={0.1}
-                    // ListFooterComponent={renderFooter}
+                        data={listSale}
+                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} />}
+                        keyExtractor={(item) => '.' + item.MASP}
+                        // // onMomentumScrollEnd={loadMore1}
+                        // onEndReached={loadMore1}
+                        // onEndReachedThreshold={0.1}
+                        // ListFooterComponent={renderFooter}
                     />
-                    <Line title="Sản phẩm mới" navigate={navigation} nameNavi="AllProduct" />
+                    <Line title="Sản phẩm mới" navigate={navigation} nameNavi="AllProduct" data={listAllNew} />
                     <FlatList
+                        key={'!'}
                         horizontal
                         style={{}}
-                        data={DATA}
-                        renderItem={({ item }) => <Card title={item.title} navigation={navigation} />}
-                        keyExtractor={(item) => item.id}
-                    // // onMomentumScrollEnd={loadMore1}
-                    // onEndReached={loadMore1}
-                    // onEndReachedThreshold={0.1}
-                    // ListFooterComponent={renderFooter}
-                    /> */}
+                        data={listNew}
+                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} />}
+                        keyExtractor={(item) => '!' + item.MASP}
+                        // // onMomentumScrollEnd={loadMore1}
+                        // onEndReached={loadMore1}
+                        // onEndReachedThreshold={0.1}
+                        // ListFooterComponent={renderFooter}
+                    />
                 </KeyboardAwareScrollView>
             </View>
         </TouchableWithoutFeedback>
     );
 }
 
-// const mapDispatchToProps=(dispatch) => {
-//     return {
-//         addItemToCart: (product) => dispatch({
-//             type: 'ADD_TO_CARD',
-//             payload: product
-//         })
-//     }
-// }
-//export default connect(null,mapDispatchToProps)(Home);
 export default Home;
-const style=StyleSheet.create({
+const style = StyleSheet.create({
     header: {
         height: 70,
         marginTop: 30,

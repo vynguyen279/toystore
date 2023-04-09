@@ -1,36 +1,41 @@
-import React,{ useState } from 'react';
-import { useSelector,useDispatch } from 'react-redux'
-import { Text,Image,View,StyleSheet,TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { BtnBackTab } from '../components';
 import { StatusBar } from 'expo-status-bar';
-import { addToCart,incrementQuantity } from '../store/CartReducer';
+import { addToCart, incrementQuantity } from '../store/CartReducer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import Color from '../res/color';
 
-function DetailPro({ navigation,route }) {
-    const [count,setCount]=useState(1);
-    const items=route.params?.item;
-    const cart=useSelector((state) => state.cart.cart);
-    const dispatch=useDispatch();
+function DetailPro({ navigation, route }) {
+    const [count, setCount] = useState(1);
 
-    const addItemToCart=(items) => {
+    const items = route.params?.item;
+    const sale = route.params?.sale;
+    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH } = items;
+    const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    const cart = useSelector((state) => state.cart.cart);
+    const dispatch = useDispatch();
+
+    const addItemToCart = (items) => {
         dispatch(addToCart(items));
-    }
+    };
 
-    const incrementCart=(items) => {
+    const incrementCart = (items) => {
         dispatch(incrementQuantity(items));
-    }
+    };
 
-    const addAll=(items) => {
+    const addAll = (items) => {
         console.log(count);
-        if (cart.some((value) => value.id==items.id)) {
-            for (var i=1;i<=count;i++) {
+        if (cart.some((value) => value.MASP == items.MASP)) {
+            for (var i = 1; i <= count; i++) {
                 incrementCart(items);
             }
         } else {
             addItemToCart(items);
-            for (var i=1;i<count;i++) {
+            for (var i = 1; i < count; i++) {
                 incrementCart(items);
             }
         }
@@ -58,9 +63,9 @@ function DetailPro({ navigation,route }) {
             >
                 <Image
                     source={{
-                        uri: items.img,
+                        uri: HINHANH,
                     }}
-                    style={{ height: 360,width: 360 }}
+                    style={{ height: 360, width: 360 }}
                 />
             </View>
             <View
@@ -71,38 +76,47 @@ function DetailPro({ navigation,route }) {
                     borderTopLeftRadius: 100,
                 }}
             >
-                <View style={{ flexDirection: 'row',marginTop: 15 }}>
-                    <View style={{ marginLeft: 40,marginTop: 50 }}>
-                        <Text style={style.txtPro}>{items.name}</Text>
-                        <Text style={style.txtMI}>{items.madeIn}</Text>
+                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                    <View style={{ marginLeft: 40, marginTop: 50 }}>
+                        <Text style={style.txtPro}>{TENSP}</Text>
+                        <Text style={style.txtMI}>{NUOCSX}</Text>
                         <View
                             style={{
                                 flexDirection: 'row',
                             }}
                         >
-                            <Text style={style.txtCost}>{items.price}</Text>
-                            <Text style={style.txtVND}> VND</Text>
+                            {sale != 0 ? (
+                                <View>
+                                    <Text style={[style.txtCost, { textDecorationLine: 'line-through' }]}>
+                                        {String(DONGIA).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ
+                                    </Text>
+                                    <Text style={style.txtCost}>{cost}đ</Text>
+                                </View>
+                            ) : (
+                                <Text style={style.txtCost}>{cost}đ</Text>
+                            )}
                         </View>
                     </View>
                     <View style={style.detail}>
-                        <TouchableOpacity
-                            disabled={count==1? true:false}
-                            onPress={() => setCount(count-1)}
-                        >
+                        <TouchableOpacity disabled={count == 1 ? true : false} onPress={() => setCount(count - 1)}>
                             <View style={style.btn}>
                                 <FontAwesome name="minus" size={20} color="#FFFF" style={{}} />
                             </View>
                         </TouchableOpacity>
                         <Text style={style.txtNum}>{count}</Text>
-                        <TouchableOpacity onPress={() => setCount(count+1)}>
+                        <TouchableOpacity onPress={() => setCount(count + 1)}>
                             <View style={style.btn}>
                                 <FontAwesome name="plus" size={20} color="#FFFF" style={{}} />
                             </View>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{ marginTop: 20,alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => { addAll(items) }}>
+                <View style={{ marginTop: 20, alignItems: 'center' }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            addAll(items);
+                        }}
+                    >
                         <View style={style.btnConfirm}>
                             <Text style={style.txtConfirm}>Thêm vào giỏ hàng</Text>
                         </View>
@@ -114,7 +128,7 @@ function DetailPro({ navigation,route }) {
 }
 export default DetailPro;
 
-const style=StyleSheet.create({
+const style = StyleSheet.create({
     header: {
         marginTop: 40,
         flexDirection: 'row',
@@ -141,12 +155,6 @@ const style=StyleSheet.create({
 
     txtNum: {
         fontSize: 25,
-        color: Color.btn,
-        fontWeight: '500',
-    },
-
-    txtVND: {
-        fontSize: 30,
         color: Color.btn,
         fontWeight: '500',
     },
