@@ -1,5 +1,5 @@
 import React from "react";
-import {getListProduct, getListType} from '../server/callAPI'
+import {getListProduct, getListType, filterProduct} from '../server/callAPI'
 import CommonSection from "../components/UI/CommonSection";
 import Helmet from "../components/Helmet/Helmet";
 import { Container, Row, Col } from "reactstrap";
@@ -10,27 +10,39 @@ import '../App.css';
 
 const Shop = () => {
     const [products, setProducts] = useState([])
-    const [filterProducts, setFilterProducts] = useState([])
     const [type, setType] = useState([])
-    const [query, setQuery] = useState("")
-    
+    const [loai, setLoai] = useState('Tất cả')
+    const [gia, setGia] = useState(0)
+    const [query, setQuery] = useState('')
+
+    useEffect(()=>{
+        getProducts()
+    }, [loai])
+    useEffect(()=>{
+        getProducts()
+    }, [gia])
     useEffect(()=>{
         getProducts()
     }, [query])
 
-    useEffect(()=>{
-        getProducts()
-    }, [filterProducts])
+    // useEffect(()=>{
+    //     getProducts()
+    // }, [])
 
     const getProducts = () => {
         let data = {
+
+            LOAISP: loai,
+            GIA: gia,
             KEY: query
         }
     
-        getListProduct(data)
+        filterProduct(data)
         .then(function (response) {
+          if(response.data.status)
           setProducts(response.data.data);
-          setFilterProducts(response.data.data);
+          else
+          setProducts([])
         })
         .catch(function (error) {
           console.log(error);
@@ -38,7 +50,6 @@ const Shop = () => {
     }
 
     useEffect(()=>{
-    
         getListType()
         .then(function (response) {
           // console.log(response.data.data)
@@ -51,36 +62,16 @@ const Shop = () => {
 
     const handleFilter = (e)=>{
         const filterValue = e.target.value
-        // setProducts([])
-        // getProducts()
-        if(filterValue=== 'Học tập'){
-            const filterProducts = products.filter(item=>item.LOAISP==='Học tập')
-            setFilterProducts(filterProducts)
-        }
-        if(filterValue=== 'Ngoài trời'){
-            const filterProducts = products.filter(item=>item.LOAISP==='Ngoài trời')
-            setFilterProducts(filterProducts)
-        }
-        if(filterValue=== 'Lắp ráp'){
-            const filterProducts = products.filter(item=>item.LOAISP==='Lắp ráp')
-            setFilterProducts(filterProducts)
-        }
-        if(filterValue=== 'Mô hình'){
-            const filterProducts = products.filter(item=>item.LOAISP==='Mô hình')
-            setFilterProducts(filterProducts)
-        }
-        if(filterValue=== 'Xếp hình'){
-            const filterProducts = products.filter(item=>item.LOAISP==='Xếp hình')
-            setFilterProducts(filterProducts)
-        }
-        if(filterValue === 'Tất cả'){
-            getListProduct()
-        }
+        setLoai(filterValue)
+    }
+
+    const handleFilter2 = (e)=>{
+        const filterValue = e.target.value
+        setGia(parseInt(filterValue))
     }
 
     const handleSearch = (e)=>{
         const searchItem = e.target.value
-        // console.log(searchItem)
         setQuery(searchItem)
     }
 
@@ -94,7 +85,7 @@ const Shop = () => {
                 <Col lg='2' md='3'>
                     <div className="filter__widget">
                         <select onChange={handleFilter}>
-                            <option>Danh mục</option>
+                            <option value='Tất cả'>Danh mục</option>
                             <option value='Tất cả'>Tất cả</option>
                             {type.map((item, index) =>
                                 <option 
@@ -107,14 +98,14 @@ const Shop = () => {
                 </Col>
                 <Col lg='2' md='3'>
                 <div className="filter__widget">
-                        <select>
-                            <option>Lọc theo giá</option>
-                            <option value="low">Từ thấp đến cao</option>
-                            <option value="high">Từ cao đến thấp</option>
+                        <select onChange={handleFilter2}>
+                            <option value="0">Lọc theo giá</option>
+                            <option value="0">Từ thấp đến cao</option>
+                            <option value="1">Từ cao đến thấp</option>
                         </select>
                     </div>
                 </Col>
-                <Col lg='2' md='3'>
+                {/* <Col lg='2' md='3'>
                 <div className="filter__widget">
                         <select>
                             <option value="all" defaultChecked>Tất cả</option>
@@ -123,7 +114,7 @@ const Shop = () => {
                             <option value="new">Mới nhất</option>
                         </select>
                     </div>
-                </Col>
+                </Col> */}
                 <Col lg='5' md='6'>
                     <div className="search__box">
                         <input type="input" placeholder="Tìm kiếm" onChange={handleSearch}/>
@@ -137,7 +128,7 @@ const Shop = () => {
         <Container>
             <Row>
                 {
-                    filterProducts.length === 0? <h1>Không tìm thấy sản phẩm nào!</h1> : <ProductList data={filterProducts} />
+                    products.length === 0? <h1>Không tìm thấy sản phẩm nào!</h1> : <ProductList data={products} />
                 }
             </Row>
         </Container>

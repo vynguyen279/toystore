@@ -166,6 +166,20 @@ class SanPhamControllers {
     }
     res.send(json(true, rs.recordset));
   };
+
+  locSp = async (req, res) => {
+    const { LOAISP, GIA, KEY } = req.body;
+    let params = [
+      { name: "LOAISP", type: "Nvarchar(50)", value: LOAISP }, 
+      { name: "GIA", type: "Int", value: GIA }, 
+      { name: "KEY", type: "Nvarchar(50)", value: KEY }];
+    let rs = await SanPham.filter(params);
+    if (rs.recordset.length == 0) {
+      res.send(json(false, "Không có kết quả phù hợp"));
+      return;
+    }
+    res.send(json(true, rs.recordset));
+  };
 }
 
 module.exports = new SanPhamControllers();

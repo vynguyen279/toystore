@@ -60,6 +60,9 @@ class SanPham {
   static search(params) {
     return DB.excute("SP_TIM_KIEM_SAN_PHAM", params);
   }
+  static filter(params) {
+    return DB.excute("SP_LOC_SP", params);
+  }
 }
 
 module.exports = SanPham;

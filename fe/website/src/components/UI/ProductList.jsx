@@ -2,12 +2,12 @@ import React from "react";
 import ProductCard from "./ProductCard";
 
 
-const ProductList = (data) => {
+const ProductList = ({data}) => {
   return (
     <>
       {
-        data && data.map((item, index) => (
-          <ProductCard item={item} />
+        data?.map((item, index) => (
+          <ProductCard key={index} item={item} />
         ))
       }
     </>
