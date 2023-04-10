@@ -111,7 +111,6 @@ function Home({ navigation }) {
         getAllSaleProducts();
         getNewProducts();
         getAllNewProducts();
-        console.log(listBest);
     }, []);
 
     return (
@@ -161,7 +160,7 @@ function Home({ navigation }) {
                     }}
                 />
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
-                    <Line title="Sản phẩm bán chạy" navigate={navigation} nameNavi="AllProduct" />
+                    <Line title="Sản phẩm bán chạy" navigate={navigation} nameNavi="AllProduct" type="best" />
                     <FlatList
                         key={'#'}
                         horizontal
@@ -174,7 +173,13 @@ function Home({ navigation }) {
                         // onEndReachedThreshold={0.1}
                         // ListFooterComponent={renderFooter}
                     />
-                    <Line title="Giảm giá sốc" navigate={navigation} nameNavi="AllProduct" data={listAllSale} />
+                    <Line
+                        title="Giảm giá sốc"
+                        navigate={navigation}
+                        nameNavi="AllProduct"
+                        data={listAllSale}
+                        type="sale"
+                    />
                     <FlatList
                         key={'.'}
                         horizontal
@@ -187,7 +192,13 @@ function Home({ navigation }) {
                         // onEndReachedThreshold={0.1}
                         // ListFooterComponent={renderFooter}
                     />
-                    <Line title="Sản phẩm mới" navigate={navigation} nameNavi="AllProduct" data={listAllNew} />
+                    <Line
+                        title="Sản phẩm mới"
+                        navigate={navigation}
+                        nameNavi="AllProduct"
+                        data={listAllNew}
+                        type="new"
+                    />
                     <FlatList
                         key={'!'}
                         horizontal

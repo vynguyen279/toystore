@@ -63,6 +63,10 @@ class SanPham {
   static filter(params) {
     return DB.excute("SP_LOC_SP", params);
   }
+
+  static filterBSN(params) {
+    return DB.excute("SP_LOC_BSN", params);
+  }
 }
 
 module.exports = SanPham;

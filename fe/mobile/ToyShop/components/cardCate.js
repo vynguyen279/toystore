@@ -25,7 +25,11 @@ function CardCate({ item, navigation, index }) {
         console.log(cate);
     }, []);
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('AllProduct', { data: cate })}>
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('AllProduct', { data: cate, name: key, type: '' });
+            }}
+        >
             <View style={[style.card]}>
                 <Image
                     style={style.img}

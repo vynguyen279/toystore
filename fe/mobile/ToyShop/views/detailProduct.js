@@ -28,7 +28,6 @@ function DetailPro({ navigation, route }) {
     };
 
     const addAll = (items) => {
-        console.log(count);
         if (cart.some((value) => value.MASP == items.MASP)) {
             for (var i = 1; i <= count; i++) {
                 incrementCart(items);

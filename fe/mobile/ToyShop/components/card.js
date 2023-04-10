@@ -60,7 +60,7 @@ function Card({ items, navigation }) {
                             {sale != 0 ? (
                                 <Text style={[style.txtCost, { color: Color.error }]}>{cost}</Text>
                             ) : (
-                                <Text style={style.txtCost}>{DONGIA}</Text>
+                                <Text style={style.txtCost}>{cost}</Text>
                             )}
                             {sale != 0 ? (
                                 <Text style={[style.txtVND, { color: Color.error }]}>đ</Text>

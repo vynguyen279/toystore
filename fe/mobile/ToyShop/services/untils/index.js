@@ -20,6 +20,14 @@ export async function getListNew(data) {
 export async function getListCate(data) {
     return await request.post(`/SanPham/Cate`, data);
 }
+
+export async function filterProduct(data) {
+    return await request.post(`/SanPham/Filter`, data);
+}
+
+export async function filterBSN(data) {
+    return await request.post(`/SanPham/FilterBSN`, data);
+}
 // export const get = async (path, options = {}) => {
 //     console.log('path: ', path);
 //     const response = await request.get(path, options);

@@ -12,6 +12,7 @@ router.use("/Best", sanPhamController.getListBest);
 router.use("/New", sanPhamController.getListNew);
 router.use("/Cate", sanPhamController.getListCate);
 router.use("/Filter", sanPhamController.locSp);
+router.use("/FilterBSN", sanPhamController.locBSN);
 
 router.use("/", sanPhamController.index);
 

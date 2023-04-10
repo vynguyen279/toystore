@@ -1,16 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Card, BtnBackTab, Cart } from '../components';
 import { StatusBar } from 'expo-status-bar';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SelectDropdown from 'react-native-select-dropdown';
+import { filterBSN, filterProduct } from '../services/untils';
 
 import Color from '../res/color';
 
 function AllProduct({ navigation, route }) {
-    const cost = ['Tất cả', '100.000 - 300.000', '300.000 - 700.000', '700.000 - 1.000.000', '>1.000.000'];
-    const data = route.params?.data;
+    const [data, setData] = useState([]);
+    const [gia, setGia] = useState(2);
+    const [query, setQuery] = useState('');
+    const cost = ['Từ thấp đến cao', 'Từ cao đến thấp', 'Tất cả'];
+    const name = route.params?.name;
+    const type = route.params?.type;
+    // useEffect(() => {
+    //     setData(route.params?.data);
+    // }, []);
+
+    useEffect(() => {
+        if (gia == 2) {
+            setData(route.params?.data);
+        } else {
+            if (name != '') {
+                getProducts();
+            } else {
+                getProductsBSN();
+            }
+        }
+    }, [gia]);
+
+    const getProducts = () => {
+        let param = {
+            LOAISP: name,
+            GIA: gia,
+            KEY: query,
+        };
+        setData([]);
+        filterProduct(param)
+            .then((response) => {
+                if (response.data.status) {
+                    setData(response.data.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getProductsBSN = () => {
+        let param = {
+            LOAI: type,
+            GIA: gia,
+            KEY: query,
+        };
+        setData([]);
+        filterBSN(param)
+            .then((response) => {
+                if (response.data.status) {
+                    setData(response.data.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     return (
         <View
             style={{
@@ -29,21 +85,28 @@ function AllProduct({ navigation, route }) {
             </View>
             <View style={{ marginLeft: 25, marginTop: 10, marginBottom: 20 }}>
                 <View style={styles.search}>
-                    <Icon
-                        size={20}
-                        name={'search'}
-                        fontWeight={100}
-                        style={{
-                            color: Color.btn,
-                            marginLeft: 5,
+                    <TouchableOpacity
+                        onPress={() => {
+                            name != '' ? getProducts() : getProductsBSN();
                         }}
-                    />
+                    >
+                        <Icon
+                            size={20}
+                            name={'search'}
+                            fontWeight={100}
+                            style={{
+                                color: Color.btn,
+                                marginLeft: 5,
+                            }}
+                        />
+                    </TouchableOpacity>
                     <TextInput
                         style={{
                             width: 262,
                             height: 40,
                         }}
                         placeholder={'Tìm kiếm'}
+                        onChangeText={(text) => setQuery(text)}
                     />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
@@ -55,6 +118,7 @@ function AllProduct({ navigation, route }) {
                             defaultButtonText={'Tất cả'}
                             data={cost}
                             onSelect={(selectedItem, index) => {
+                                setGia(index);
                                 console.log(selectedItem, index);
                             }}
                             buttonTextAfterSelection={(selectedItem, index) => {
@@ -63,7 +127,10 @@ function AllProduct({ navigation, route }) {
                             rowTextForSelection={(item, index) => {
                                 return item;
                             }}
-                            dropdownStyle={{ borderBottomRightRadius: 10, borderTopRightRadius: 10, marginBottom: 100 }}
+                            dropdownStyle={{
+                                borderBottomRightRadius: 10,
+                                borderTopRightRadius: 10,
+                            }}
                             buttonStyle={styles.btnDrop}
                             renderDropdownIcon={(isOpened) => {
                                 return (
