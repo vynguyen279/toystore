@@ -20,7 +20,7 @@ class SanPhamControllers {
     }
     res.send(json(true, rs.recordset));
   };
-  
+
   getListType = async (req, res) => {
     // const { KEY } = req.body;
     // if (KEY) {
@@ -62,6 +62,17 @@ class SanPhamControllers {
     const { KEY } = req.body;
     let params = [{ name: "KEY", type: "Int", value: KEY }];
     let rs = await SanPham.selectBestSP(params);
+    if (rs.recordset.length == 0) {
+      res.send(json(false, "Không có kết quả phù hợp"));
+      return;
+    }
+    res.send(json(true, rs.recordset));
+  };
+
+  getListCate = async (req, res) => {
+    const { KEY } = req.body;
+    let params = [{ name: "KEY", type: "Nvarchar(50)", value: KEY }];
+    let rs = await SanPham.selectCate(params);
     if (rs.recordset.length == 0) {
       res.send(json(false, "Không có kết quả phù hợp"));
       return;
@@ -159,10 +170,26 @@ class SanPhamControllers {
   locSp = async (req, res) => {
     const { LOAISP, GIA, KEY } = req.body;
     let params = [
-      { name: "LOAISP", type: "Nvarchar(50)", value: LOAISP }, 
-      { name: "GIA", type: "Int", value: GIA }, 
-      { name: "KEY", type: "Nvarchar(50)", value: KEY }];
+      { name: "LOAISP", type: "Nvarchar(50)", value: LOAISP },
+      { name: "GIA", type: "Int", value: GIA },
+      { name: "KEY", type: "Nvarchar(50)", value: KEY },
+    ];
     let rs = await SanPham.filter(params);
+    if (rs.recordset.length == 0) {
+      res.send(json(false, "Không có kết quả phù hợp"));
+      return;
+    }
+    res.send(json(true, rs.recordset));
+  };
+
+  locBSN = async (req, res) => {
+    const { LOAI, GIA, KEY } = req.body;
+    let params = [
+      { name: "LOAI", type: "Nvarchar(50)", value: LOAI },
+      { name: "GIA", type: "Int", value: GIA },
+      { name: "KEY", type: "Nvarchar(50)", value: KEY },
+    ];
+    let rs = await SanPham.filterBSN(params);
     if (rs.recordset.length == 0) {
       res.send(json(false, "Không có kết quả phù hợp"));
       return;

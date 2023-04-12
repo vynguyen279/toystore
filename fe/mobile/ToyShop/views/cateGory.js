@@ -6,7 +6,6 @@ import Color from '../res/color';
 import { CardCate } from '../components';
 
 function CateGory({ navigation }) {
-    const { cateGory, setCateGory } = useState([]);
     const DATA = [
         {
             id: 1,
@@ -58,7 +57,7 @@ function CateGory({ navigation }) {
                 numColumns={2}
                 style={{ marginTop: 50, marginHorizontal: 20 }}
                 data={DATA}
-                renderItem={({ item, index }) => <CardCate props={item} index={index} navigation={navigation} />}
+                renderItem={({ item, index }) => <CardCate item={item} navigation={navigation} />}
                 keyExtractor={(item) => '#' + item.id}
                 // // onMomentumScrollEnd={loadMore1}
                 // onEndReached={loadMore1}

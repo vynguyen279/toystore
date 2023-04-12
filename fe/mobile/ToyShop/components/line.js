@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Color from '../res/color';
 
-function Line({ title, navigate, nameNavi }) {
+function Line({ title, navigate, nameNavi, data, type }) {
     return (
         <View
             style={{
@@ -26,7 +26,7 @@ function Line({ title, navigate, nameNavi }) {
             </Text>
             <TouchableOpacity
                 onPress={() => {
-                    navigate.navigate(nameNavi);
+                    navigate.navigate(nameNavi, { data: data, name: '', type: type });
                 }}
             >
                 <Icon
