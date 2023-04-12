@@ -126,7 +126,7 @@ const Header = () => {
               </span>
               <span>
                 <motion.i onClick={() => setOpen((pre)=> !pre)} whileTap={{ scale: 1.2 }} class="fa-solid fa-circle-user" style={{color: '#0a1d37'}}></motion.i>
-                {open && <DropDownUser />}
+                {open && localStorage.getItem('isAuth') && <DropDownUser />}
               </span>
             </div>
             

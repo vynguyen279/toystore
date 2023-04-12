@@ -1,12 +1,19 @@
 .dropdown-list {
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 0px;
+    height: 100%;
+    margin: 0;
 }
 
 ul li{
-    padding: 0px;
+    padding: 5px;
     line-height: 3rem;
+}
+
+ul li:hover {
+    background-color: gainsboro;
+    cursor: pointer;
 }
 
 .dropdown-container {

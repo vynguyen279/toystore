@@ -42,6 +42,7 @@ const ProductCard = ({ item }) => {
         <Link to={`/shop/${item.MASP}`}>
           <div className="product__img">
             <img
+            style={{height: 300}}
               whileHover={{ scale: 0.9 }}
               src={HINHANH}
               alt="product img"

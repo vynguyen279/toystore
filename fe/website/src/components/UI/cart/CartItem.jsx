@@ -48,16 +48,16 @@ const CartItem = ({item}) => {
             </p>
             <div className="d-flex align-items-center justify-content-between increase__decrease-btn">
               <span className="decrease__btn" onClick={decrementItem}>
-                <i className="ri-subtract-line"></i>
+                <i className="fa fa-minus-square"></i>
               </span>
               <span className="quantity">{quantity}</span>
               <span className="increase__btn" onClick={incrementItem}>
-                <i className="ri-add-line"></i>
+                <i className="fa fa-plus-square"></i>
               </span>
             </div>
           </div>
           <span className="delete__btn" onClick={deletetItem} role='button'>
-            <i className="ri-close-line"></i>
+            <i className="fa fa-trash"></i>
           </span>
         </div>
       </div>

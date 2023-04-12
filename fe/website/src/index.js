@@ -7,7 +7,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-localStorage.setItem('isAuth', true)
+localStorage.removeItem('isAuth')
 root.render(
   <React.StrictMode>
     <BrowserRouter>

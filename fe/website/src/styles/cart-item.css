@@ -1,7 +1,7 @@
 .cart__item-info img {
     width: 90px;
     height: 105px;
-    object-fit: contain;
+    /* object-fit: contain; */
 }
 
 .cart__product-title {
@@ -20,9 +20,11 @@
 } 
 
 .increase__decrease-btn {
-    background: #fde4e4;
+    /* background: #fde4e4; */
     padding: 2px 5px;
     border-radius: 5px;
+    width: 50%;
+    height: 50%;
 }
 
 .increase__btn, .decrease__btn {
@@ -37,4 +39,10 @@
 .cart__item {
     padding-bottom: 10px;
     border-bottom: 1px solid #fde4e4;
+}
+
+.cart__item-info {
+  border: 1px solid #fde4e4;
+  padding-top: 10px;
+  padding-right: 10px;
 }
