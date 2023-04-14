@@ -49,6 +49,8 @@ const Login = () => {
           if (response.data.status) {
             localStorage.removeItem('isAuth')
             localStorage.setItem('isAuth', true)
+            localStorage.setItem('username', username)
+            localStorage.setItem('pass', pass)
             alert("Đăng nhập thành công!");
             history('/shop')
           } else alert("failed");

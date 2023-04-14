@@ -7,6 +7,39 @@ export async function signIn(data) {
 export async function signUp(data) {
     return axios.put('/TaiKhoan/CapTaiKhoanOrResetMatKhau', data);
 }
+export async function changePassword(data) {
+    return axios.put('/TaiKhoan/DoiMatKhau', data);
+}
+export async function imgUpload(data) {
+    var form = new FormData();
+  form.append('image', data);
+  return fetch(
+    'https://api.imgbb.com/1/upload?key=4c4909ed144cd9ff41bd9bb2d2aa7fbb',
+    {
+      method: 'POST',
+      mimeType: 'multipart/form-data',
+      contentType: false,
+      body: form,
+    }
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+    //   console.log(res.data.image.url);
+      return res.data.image.url;
+    });
+    // let body = new FormData()
+    // body.set('key', '4c4909ed144cd9ff41bd9bb2d2aa7fbb')
+    // body.append('image', data)
+
+    // return axios({
+    //   method: 'post',
+    //   url: 'https://api.imgbb.com/1/upload',
+    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //   data: body
+    // })
+}
 // export async function forgotPassword(data) {
 //     return axios.post('/account/forgot-password', data);
 // }
@@ -68,7 +101,7 @@ export async function deleteCustomer(data) {
 }
 
 export async function searchCustomer(data) {
-    return axios.get(`/KhachHang/Search`, data);
+    return axios.post(`/KhachHang/Search`, data);
 }
 
 // NHAN VIEN

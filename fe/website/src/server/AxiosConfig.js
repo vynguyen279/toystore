@@ -25,6 +25,8 @@ const instance = axios.create({
     // baseURL: "http://192.168.1.23:3000",
     timeout: 10000,
     headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
         'Content-Type': 'application/json',
     },
 });

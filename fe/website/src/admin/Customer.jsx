@@ -88,7 +88,7 @@ const Customer = () => {
                     <tbody>
                     {customers?.map((item, index) => (
                   <tr key={item.MAKH}>
-                    <td>{index}</td>
+                    <td>{index+1}</td>
                     <td>{item.MAKH}</td>
                     <td>{item.HOTEN}</td>
                     <td>{item.NGAYSINH}</td>

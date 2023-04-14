@@ -40,13 +40,12 @@ class KhachHangControllers {
   };
 
   capNhatKh = async (req, res) => {
-    const { MAKH, HOTEN, DIACHI, SDT, TAIKHOAN, EMAIL, NGAYSINH, GIOITINH } = req.body;
+    const { MAKH, HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH } = req.body;
     let params = [
       { name: "MAKH", type: "Nchar(10)", value: MAKH },
       { name: "HOTEN", type: "Nvarchar(50)", value: HOTEN },
       { name: "DIACHI", type: "Nvarchar(100)", value: DIACHI },
       { name: "SDT", type: "Nchar(10)", value: SDT },
-      { name: "TAIKHOAN", type: "Nvarchar(50)", value: TAIKHOAN },
       { name: "EMAIL", type: "Nchar(200)", value: EMAIL },
       { name: "NGAYSINH", type: "Date", value: NGAYSINH },
       { name: "GIOITINH", type: "Bit", value: GIOITINH },
@@ -74,12 +73,12 @@ class KhachHangControllers {
   };
 
   timKiemKh = async (req, res) => {
-    const KEY = req.body;
-    let params = [{ name: "KEY", type: "Nvarchar(50)", value: KEY }];
+    const { KEY } = req.body;
+    let params = [{ name: "KEY", type: "Int", value: KEY }];
     let rs = await KhachHang.search(params);
     if (rs.recordset.length == 0) {
-      res.send(json(false, rs));
-      return json(false, "Không có kết quả phù hợp");
+      res.send(json(false, "Không có kết quả phù hợp"));
+      return;
     }
     res.send(json(true, rs.recordset));
   };

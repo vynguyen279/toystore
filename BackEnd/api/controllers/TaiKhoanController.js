@@ -60,14 +60,14 @@ class TaiKhoanControllers {
     }
   };
 
-  //   doiMatKhau = async (req, res) => {
-  //     let salt = await bcrypt.genSalt(10);
-  //     let TAIKHOAN = req.body.TAIKHOAN;
-  //     let MATKHAU = await bcrypt.hash(req.body.MATKHAUMOI, salt);
-  //     let rs = await TaiKhoan.update(TAIKHOAN, MATKHAU);
-  //     console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
-  //     res.send(json());
-  //   };
+    doiMatKhau = async (req, res) => {
+      let salt = await bcrypt.genSalt(10);
+      let TAIKHOAN = req.body.EMAIL;
+      let MATKHAU = await bcrypt.hash(req.body.MATKHAUMOI, salt);
+      let rs = await TaiKhoan.update(TAIKHOAN, MATKHAU);
+      console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
+      res.send(json());
+    };
   //   khoaOrMoKhoaTaiKhoan = async (req, res) => {
   //     let { TENDANGNHAP } = req.body;
   //     let rs = await TaiKhoan.select(TENDANGNHAP);
