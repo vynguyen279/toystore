@@ -10,4 +10,4 @@ import Test from './views/test';
 import { name as appName } from './app.json';
 import rootComponents from './views/index';
 
-AppRegistry.registerComponent(appName, () => Test);
+AppRegistry.registerComponent(appName, () => rootComponents);

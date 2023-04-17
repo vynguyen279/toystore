@@ -1,10 +1,21 @@
-const json = require('../components/json');
+const json = require("../components/json");
 const KhachHang = require("../modules/KhachHang");
 
 class KhachHangControllers {
   index(req, res) {
     res.send("SanPham");
   }
+  getKH = async (req, res) => {
+    const { EMAIL } = req.body;
+    let params = [{ name: "EMAIL", type: "Nchar(200)", value: EMAIL }];
+
+    let rs = await KhachHang.select(EMAIL);
+    if (rs.length == 0) {
+      res.send(json(false, "Tài khoản không tồn tại!"));
+      return;
+    }
+    res.send(json(true, rs));
+  };
   getList = async (req, res) => {
     const { KEY } = req.body;
     let params = [{ name: "KEY", type: "Nvarchar(50)", value: KEY }];
@@ -22,14 +33,14 @@ class KhachHangControllers {
   };
 
   themKh = async (req, res) => {
-    const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH} = req.body;
+    const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH } = req.body;
     let params = [
-        { name: "HOTEN", type: "Nvarchar(50)", value: HOTEN },
-        { name: "DIACHI", type: "Nvarchar(100)", value: DIACHI },
-        { name: "SDT", type: "Nchar(10)", value: SDT },
-        { name: "EMAIL", type: "Nchar(200)", value: EMAIL },
-        { name: "NGAYSINH", type: "Date", value: NGAYSINH },
-        { name: "GIOITINH", type: "Bit", value: GIOITINH },
+      { name: "HOTEN", type: "Nvarchar(50)", value: HOTEN },
+      { name: "DIACHI", type: "Nvarchar(100)", value: DIACHI },
+      { name: "SDT", type: "Nchar(10)", value: SDT },
+      { name: "EMAIL", type: "Nchar(200)", value: EMAIL },
+      { name: "NGAYSINH", type: "Date", value: NGAYSINH },
+      { name: "GIOITINH", type: "Bit", value: GIOITINH },
     ];
     let rs = await KhachHang.insert(params);
     if (rs.rowsAffected > 0) {
@@ -66,9 +77,7 @@ class KhachHangControllers {
     if (rs.returnValue == 1) {
       res.send(json(true, rs));
     } else {
-      res.send(
-        json(false, "Khách hàng đang có đơn không thể xóa!")
-      );
+      res.send(json(false, "Khách hàng đang có đơn không thể xóa!"));
     }
   };
 

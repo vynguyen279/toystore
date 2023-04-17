@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart, incrementQuantity, decrementQuantity } from '../store/CartReducer';
+import { useDispatch } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import { removeFromCart, incrementQuantity, decrementQuantity } from '../store/CartReducer';
+import { addProCart, delProCart } from '../res/geners';
 import Color from '../res/color';
 
-function CardCart({ item }) {
+function CardCart({ item, maKH }) {
     const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE } = item;
     const sale = SALE * 100;
     const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -41,19 +42,34 @@ function CardCart({ item }) {
             </View>
             <View style={{ height: 100, width: 70 }}>
                 <View style={{ marginLeft: 30, marginTop: 10 }}>
-                    <TouchableOpacity onPress={() => removeItemFromCart(item)}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            removeItemFromCart(item);
+                            delProCart(MASP, maKH, item.quantity);
+                        }}
+                    >
                         <FontAwesome name="times" size={30} color={Color.btn} />
                     </TouchableOpacity>
                 </View>
 
                 <View style={style.detail}>
-                    <TouchableOpacity onPress={() => decrementCart(item)}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            decrementCart(item);
+                            delProCart(MASP, maKH, 1);
+                        }}
+                    >
                         <View style={style.btn}>
                             <FontAwesome name="minus" size={15} color="#FFFF" />
                         </View>
                     </TouchableOpacity>
                     <Text style={style.txtNum}>{item.quantity}</Text>
-                    <TouchableOpacity onPress={() => incrementCart(item)}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            incrementCart(item);
+                            addProCart(MASP, maKH, 1);
+                        }}
+                    >
                         <View style={style.btn}>
                             <FontAwesome name="plus" size={15} color="#FFFF" />
                         </View>

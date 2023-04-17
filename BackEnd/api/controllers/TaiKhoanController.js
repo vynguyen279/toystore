@@ -8,16 +8,7 @@ class TaiKhoanControllers {
     res.send("TaiKhoan");
   }
   capTaiKhoanOrResetMatKhau = async (req, res) => {
-    
-    const {
-      HOTEN,
-      DIACHI,
-      SDT,
-      EMAIL,
-      NGAYSINH,
-      GIOITINH,
-      MATKHAU,
-    } = req.body;
+    const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH, MATKHAU } = req.body;
 
     let rs = await TaiKhoan.select(EMAIL);
     if (rs.length > 0) {
@@ -44,30 +35,29 @@ class TaiKhoanControllers {
 
     let encryptedMATKHAU = await bcrypt.hash(MATKHAU, 10);
     rs = await TaiKhoan.insert(
-      new TaiKhoan(EMAIL, encryptedMATKHAU, 'khachhang')
+      new TaiKhoan(EMAIL, encryptedMATKHAU, "khachhang")
     );
     let rs3 = await TaiKhoan.select(EMAIL);
-    if(rs3.length > 0){
+    if (rs3.length > 0) {
       let rs1 = await KhachHang.insert(params);
       if (rs1.rowsAffected > 0) {
         res.send(json(true, "Đăng ký thành công!"));
       } else {
         res.send(json(false, "Đăng ký thất bại!"));
       }
-    }
-    else {
+    } else {
       res.send(json(false, "Cấp tài khoản thất bại!"));
     }
   };
 
-    doiMatKhau = async (req, res) => {
-      let salt = await bcrypt.genSalt(10);
-      let TAIKHOAN = req.body.EMAIL;
-      let MATKHAU = await bcrypt.hash(req.body.MATKHAUMOI, salt);
-      let rs = await TaiKhoan.update(TAIKHOAN, MATKHAU);
-      console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
-      res.send(json());
-    };
+  doiMatKhau = async (req, res) => {
+    let salt = await bcrypt.genSalt(10);
+    let TAIKHOAN = req.body.EMAIL;
+    let MATKHAU = await bcrypt.hash(req.body.MATKHAUMOI, salt);
+    let rs = await TaiKhoan.update(TAIKHOAN, MATKHAU);
+    console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
+    res.send(json());
+  };
   //   khoaOrMoKhoaTaiKhoan = async (req, res) => {
   //     let { TENDANGNHAP } = req.body;
   //     let rs = await TaiKhoan.select(TENDANGNHAP);
@@ -96,7 +86,8 @@ class TaiKhoanControllers {
     }
 
     rs = await bcrypt.compare(req.body.MATKHAU.trim(), rs[0].MATKHAU.trim());
-    res.send(json(rs));
+    if (rs == true) res.send(json(rs));
+    else res.send(json(rs, "Sai mật khẩu"));
   };
 
   getList = async (req, res) => {

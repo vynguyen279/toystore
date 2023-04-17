@@ -1,26 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-    Alert,
-    Text,
-    TextInput,
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    Keyboard,
-    Image,
-    FlatList,
-} from 'react-native';
+import { TextInput, View, StyleSheet, TouchableWithoutFeedback, Keyboard, Image, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Line, Card, Cart } from '../components';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import { AppContext } from './';
 import { getListSale, getListBest, getListNew } from '../services/untils';
 import Color from '../res/color';
 
 function Home({ navigation }) {
     const {
+        user,
+        setUser,
         listBest,
         setListBest,
         listAllBest,
@@ -166,7 +158,7 @@ function Home({ navigation }) {
                         horizontal
                         style={{}}
                         data={listBest}
-                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} />}
+                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} maKH={user.MAKH} />}
                         keyExtractor={(item) => '#' + item.MASP}
                         // // onMomentumScrollEnd={loadMore1}
                         // onEndReached={loadMore1}
@@ -185,7 +177,7 @@ function Home({ navigation }) {
                         horizontal
                         style={{}}
                         data={listSale}
-                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} />}
+                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} maKH={user.MAKH} />}
                         keyExtractor={(item) => '.' + item.MASP}
                         // // onMomentumScrollEnd={loadMore1}
                         // onEndReached={loadMore1}
@@ -204,7 +196,7 @@ function Home({ navigation }) {
                         horizontal
                         style={{}}
                         data={listNew}
-                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} />}
+                        renderItem={({ item, index }) => <Card items={item} navigation={navigation} maKH={user.MAKH} />}
                         keyExtractor={(item) => '!' + item.MASP}
                         // // onMomentumScrollEnd={loadMore1}
                         // onEndReached={loadMore1}

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { addToCart, removeFromCart, incrementQuantity } from '../store/CartReducer';
+import { addProCart } from '../res/geners';
 import Color from '../res/color';
 
-function Card({ items, navigation }) {
+function Card({ items, navigation, maKH }) {
     const cart = useSelector((state) => state.cart.cart);
     const dispatch = useDispatch();
 
@@ -19,6 +21,7 @@ function Card({ items, navigation }) {
     const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE } = items;
     const sale = SALE * 100;
     const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
     return (
         <TouchableOpacity
             onPress={() => {
@@ -75,6 +78,7 @@ function Card({ items, navigation }) {
                                 cart.some((value) => value.MASP == items.MASP)
                                     ? incrementCart(items)
                                     : addItemToCart(items);
+                                addProCart(MASP, maKH, 1);
                             }}
                         >
                             <View style={style.btnPlus}>

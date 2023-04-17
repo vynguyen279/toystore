@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-import { BtnBack, Account, Frame, FiFoot } from '../components';
+import React, { useState, useContext } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Account, Frame } from '../components';
+import { removeFromCart } from '../store/CartReducer';
+import { AppContext } from './';
 import Color from '../res/color';
 
 function AccountUser({ navigation }) {
+    const { setUser } = useContext(AppContext);
+    const cart = useSelector((state) => state.cart.cart);
+    const dispatch = useDispatch();
+    const removeItemFromCart = (items) => {
+        dispatch(removeFromCart(items));
+    };
+    const reset = () => {
+        setUser('');
+        cart.map((item, index) => removeItemFromCart(item));
+        navigation.navigate('Welcome');
+    };
+
     return (
         <View
             style={{
@@ -15,7 +31,6 @@ function AccountUser({ navigation }) {
         >
             <StatusBar />
 
-            {/* <BtnBack navigate={navigation} nameNavi='Home'/> */}
             <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={{ marginTop: 80 }}>
                 <Account title="Thùy Trang" />
                 <View
@@ -33,7 +48,7 @@ function AccountUser({ navigation }) {
 
                     <Frame title={'Thay đổi mật khẩu'} icon={'lock'} navigate={navigation} nameNavi="ChangePass" />
 
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Welcome')}>
+                    <TouchableOpacity style={styles.button} onPress={() => reset()}>
                         <Text style={styles.text}>Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>

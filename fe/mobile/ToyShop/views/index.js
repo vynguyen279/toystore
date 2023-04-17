@@ -132,23 +132,6 @@ function MyTabs() {
     );
 }
 
-// class ShoppingCart extends React.Component {
-//     render() {
-//         return (
-//             <AppContextProvider>
-//                 <Provider store={store}>
-//                     <NavigationContainer>
-//                         <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-//                             <Stack.Screen name="Home" component={Home} />
-//                             <Stack.Screen name="AllProduct" component={AllProduct} />
-//                         </Stack.Navigator>
-//                     </NavigationContainer>
-//                 </Provider>
-//             </AppContextProvider>
-//         );
-//     }
-// }
-
 function rootComponents() {
     return (
         <AppContextProvider>

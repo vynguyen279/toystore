@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { BtnBackTab } from '../components';
 import { StatusBar } from 'expo-status-bar';
-import { addToCart, incrementQuantity } from '../store/CartReducer';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { AppContext } from './';
+import { addProCart } from '../res/geners';
+import { BtnBackTab } from '../components';
+import { addToCart, incrementQuantity } from '../store/CartReducer';
 import Color from '../res/color';
 
 function DetailPro({ navigation, route }) {
+    const { user } = useContext(AppContext);
     const [count, setCount] = useState(1);
 
     const items = route.params?.item;
@@ -114,6 +118,7 @@ function DetailPro({ navigation, route }) {
                     <TouchableOpacity
                         onPress={() => {
                             addAll(items);
+                            addProCart(MASP, user.MAKH, count);
                         }}
                     >
                         <View style={style.btnConfirm}>

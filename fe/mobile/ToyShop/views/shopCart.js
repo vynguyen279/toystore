@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { CardCart, BtnBackTab } from '../components';
+import React, { useState, useEffect, useContext } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector } from 'react-redux';
 
+import { CardCart, BtnBackTab } from '../components';
+import { AppContext } from './';
 import Color from '../res/color';
 
 function ShopCart({ navigation }) {
+    const { user } = useContext(AppContext);
     const cart = useSelector((state) => state.cart.cart);
     const [total, setTotal] = useState(Number(0));
 
@@ -37,27 +39,43 @@ function ShopCart({ navigation }) {
                 <BtnBackTab navigate={navigation} />
                 <Text style={style.txt}>Giỏ hàng</Text>
             </View>
-            <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
+            {cart.length == 0 ? (
                 <View style={{ alignItems: 'center' }}>
-                    {cart.map((item, index) => (
-                        <CardCart key={index} item={item} />
-                    ))}
+                    <Image
+                        source={require('../assets/no-data.png')}
+                        style={{ height: 300, width: 200, marginTop: 100 }}
+                    />
+                    <Text style={{ textAlign: 'center', fontSize: 20, color: Color.btn, fontWeight: '500' }}>
+                        Chưa có sản phẩm
+                    </Text>
                 </View>
-            </KeyboardAwareScrollView>
-            <View style={{ marginTop: 30, marginBottom: 50 }}>
-                <View style={{ flexDirection: 'row', height: 60, marginLeft: 30 }}>
-                    <Text style={style.total}>Thành tiền:</Text>
-                    <Text style={[style.total, { marginLeft: 20 }]}>{cost}</Text>
-                    <Text style={style.total}>đ</Text>
+            ) : (
+                <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
+                    <View style={{ alignItems: 'center' }}>
+                        {cart.map((item, index) => (
+                            <CardCart key={index} item={item} maKH={user.MAKH} />
+                        ))}
+                    </View>
+                </KeyboardAwareScrollView>
+            )}
+            {cart.length == 0 ? (
+                ''
+            ) : (
+                <View style={{ marginTop: 30, marginBottom: 50 }}>
+                    <View style={{ flexDirection: 'row', height: 60, marginLeft: 30 }}>
+                        <Text style={style.total}>Thành tiền:</Text>
+                        <Text style={[style.total, { marginLeft: 20 }]}>{cost}</Text>
+                        <Text style={style.total}>đ</Text>
+                    </View>
+                    <View style={{ alignItems: 'center' }}>
+                        <TouchableOpacity>
+                            <View style={style.btnConfirm}>
+                                <Text style={style.txtConfirm}>Thanh toán</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{ alignItems: 'center' }}>
-                    <TouchableOpacity>
-                        <View style={style.btnConfirm}>
-                            <Text style={style.txtConfirm}>Thanh toán</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            )}
         </View>
     );
 }
