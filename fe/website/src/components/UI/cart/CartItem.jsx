@@ -1,6 +1,7 @@
 import React from "react"
 import { ListGroupItem } from "reactstrap"
 import { useDispatch } from "react-redux"
+import { deleteCart, addCart, getInfo } from "../../../server/callAPI"
 import { cartActions } from "../../../store/shopping-cart/cartSlice"
 import "../../../styles/cart-item.css"
 
@@ -11,29 +12,54 @@ const CartItem = ({item}) => {
     DONGIA,
     HINHANH,
     quantity,
-    totalPrice
+
   } = item;
-
-
 
   const dispatch = useDispatch()
   const incrementItem = () => {
-    dispatch(cartActions.addItem({
-      MASP,
-      TENSP,
-      DONGIA,
-      HINHANH,
-      quantity,
-      totalPrice
-    }))
+    dispatch(cartActions.addItem(item))
+    getInfo({EMAIL: window.localStorage.getItem('username')})
+    .then(function (response) {
+      if(response.data.status)
+      addCart({MASP: MASP, MAKH: response.data.data[0].MAKH, SOLUONG: 1})
+      // console.log(response.data.data[0].MAKH);
+      else
+      return
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
 
   const decrementItem = () => {
-    dispatch(cartActions.removeItem(MASP))
+    dispatch(cartActions.removeItem(item.MASP))
+    getInfo({EMAIL: window.localStorage.getItem('username')})
+    .then(function (response) {
+      if(response.data.status)
+      deleteCart({MASP: MASP, MAKH: response.data.data[0].MAKH, SOLUONG: 1})
+      // console.log(response.data.data[0].MAKH);
+      else
+      return
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
     }
+
   const deletetItem = () => {
-    dispatch(cartActions.deleteItem(MASP))
+    dispatch(cartActions.deleteItem(item.MASP))
+    getInfo({EMAIL: window.localStorage.getItem('username')})
+    .then(function (response) {
+      if(response.data.status)
+      deleteCart({MASP: MASP, MAKH: response.data.data[0].MAKH, SOLUONG: quantity})
+      // console.log(response.data.data[0].MAKH);
+      else
+      return
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
     }
    
   return (
