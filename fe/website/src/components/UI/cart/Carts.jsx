@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cartUiActions } from "../../../store/shopping-cart/cartUiSlice";
 import "../../../styles/shopping-cart.css";
-import { listCart, getInfo } from "../../../server/callAPI";
 
 const Carts = () => {
   const dispatch = useDispatch();

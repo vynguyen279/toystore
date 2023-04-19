@@ -32,6 +32,7 @@ const ProductCard = ({ item }) => {
           DONGIA,
           HINHANH,
           NUOCSX,
+          
         })
       );
       getInfo({ EMAIL: window.localStorage.getItem("username") })

@@ -4,6 +4,9 @@ import {axios} from './AxiosConfig';
 export async function signIn(data) {
     return axios.post('/TaiKhoan/DangNhap', data);
 }
+export async function resetMK(data) {
+    return axios.post('/TaiKhoan/ResetMatKhau', data);
+}
 export async function signUp(data) {
     return axios.put('/TaiKhoan/CapTaiKhoanOrResetMatKhau', data);
 }

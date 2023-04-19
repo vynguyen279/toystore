@@ -7,7 +7,7 @@ class TaiKhoanControllers {
   index(req, res) {
     res.send("TaiKhoan");
   }
-  capTaiKhoanOrResetMatKhau = async (req, res) => {
+  capTaiKhoan = async (req, res) => {
     const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH, MATKHAU } = req.body;
 
     let rs = await TaiKhoan.select(EMAIL);
@@ -48,6 +48,27 @@ class TaiKhoanControllers {
     } else {
       res.send(json(false, "Cấp tài khoản thất bại!"));
     }
+  };
+
+  resetMatKhau = async (req, res) => {
+    const { EMAIL } = req.body;
+
+    let rs = await TaiKhoan.select(EMAIL);
+
+    if (rs.length == 0) {
+      res.send(
+        json(false, "Email này chưa đăng ký tài khoản!")
+      );
+      return;
+    }
+
+      //random và mã hóa mật khẩu
+      let MATKHAU = Date.now().toString(36);
+      let salt = await bcrypt.genSalt(10);
+      let encryptedMATKHAU = await bcrypt.hash(MATKHAU, salt);
+      let rs2 = await TaiKhoan.update(EMAIL, encryptedMATKHAU, 'khachhang');
+      console.log("Cấp lại mật khẩu thành công, mật khẩu mới: " + encryptedMATKHAU +'  '+ MATKHAU);
+        res.send(json(true, MATKHAU));
   };
 
   doiMatKhau = async (req, res) => {
