@@ -1,23 +1,31 @@
-// eslint-disable-next-line
+
 import React, { useState, useEffect } from "react";
 import { signIn } from "../server/callAPI";
 import {useNavigate  } from 'react-router-dom'
-// eslint-disable-next-line
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../store/shopping-cart/cartSlice";
 import { Container, Row, Col, Form, FormGroup, Input, Label } from "reactstrap";
 import "../styles/login.css";
 import isEmpty from "validator/lib/isEmpty";
-// eslint-disable-next-line
 import login from "../assets/login.svg";
-import Shop from "./Shop";
-// eslint-disable-next-line
-import { Link, useHistory } from "react-router-dom";
+import { listCart, getInfo } from "../server/callAPI";
+import { Link } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
 import "../styles/product-details.css";
 import "../App.css";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [pass, setPass] = useState("");
   const history = useNavigate()
+  const cartProducts = useSelector(state => state.cart.cartItems);
+  // const total = useSelector(state => state.cart.totalAmount)
+  // console.log(total.toLocaleString("it-IT", {
+  //   style: "currency",
+  //   currency: "VND",
+  // }))
+
+  const dispatch = useDispatch()
 
   const [err, setErr] = useState("");
 
@@ -53,6 +61,7 @@ const Login = () => {
             localStorage.setItem('pass', pass)
             alert("Đăng nhập thành công!");
             history('/shop')
+            getListCart()
           } else alert("failed");
         })
         .catch(function (error) {
@@ -61,6 +70,54 @@ const Login = () => {
     }
     else return
   };
+
+  const incrementItem = (item) => {
+    dispatch(cartActions.addItem(item))
+  }
+
+  const addAll = (item, count) => {
+    if (cartProducts.some((value) => value.MASP == item.MASP)) {
+        for (var i = 1; i <= count; i++) {
+          incrementItem(item);
+        }
+    } else {
+      incrementItem(item);
+        for (var i = 1; i < count; i++) {
+          incrementItem(item);
+        }
+      }
+};
+
+  const getListCart = () => {
+      if (window.localStorage.getItem("isAuth")) {
+        getInfo({ EMAIL: window.localStorage.getItem("username") })
+          .then(function (response) {
+            if (response.data.status)
+              listCart({ MAKH: response.data.data[0].MAKH })
+                .then(function (response) {
+                  if (response.data.status) {
+                    for (var i = 0; i < response.data.data.length; i++) {
+                      const count = response.data.data[i].SOLUONG;
+                      const item = {
+                          MASP: response.data.data[i].MASP,
+                          TENSP: response.data.data[i].TENSP,
+                          DONGIA: String(response.data.data[i].DONGIA),
+                          HINHANH: response.data.data[i].HINHANH,
+                      };
+                      addAll(item, count);
+                    }
+                  } 
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            // console.log(response.data.data[0].MAKH);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+  }
 
   return (
     <Helmet title="Đăng nhập">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ListGroup } from "reactstrap";
 import CartItem from "./CartItem";
 import { Link } from "react-router-dom";
@@ -8,12 +8,14 @@ import "../../../styles/shopping-cart.css";
 
 const Carts = () => {
   const dispatch = useDispatch();
-  const cartProducts = useSelector(state => state.cart.cartItems)
+  const cartProducts = useSelector(state => state.cart.cartItems);
   const total = useSelector(state => state.cart.totalAmount)
   console.log(total.toLocaleString("it-IT", {
     style: "currency",
     currency: "VND",
   }))
+
+
 
   const toggleCart = () => {
     dispatch(cartUiActions.toggle());
@@ -28,11 +30,13 @@ const Carts = () => {
           </span>
         </div>
         <div className="cart__item-list">
-         {
-            cartProducts.length === 0? <h6 className="text-center mt-5">Không có sản phẩm</h6>: cartProducts.map((item, index)=>(
-               <CartItem item={item} key={index} />
+          {cartProducts.length === 0 ? (
+            <h6 className="text-center mt-5">Không có sản phẩm</h6>
+          ) : (
+            cartProducts.map((item, index) => (
+              <CartItem item={item} key={index} />
             ))
-         }
+          )}
         </div>
         <div className="cart__bottom d-flex flex-column align-items-center justify-content-between">
           <h6 className=" w-100 d-flex justify-content-between">

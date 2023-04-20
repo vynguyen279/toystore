@@ -7,7 +7,8 @@ router.use("/CheckEmail", taiKhoanController.checkEmail);
 router.use("/GetList", taiKhoanController.getList);
 router.use("/DoiMatKhau", taiKhoanController.doiMatKhau);
 // router.use('/KhoaOrMoKhoaTaiKhoan', taiKhoanController.khoaOrMoKhoaTaiKhoan)
-router.use("/DangKy", taiKhoanController.capTaiKhoanOrResetMatKhau);
+router.use("/DangKy", taiKhoanController.capTaiKhoan);
+router.use("/ResetMatKhau", taiKhoanController.resetMatKhau);
 router.use("/", taiKhoanController.index);
 
 module.exports = router;
