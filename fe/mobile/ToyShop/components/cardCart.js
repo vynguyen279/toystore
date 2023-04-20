@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import styles from '../res/styles';
 import { removeFromCart, incrementQuantity, decrementQuantity } from '../store/CartReducer';
 import { addProCart, delProCart } from '../res/geners';
 import Color from '../res/color';
@@ -30,13 +31,13 @@ function CardCart({ item, maKH }) {
         }
     };
     return (
-        <View style={style.card}>
-            <Image source={{ uri: HINHANH }} style={style.img} />
-            <View style={style.txt}>
-                <Text style={style.txtName}>{TENSP}</Text>
-                <Text style={style.txtMI}>{NUOCSX}</Text>
+        <View style={styles.card}>
+            <Image source={{ uri: HINHANH }} style={styles.img} />
+            <View style={styles.txt}>
+                <Text style={styles.txtName}>{TENSP}</Text>
+                <Text style={styles.txtMI}>{NUOCSX}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={style.txtPrice}>{cost}</Text>
+                    <Text style={styles.txtPrice}>{cost}</Text>
                     <Text style={{ color: Color.btn }}> đ</Text>
                 </View>
             </View>
@@ -90,6 +91,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+        marginTop: 5,
     },
     img: {
         height: 90,
@@ -101,13 +103,12 @@ const style = StyleSheet.create({
         marginLeft: 10,
         height: 100,
         justifyContent: 'center',
-        width: 160,
+        width: 140,
     },
     txtName: {
         fontSize: 16,
         fontWeight: '700',
         color: Color.btn,
-        width: 160,
     },
     txtMI: {
         fontSize: 14,

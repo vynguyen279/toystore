@@ -21,6 +21,8 @@ import AllProduct from './allProduct';
 import DetailPro from './detailProduct';
 import ShopCart from './shopCart';
 import Order from './order';
+import DetailOrder from './detailOrder';
+
 import { Cart } from '../components';
 
 const Stack = createNativeStackNavigator();
@@ -35,6 +37,7 @@ const AppContextProvider = ({ children }) => {
     const [listAllBest, setListAllBest] = useState([]);
     const [listNew, setListNew] = useState([]);
     const [listAllNew, setListAllNew] = useState([]);
+    const [listOrder, setListOrder] = useState([]);
 
     const contextValues = {
         user,
@@ -51,6 +54,8 @@ const AppContextProvider = ({ children }) => {
         setListNew,
         listAllNew,
         setListAllNew,
+        listOrder,
+        setListOrder,
     };
     return <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>;
 };
@@ -144,6 +149,7 @@ function rootComponents() {
                         <Stack.Screen name="Register" component={Register} />
                         <Stack.Screen name="Information" component={Information} />
                         <Stack.Screen name="MyTabs" component={MyTabs} />
+                        <Stack.Screen name="DetailOrder" component={DetailOrder} />
                         <Stack.Screen name="AllProduct" component={AllProduct} />
                         <Stack.Screen name="ShopCart" component={ShopCart} />
                         <Stack.Screen name="FixInf" component={FixInf} />

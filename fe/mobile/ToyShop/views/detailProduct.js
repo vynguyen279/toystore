@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AppContext } from './';
 import { addProCart } from '../res/geners';

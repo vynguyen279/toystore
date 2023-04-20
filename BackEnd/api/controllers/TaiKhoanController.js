@@ -32,6 +32,18 @@ class TaiKhoanControllers {
       })
       res.status(200).send(json(true, "Đã gửi mail!"))
   }
+  checkEmail = async (req, res) => {
+    const { EMAIL } = req.body;
+    let params = [{ name: "EMAIL", type: "Nchar(200)", value: EMAIL }];
+    let rs = await TaiKhoan.select(EMAIL);
+    if (rs.length > 0) {
+      res.send(
+        json(false, "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác!")
+      );
+    } else {
+      res.send(json(true, "Email chưa tồn tại!"));
+    }
+  };
 
   capTaiKhoan = async (req, res) => {
     const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH, MATKHAU } = req.body;
@@ -82,19 +94,22 @@ class TaiKhoanControllers {
     let rs = await TaiKhoan.select(EMAIL);
 
     if (rs.length == 0) {
-      res.send(
-        json(false, "Email này chưa đăng ký tài khoản!")
-      );
+      res.send(json(false, "Email này chưa đăng ký tài khoản!"));
       return;
     }
 
-      //random và mã hóa mật khẩu
-      let MATKHAU = Date.now().toString(36);
-      let salt = await bcrypt.genSalt(10);
-      let encryptedMATKHAU = await bcrypt.hash(MATKHAU, salt);
-      let rs2 = await TaiKhoan.update(EMAIL, encryptedMATKHAU, 'khachhang');
-      console.log("Cấp lại mật khẩu thành công, mật khẩu mới: " + encryptedMATKHAU +'  '+ MATKHAU);
-        res.send(json(true, MATKHAU));
+    //random và mã hóa mật khẩu
+    let MATKHAU = Date.now().toString(36);
+    let salt = await bcrypt.genSalt(10);
+    let encryptedMATKHAU = await bcrypt.hash(MATKHAU, salt);
+    let rs2 = await TaiKhoan.update(EMAIL, encryptedMATKHAU, "khachhang");
+    console.log(
+      "Cấp lại mật khẩu thành công, mật khẩu mới: " +
+        encryptedMATKHAU +
+        "  " +
+        MATKHAU
+    );
+    res.send(json(true, MATKHAU));
   };
 
   doiMatKhau = async (req, res) => {
@@ -103,7 +118,7 @@ class TaiKhoanControllers {
     let MATKHAU = await bcrypt.hash(req.body.MATKHAUMOI, salt);
     let rs = await TaiKhoan.update(TAIKHOAN, MATKHAU);
     console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
-    res.send(json());
+    res.send(json(true, "Đổi mật khẩu thành công!"));
   };
   //   khoaOrMoKhoaTaiKhoan = async (req, res) => {
   //     let { TENDANGNHAP } = req.body;

@@ -41,7 +41,7 @@ function BtnBackTab({ navigate }) {
     );
 }
 
-function Inf({ title, field, handleBlur, handleChange, errors, touched, values }) {
+function Inf({ title, field, handleBlur, handleChange, errors, touched, values, pH }) {
     return (
         <View style={style.gener}>
             <Text style={style.text}>{title}</Text>
@@ -50,6 +50,7 @@ function Inf({ title, field, handleBlur, handleChange, errors, touched, values }
                     style={{
                         marginLeft: 10,
                     }}
+                    placeholder={pH}
                     onChangeText={handleChange(field)}
                     onBlur={handleBlur(field)}
                     value={values[field]}
@@ -60,7 +61,7 @@ function Inf({ title, field, handleBlur, handleChange, errors, touched, values }
     );
 }
 
-function Phone({ title, field, handleBlur, handleChange, errors, touched, values }) {
+function Phone({ title, field, handleBlur, handleChange, errors, touched, values, pH }) {
     return (
         <View style={style.gener}>
             <Text style={style.text}>{title}</Text>
@@ -69,6 +70,7 @@ function Phone({ title, field, handleBlur, handleChange, errors, touched, values
                     style={{
                         marginLeft: 10,
                     }}
+                    placeholder={pH}
                     keyboardType="numeric"
                     onChangeText={handleChange(field)}
                     onBlur={handleBlur(field)}
@@ -136,7 +138,7 @@ function Account({ title }) {
             }}
         >
             <Icon
-                size={150}
+                size={110}
                 name={'user-circle'}
                 style={{
                     color: Color.primary,
@@ -145,7 +147,7 @@ function Account({ title }) {
             <Text
                 style={{
                     marginTop: 5,
-                    fontSize: 24,
+                    fontSize: 22,
                     color: 'black',
                     fontWeight: '500',
                 }}
@@ -158,7 +160,12 @@ function Account({ title }) {
 
 function Frame({ title, icon, navigate, nameNavi }) {
     return (
-        <View style={acc.frame}>
+        <TouchableOpacity
+            style={acc.frame}
+            onPress={() => {
+                navigate.navigate(nameNavi);
+            }}
+        >
             <Icon
                 size={22}
                 name={icon}
@@ -196,56 +203,7 @@ function Frame({ title, icon, navigate, nameNavi }) {
                     }}
                 />
             </TouchableOpacity>
-        </View>
-    );
-}
-
-function BtnUI({ title, icon, color }) {
-    return (
-        <TouchableOpacity
-            style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginHorizontal: 15,
-            }}
-        >
-            <Icon
-                size={25}
-                name={icon}
-                style={{
-                    color: color,
-                }}
-            />
-            <Text
-                style={{
-                    fontWeight: '700',
-                    color: color,
-                }}
-            >
-                {title}
-            </Text>
         </TouchableOpacity>
-    );
-}
-
-function FiFoot() {
-    return (
-        <View
-            style={{
-                height: 70,
-                width: 393,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderTopWidth: 0.5,
-                borderTopColor: '#C7BFBF',
-            }}
-        >
-            <BtnUI title={'Trang chủ'} icon={'home'} color={Color.btn} />
-            <BtnUI title={'Danh mục'} icon={'list'} color={Color.btn} />
-            <BtnUI title={'Đơn hàng'} icon={'cube'} color={Color.btn} />
-            <BtnUI title={'Tài khoản'} icon={'user'} color={Color.primary} />
-        </View>
     );
 }
 
@@ -260,7 +218,7 @@ const acc = StyleSheet.create({
     },
 });
 
-export { BtnBack, BtnBackTab, Inf, BtnConfirm, Footer, Phone, Account, Frame, FiFoot };
+export { BtnBack, BtnBackTab, Inf, BtnConfirm, Footer, Phone, Account, Frame };
 
 const style = StyleSheet.create({
     gener: {

@@ -1,14 +1,45 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { BtnBack, Password, Inf, BtnConfirm, Footer } from '../components';
+import { Text, View, StyleSheet, Alert, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
-import { SignupSchema } from '../constans/validation';
 
+import isFormValid from '../res/geners';
+import styles from '../res/styles';
+import { checkEmail } from '../services/untils';
+import { SignupSchema } from '../constans/validation';
+import { BtnBack, Password, Inf, BtnConfirm, Footer } from '../components';
 import Color from '../res/color';
 
 function Register({ navigation }) {
+    const checkPass = (email, pass, rePass) => {
+        if (pass !== rePass) {
+            Alert.alert('Thông báo', 'Nhập lại mật khẩu không chính xác!', [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+        } else {
+            navigation.navigate('Information', { email: email, pass: pass });
+        }
+    };
+    const checkEmailExist = (email, pass, rePass) => {
+        const data = {
+            EMAIL: email,
+        };
+
+        checkEmail(data)
+            .then(function (response) {
+                if (response.data.status) {
+                    checkPass(email, pass, rePass);
+                } else {
+                    Alert.alert('Thông báo', 'Email đã tồn tại!', [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ]);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View
@@ -32,14 +63,6 @@ function Register({ navigation }) {
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
                             <>
-                                {/* <Inf title="Tên đăng nhập"
-                                field="user"
-                                handleChange={handleChange}
-                                handleBlur={handleBlur}
-                                errors={errors}
-                                values={values}
-                                touched={touched}
-                            ></Inf> */}
                                 <Inf
                                     title="Email"
                                     field="email"
@@ -70,15 +93,28 @@ function Register({ navigation }) {
                                 ></Password>
 
                                 <View style={style.gener}>
-                                    <BtnConfirm
-                                        title="Tiếp tục"
-                                        handleSubmit={handleSubmit}
-                                        isValid={isValid}
-                                        touched={touched}
-                                        color={Color.primary}
-                                        navigate={navigation}
-                                        nameNavi="Information"
-                                    ></BtnConfirm>
+                                    <TouchableOpacity
+                                        style={[styles.btnLogin, { backgroundColor: Color.primary, marginTop: 50 }]}
+                                        onPress={() => {
+                                            handleSubmit;
+                                            checkEmailExist(values.email, values.pass, values.rePass);
+                                        }}
+                                        disabled={!isFormValid(isValid, touched)}
+                                    >
+                                        <View
+                                            style={{
+                                                opacity: isFormValid(isValid, touched) ? 1 : 0.5,
+                                            }}
+                                        ></View>
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontSize: 18,
+                                            }}
+                                        >
+                                            Tiếp tục
+                                        </Text>
+                                    </TouchableOpacity>
                                     <Footer navigate={navigation} />
                                 </View>
                             </>

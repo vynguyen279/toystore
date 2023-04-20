@@ -18,7 +18,7 @@ class TaiKhoan {
       `insert into DSTAIKHOAN(TAIKHOAN,MATKHAU,CHUCVU) values ('${taiKhoan.TAIKHOAN}','${taiKhoan.MATKHAU}', '${taiKhoan.CHUCVU}')`
     );
   }
-  static update(TAIKHOAN, MATKHAU, CHUCVU) {
+  static update(TAIKHOAN, MATKHAU) {
     console.log("update");
     if (MATKHAU.length > 0) {
       return DB.query(

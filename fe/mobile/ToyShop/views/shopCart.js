@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { CardCart, BtnBackTab } from '../components';
 import { AppContext } from './';
+import { removeFromCart } from '../store/CartReducer';
+import { addOrder, addDetail, deleteAllCart } from '../services/untils';
 import Color from '../res/color';
 
 function ShopCart({ navigation }) {
     const { user } = useContext(AppContext);
     const cart = useSelector((state) => state.cart.cart);
+    const dispatch = useDispatch();
+    const removeItemFromCart = (items) => {
+        dispatch(removeFromCart(items));
+    };
     const [total, setTotal] = useState(Number(0));
 
     const totalMoney = () => {
@@ -20,7 +26,65 @@ function ShopCart({ navigation }) {
     };
 
     const cost = String(total).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
+    const deleteCart = () => {
+        let data = {
+            MAKH: user.MAKH,
+        };
+        deleteAllCart(data)
+            .then(function (res) {
+                if (res.data.status) {
+                    cart.map((item, index) => removeItemFromCart(item));
+                    console.log(res.data.data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+    const addDetailOrder = (MSDDH) => {
+        cart.map((item) => {
+            let dataDetail = {
+                MSDDH: MSDDH,
+                MASP: item.MASP,
+                SL: item.quantity,
+            };
+            addDetail(dataDetail)
+                .then(function (res) {
+                    if (res.data.status) {
+                        console.log(res.data.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+        deleteCart();
+    };
+    const addOrderKH = () => {
+        let data = {
+            MAKH: user.MAKH,
+            SDT: user.SDT,
+            EMAIL: user.EMAIL,
+            DIACHI: user.DIACHI,
+            TRANGTHAI: 'Xác nhận',
+        };
+        addOrder(data)
+            .then(function (response) {
+                if (response.data.status) {
+                    addDetailOrder(response.data.data[0].MSDDH);
+                    Alert.alert('Thông báo!', 'Đặt hàng thành công!', [
+                        { text: 'OK', onPress: () => navigation.replace('MyTabs') },
+                    ]);
+                } else {
+                    Alert.alert('Thông báo!', response.data.data, [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ]);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     useEffect(() => {
         setTotal(0);
         totalMoney();
@@ -68,9 +132,9 @@ function ShopCart({ navigation }) {
                         <Text style={style.total}>đ</Text>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => addOrderKH()}>
                             <View style={style.btnConfirm}>
-                                <Text style={style.txtConfirm}>Thanh toán</Text>
+                                <Text style={style.txtConfirm}>Đặt hàng</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

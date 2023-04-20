@@ -72,7 +72,7 @@ function Login({ navigation }) {
             });
     };
 
-    const inf = (username) => {
+    const inf = (username, pass) => {
         const data = {
             EMAIL: username,
         };
@@ -82,6 +82,7 @@ function Login({ navigation }) {
                 if (response.data.status) {
                     getListCart(response.data.data[0].MAKH);
                     const user = {
+                        MATKHAU: pass,
                         MAKH: response.data.data[0].MAKH,
                         HOTEN: response.data.data[0].HOTEN,
                         DIACHI: response.data.data[0].DIACHI,
@@ -121,7 +122,7 @@ function Login({ navigation }) {
                         {
                             text: 'OK',
                             onPress: () => {
-                                inf(username);
+                                inf(username, pass);
                             },
                         },
                     ]);

@@ -12,9 +12,6 @@ const addProCart = (MASP, maKH, sl) => {
         .then((response) => {
             if (response.data.status) {
                 console.log(response.data.data);
-                Alert.alert('Thông báo!', 'Thêm thành công!', [
-                    { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ]);
             } else {
                 console.log(response.data.data);
             }
