@@ -42,6 +42,7 @@ const DropDownUser = () => {
   const handleCloseInfo = () => setShowEditInfo(false);
 
   const handleShowPass = () => setShowEditPass(true);
+
   const handleShowInfo = () => setShowEditInfo(true);
 
   useEffect(() => {
@@ -353,6 +354,8 @@ const DropDownUser = () => {
 
         {/* Model Box Finsihs */}
       </div>
+
+      
     </div>
   );
 };

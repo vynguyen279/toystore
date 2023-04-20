@@ -1,5 +1,8 @@
 const json = require("../components/json");
 const bcrypt = require("bcrypt");
+const dotenv = require('dotenv');
+dotenv.config();
+const mailer = require("nodemailer")
 const TaiKhoan = require("../modules/TaiKhoan");
 const KhachHang = require("../modules/KhachHang");
 
@@ -7,6 +10,29 @@ class TaiKhoanControllers {
   index(req, res) {
     res.send("TaiKhoan");
   }
+
+  sendEmail = async (req, res) => {
+    const {EMAIL, mess} = req.body
+
+      var transporter = mailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'vy279.thpt@gmail.com',
+          pass: 'wsszyhsufjuqkcov'
+        }
+      })
+      
+      let info = await transporter.sendMail({
+        from: 'vy279.thpt@gmail.com',
+        to: EMAIL,
+        subject: 'Thay đổi mật khẩu',
+        text: 'Mật khẩu mới: '+ mess
+      })
+      res.status(200).send(json(true, "Đã gửi mail!"))
+  }
+
   capTaiKhoan = async (req, res) => {
     const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH, MATKHAU } = req.body;
 
