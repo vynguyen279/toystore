@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, Text, View, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Text, View, Linking, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Color from '../res/color';
 

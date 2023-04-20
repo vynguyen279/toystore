@@ -48,7 +48,7 @@ function CateGory({ navigation }) {
             <StatusBar />
 
             <View style={styles.header}>
-                <BtnBackTab navigate={navigation} />
+                {/* <BtnBackTab navigate={navigation} /> */}
                 <Text style={styles.txt}>Danh mục</Text>
             </View>
 
@@ -71,16 +71,15 @@ export default CateGory;
 
 const styles = StyleSheet.create({
     header: {
-        marginTop: 40,
+        marginVertical: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 50,
+        justifyContent: 'center',
     },
 
     txt: {
         fontSize: 18,
         fontWeight: '700',
-        marginLeft: 90,
         color: 'black',
     },
     gener: {

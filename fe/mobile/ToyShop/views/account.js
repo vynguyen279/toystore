@@ -10,7 +10,7 @@ import { AppContext } from './';
 import Color from '../res/color';
 
 function AccountUser({ navigation }) {
-    const { setUser } = useContext(AppContext);
+    const { user, setUser, setListOrder } = useContext(AppContext);
     const cart = useSelector((state) => state.cart.cart);
     const dispatch = useDispatch();
     const removeItemFromCart = (items) => {
@@ -18,6 +18,7 @@ function AccountUser({ navigation }) {
     };
     const reset = () => {
         setUser('');
+        setListOrder([]);
         cart.map((item, index) => removeItemFromCart(item));
         navigation.navigate('Welcome');
     };
@@ -32,7 +33,7 @@ function AccountUser({ navigation }) {
             <StatusBar />
 
             <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={{ marginTop: 80 }}>
-                <Account title="Thùy Trang" />
+                <Account title={user.HOTEN} />
                 <View
                     style={{
                         marginTop: 20,
@@ -47,7 +48,7 @@ function AccountUser({ navigation }) {
                     />
 
                     <Frame title={'Thay đổi mật khẩu'} icon={'lock'} navigate={navigation} nameNavi="ChangePass" />
-
+                    <Frame title={'Đơn hàng'} icon={'list'} navigate={navigation} nameNavi="Đơn hàng" />
                     <TouchableOpacity style={styles.button} onPress={() => reset()}>
                         <Text style={styles.text}>Đăng xuất</Text>
                     </TouchableOpacity>
@@ -60,10 +61,10 @@ export default AccountUser;
 
 const styles = StyleSheet.create({
     button: {
-        marginTop: 10,
+        marginTop: 200,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 373,
+        width: 170,
         height: 50,
         borderRadius: 40,
         backgroundColor: Color.btn,

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { TextInput, View, StyleSheet, TouchableWithoutFeedback, Keyboard, Image, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Line, Card, Cart } from '../components';
@@ -6,13 +6,12 @@ import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { AppContext } from './';
-import { getListSale, getListBest, getListNew } from '../services/untils';
+import { getListSale, getListBest, getListNew, getListOrder } from '../services/untils';
 import Color from '../res/color';
 
 function Home({ navigation }) {
     const {
         user,
-        setUser,
         listBest,
         setListBest,
         listAllBest,
@@ -25,6 +24,8 @@ function Home({ navigation }) {
         setListNew,
         listAllNew,
         setListAllNew,
+        listOrder,
+        setListOrder,
     } = useContext(AppContext);
 
     const getBestProducts = () => {
@@ -41,6 +42,19 @@ function Home({ navigation }) {
             });
     };
 
+    const getAllBestProducts = () => {
+        let data = {
+            KEY: 0,
+        };
+
+        getListBest(data)
+            .then((response) => {
+                setListAllBest(response.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     const getSaleProducts = () => {
         let data = {
             KEY: 5,
@@ -96,13 +110,29 @@ function Home({ navigation }) {
                 console.log(error);
             });
     };
-
+    const getOrder = () => {
+        let data = {
+            MAKH: user.MAKH,
+        };
+        getListOrder(data)
+            .then((response) => {
+                setListOrder(response.data.data);
+                AsyncStorage.setItem('listOrder', JSON.stringify(listOrder))
+                    .then(() => console.log('Object stored successfully'))
+                    .catch((error) => console.log('Error storing object: ', error));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     useEffect(() => {
         getBestProducts();
+        getAllBestProducts();
         getSaleProducts();
         getAllSaleProducts();
         getNewProducts();
         getAllNewProducts();
+        getOrder();
     }, []);
 
     return (
@@ -152,7 +182,13 @@ function Home({ navigation }) {
                     }}
                 />
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
-                    <Line title="Sản phẩm bán chạy" navigate={navigation} nameNavi="AllProduct" type="best" />
+                    <Line
+                        title="Sản phẩm bán chạy"
+                        navigate={navigation}
+                        nameNavi="AllProduct"
+                        data={listAllBest}
+                        type="best"
+                    />
                     <FlatList
                         key={'#'}
                         horizontal
