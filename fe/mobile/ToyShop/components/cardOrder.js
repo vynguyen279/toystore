@@ -77,7 +77,7 @@ function CardOrder({ item, navigation }) {
                     <Text style={style.txtOrder}>Số lượng:</Text>
                     <Text style={[style.txtOrder, { marginLeft: 10 }]}>{count}</Text>
                 </View>
-                {item.TRANGTHAI.toString().trim() == 'Xác nhận' ? (
+                {item.TRANGTHAI.toString().trim() == 'Chờ xác nhận' ? (
                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 20 }}>
                         <TouchableOpacity
                             onPress={() =>

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { BtnBack, Inf, BtnConfirm, Footer } from '../components';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
-import { GetPassSchema } from '../constans/validation';
 
+import isFormValid from '../res/geners';
+import { BtnBack, Inf, Footer } from '../components';
+import { GetPassSchema } from '../constans/validation';
+import styles from '../res/styles';
 import Color from '../res/color';
 
 function GetPass({ navigation }) {
@@ -43,15 +45,27 @@ function GetPass({ navigation }) {
                                 ></Inf>
 
                                 <View style={style.gener}>
-                                    <BtnConfirm
-                                        title="Gửi"
-                                        handleSubmit={handleSubmit}
-                                        isValid={isValid}
-                                        touched={touched}
-                                        color={Color.primary}
-                                        navigate={navigation}
-                                        nameNavi="Information"
-                                    ></BtnConfirm>
+                                    <TouchableOpacity
+                                        style={[styles.btnLogin, { backgroundColor: Color.primary, marginTop: 30 }]}
+                                        onPress={() => {
+                                            handleSubmit;
+                                        }}
+                                        // disabled={!isFormValid(isValid, touched)}
+                                    >
+                                        <View
+                                            style={{
+                                                opacity: isFormValid(isValid, touched) ? 1 : 0.5,
+                                            }}
+                                        ></View>
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontSize: 18,
+                                            }}
+                                        >
+                                            Gửi
+                                        </Text>
+                                    </TouchableOpacity>
                                     <Footer navigate={navigation} />
                                 </View>
                             </>
