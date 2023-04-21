@@ -7,6 +7,9 @@ export async function signIn(data) {
 export async function resetMK(data) {
     return axios.post('/TaiKhoan/ResetMatKhau', data);
 }
+export async function sendEmail(data) {
+    return axios.post('/TaiKhoan/SendEmail', data);
+}
 export async function signUp(data) {
     return axios.put('/TaiKhoan/CapTaiKhoanOrResetMatKhau', data);
 }
