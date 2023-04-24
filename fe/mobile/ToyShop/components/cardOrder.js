@@ -61,7 +61,7 @@ function CardOrder({ item, navigation }) {
         <TouchableOpacity
             style={styles.card}
             onPress={() => {
-                navigation.navigate('DetailOrder', { list: listDetail });
+                navigation.navigate('DetailOrder', { list: listDetail, date: item.NGAYDAT });
             }}
         >
             <Image source={{ uri: url }} style={styles.img} />

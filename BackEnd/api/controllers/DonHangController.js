@@ -31,10 +31,7 @@ class DonHangControllers {
 
     let params = [
       { name: "MAKH", type: "Nchar(10)", value: MAKH },
-      { name: "SDT", type: "Nchar(10)", value: SDT },
-      { name: "EMAIL", type: "Nchar(100)", value: EMAIL },
-      { name: "DIACHI", type: "Nvarchar(100)", value: DIACHI },
-      { name: "TRANGTHAI", type: "Nchar(10)", value: TRANGTHAI },
+      { name: "TRANGTHAI", type: "Nchar(15)", value: TRANGTHAI },
     ];
     let rs = await DonHang.insert(params);
     if (rs.rowsAffected > 0) {

@@ -17,6 +17,12 @@ export async function register(data) {
 export async function changePass(data) {
     return await request.put('TaiKhoan/DoiMatKhau', data);
 }
+export async function resetPass(data) {
+    return await request.post('TaiKhoan/ResetMatKhau', data);
+}
+export async function sendPass(data) {
+    return await request.post('TaiKhoan/SendEmail', data);
+}
 export async function getInf(data) {
     return await request.post('KhachHang/GetInf', data);
 }

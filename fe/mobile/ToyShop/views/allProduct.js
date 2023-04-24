@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Card, BtnBackTab, Cart } from '../components';
 import { StatusBar } from 'expo-status-bar';
 import SelectDropdown from 'react-native-select-dropdown';
-import { filterBSN, filterProduct } from '../services/untils';
 
+import { Card, BtnBackTab, Cart } from '../components';
+import { filterBSN, filterProduct } from '../services/untils';
 import Color from '../res/color';
 
 function AllProduct({ navigation, route }) {

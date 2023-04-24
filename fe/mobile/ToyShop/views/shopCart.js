@@ -11,7 +11,7 @@ import { addOrder, addDetail, deleteAllCart } from '../services/untils';
 import Color from '../res/color';
 
 function ShopCart({ navigation }) {
-    const { user } = useContext(AppContext);
+    const { user, listOrder } = useContext(AppContext);
     const cart = useSelector((state) => state.cart.cart);
     const dispatch = useDispatch();
     const removeItemFromCart = (items) => {
@@ -63,15 +63,13 @@ function ShopCart({ navigation }) {
     const addOrderKH = () => {
         let data = {
             MAKH: user.MAKH,
-            SDT: user.SDT,
-            EMAIL: user.EMAIL,
-            DIACHI: user.DIACHI,
-            TRANGTHAI: 'Xác nhận',
+            TRANGTHAI: 'Chờ xác nhận',
         };
         addOrder(data)
             .then(function (response) {
                 if (response.data.status) {
                     addDetailOrder(response.data.data[0].MSDDH);
+                    ///listOrder.push(response.data.data[0]);
                     Alert.alert('Thông báo!', 'Đặt hàng thành công!', [
                         { text: 'OK', onPress: () => navigation.replace('MyTabs') },
                     ]);
