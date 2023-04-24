@@ -106,6 +106,12 @@ function CardOrder({ item, navigation }) {
                             <Text style={{ fontSize: 16, fontWeight: 'bold', color: Color.btn }}>Hoàn thành</Text>
                         </View>
                     </View>
+                ) : item.TRANGTHAI.toString().trim() == 'Đã xác nhận' ? (
+                    <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 100 }}>
+                        <View style={[style.btnComplete, { backgroundColor: '#FFC047' }]}>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: Color.btn }}>Đã xác nhận</Text>
+                        </View>
+                    </View>
                 ) : (
                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 150 }}>
                         {/* <TouchableOpacity> */}
