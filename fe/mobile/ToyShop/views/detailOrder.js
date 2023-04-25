@@ -3,12 +3,15 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import moment from 'moment';
 
 import { AppContext } from './';
 import { BtnBackTab, CardDetail } from '../components';
 import Color from '../res/color';
+import styles from '../res/styles';
 
 function DetailOrder({ navigation, route }) {
+    const dateOrder = route.params?.date;
     const listDetail = route.params?.list;
     return (
         <View
@@ -29,7 +32,10 @@ function DetailOrder({ navigation, route }) {
                 <BtnBackTab navigate={navigation} />
                 <Text style={style.title}>Chi tiết đơn hàng</Text>
             </View>
-            <View style={{ marginTop: 30, alignItems: 'center' }}>
+            <Text style={[styles.txtName, { marginLeft: 20, marginTop: 20 }]}>
+                Ngày đặt: {moment(dateOrder).format('DD-MM-yyyy')}
+            </Text>
+            <View style={{ marginTop: 15, alignItems: 'center' }}>
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
                     {listDetail.map((item, index) => (
                         <CardDetail item={item} navigation={navigation} />

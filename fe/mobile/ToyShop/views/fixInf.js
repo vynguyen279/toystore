@@ -74,7 +74,7 @@ function FixInf({ navigation }) {
                         {
                             text: 'OK',
                             onPress: () => {
-                                navigation.navigate('Tài khoản');
+                                navigation.navigate('Tài khoản', { name: user.HOTEN });
                             },
                         },
                     ]);

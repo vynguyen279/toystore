@@ -1,14 +1,56 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { BtnBack, Inf, BtnConfirm, Footer } from '../components';
+import React, { useState, useContext } from 'react';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
-import { GetPassSchema } from '../constans/validation';
 
+import isFormValid from '../res/geners';
+import { BtnBack, Inf, Footer } from '../components';
+import { GetPassSchema } from '../constans/validation';
+import { resetPass, sendPass } from '../services/untils';
+import { AppContext } from './';
+import styles from '../res/styles';
 import Color from '../res/color';
 
 function GetPass({ navigation }) {
+    const sendEmail = (email, mess) => {
+        const data = {
+            EMAIL: email,
+            mess: mess,
+        };
+
+        sendPass(data)
+            .then(function (response) {
+                if (response.data.status) {
+                    Alert.alert('Thông báo', response.data.data, [
+                        { text: 'OK', onPress: () => navigation.navigate('Login') },
+                    ]);
+                    navigation.goBack();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+    const resetPassKH = (email) => {
+        const data = {
+            EMAIL: email,
+        };
+
+        resetPass(data)
+            .then(function (response) {
+                if (response.data.status) {
+                    sendEmail(email, response.data.data);
+                } else {
+                    Alert.alert('Thông báo', response.data.data, [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ]);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View
@@ -43,15 +85,28 @@ function GetPass({ navigation }) {
                                 ></Inf>
 
                                 <View style={style.gener}>
-                                    <BtnConfirm
-                                        title="Gửi"
-                                        handleSubmit={handleSubmit}
-                                        isValid={isValid}
-                                        touched={touched}
-                                        color={Color.primary}
-                                        navigate={navigation}
-                                        nameNavi="Information"
-                                    ></BtnConfirm>
+                                    <TouchableOpacity
+                                        style={[styles.btnLogin, { backgroundColor: Color.primary, marginTop: 30 }]}
+                                        onPress={() => {
+                                            handleSubmit;
+                                            resetPassKH(values.email);
+                                        }}
+                                        // disabled={!isFormValid(isValid, touched)}
+                                    >
+                                        <View
+                                            style={{
+                                                opacity: isFormValid(isValid, touched) ? 1 : 0.5,
+                                            }}
+                                        ></View>
+                                        <Text
+                                            style={{
+                                                color: 'white',
+                                                fontSize: 18,
+                                            }}
+                                        >
+                                            Gửi
+                                        </Text>
+                                    </TouchableOpacity>
                                     <Footer navigate={navigation} />
                                 </View>
                             </>

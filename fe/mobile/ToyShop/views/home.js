@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { TextInput, View, StyleSheet, TouchableWithoutFeedback, Keyboard, Image, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Line, Card, Cart } from '../components';
 import { StatusBar } from 'expo-status-bar';

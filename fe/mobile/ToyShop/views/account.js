@@ -9,9 +9,10 @@ import { removeFromCart } from '../store/CartReducer';
 import { AppContext } from './';
 import Color from '../res/color';
 
-function AccountUser({ navigation }) {
+function AccountUser({ navigation, route }) {
     const { user, setUser, setListOrder } = useContext(AppContext);
     const cart = useSelector((state) => state.cart.cart);
+    const name = route.params?.name;
     const dispatch = useDispatch();
     const removeItemFromCart = (items) => {
         dispatch(removeFromCart(items));
@@ -33,7 +34,7 @@ function AccountUser({ navigation }) {
             <StatusBar />
 
             <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={{ marginTop: 80 }}>
-                <Account title={user.HOTEN} />
+                <Account title={name != null ? name : user.HOTEN} />
                 <View
                     style={{
                         marginTop: 20,

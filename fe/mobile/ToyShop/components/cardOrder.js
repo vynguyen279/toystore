@@ -61,7 +61,7 @@ function CardOrder({ item, navigation }) {
         <TouchableOpacity
             style={styles.card}
             onPress={() => {
-                navigation.navigate('DetailOrder', { list: listDetail });
+                navigation.navigate('DetailOrder', { list: listDetail, date: item.NGAYDAT });
             }}
         >
             <Image source={{ uri: url }} style={styles.img} />
@@ -77,7 +77,7 @@ function CardOrder({ item, navigation }) {
                     <Text style={style.txtOrder}>Số lượng:</Text>
                     <Text style={[style.txtOrder, { marginLeft: 10 }]}>{count}</Text>
                 </View>
-                {item.TRANGTHAI.toString().trim() == 'Xác nhận' ? (
+                {item.TRANGTHAI.toString().trim() == 'Chờ xác nhận' ? (
                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 20 }}>
                         <TouchableOpacity
                             onPress={() =>
@@ -104,6 +104,12 @@ function CardOrder({ item, navigation }) {
                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 100 }}>
                         <View style={style.btnComplete}>
                             <Text style={{ fontSize: 16, fontWeight: 'bold', color: Color.btn }}>Hoàn thành</Text>
+                        </View>
+                    </View>
+                ) : item.TRANGTHAI.toString().trim() == 'Đã xác nhận' ? (
+                    <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 100 }}>
+                        <View style={[style.btnComplete, { backgroundColor: '#FFC047' }]}>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: Color.btn }}>Đã xác nhận</Text>
                         </View>
                     </View>
                 ) : (

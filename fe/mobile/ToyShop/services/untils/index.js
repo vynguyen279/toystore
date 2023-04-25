@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-    baseURL: 'http://192.168.123.13:8080',
+    baseURL: 'http://192.168.2.12:8080',
     responseType: 'json',
     withCredentials: true,
 });
@@ -16,6 +16,12 @@ export async function register(data) {
 }
 export async function changePass(data) {
     return await request.put('TaiKhoan/DoiMatKhau', data);
+}
+export async function resetPass(data) {
+    return await request.post('TaiKhoan/ResetMatKhau', data);
+}
+export async function sendPass(data) {
+    return await request.post('TaiKhoan/SendEmail', data);
 }
 export async function getInf(data) {
     return await request.post('KhachHang/GetInf', data);
