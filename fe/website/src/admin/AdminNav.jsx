@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import DropDownUser from '../components/UI/DropDownUser'
 import "../components/Header/Header.css"
 import { NavLink } from "react-router-dom";
 import { Container, Row } from "reactstrap";
@@ -32,6 +33,7 @@ const nav__links = [
 
 const AdminNav = () => {
   const headerRef = useRef(null);
+  const [open, setOpen] = useState(false)
 
   const stickyHederFunc = () => {
     window.addEventListener("scroll", () => {
@@ -82,11 +84,8 @@ const AdminNav = () => {
             </div>
             <div className="nav__icons">
               <span>
-                <motion.img
-                  whileTap={{ scale: 1.2 }}
-                  src={user_icon}
-                  alt="user"
-                />
+              <motion.i onClick={() => setOpen((pre)=> !pre)} whileTap={{ scale: 1.2 }} class="fa-solid fa-circle-user" style={{color: '#0a1d37'}}></motion.i>
+                {open && <DropDownUser />}
               </span>
             </div>
           </div>

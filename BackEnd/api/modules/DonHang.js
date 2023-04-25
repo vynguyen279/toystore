@@ -13,6 +13,9 @@ class DonHang {
   static insert(params) {
     return DB.excute("SP_DON_DAT_HANG", params);
   }
+  static getList(params) {
+    return DB.excute("SP_LOC_DDH", params);
+  }
   static getListKH(MAKH) {
     return DB.query(`SELECT * FROM DONDATHANG WHERE MAKH = '${MAKH}'`);
   }

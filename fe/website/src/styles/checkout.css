@@ -7,6 +7,7 @@
 
 .checkout__cart {
     padding: 20px;
+    margin-top: 60px;
     background: var(--primary-color);
     color: #fff;
     border-radius: 5px;

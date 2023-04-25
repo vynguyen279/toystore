@@ -151,9 +151,17 @@ export async function deleteAllCart(data) {
     return axios.post('/GioHang/DeleteAllCart', data);
 }
 
+// DON HANG
 
-
-
+export async function addOrder(data) {
+    return axios.post('/DonHang/AddOrder', data);
+}
+export async function filterOrder(data) {
+    return axios.post('/DonHang/FilterOrder', data);
+}
+export async function addDetailOrder(data) {
+    return axios.post('/CTDDH/AddDetail', data);
+}
 // export async function getListTour(searchKey = '', paging = 1) {
 //     return axios.get(`/tour/list?${searchKey && 'key=' + searchKey}&paging=${paging}`);
 // }
