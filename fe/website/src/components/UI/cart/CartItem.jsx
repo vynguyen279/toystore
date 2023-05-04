@@ -70,7 +70,10 @@ const CartItem = ({item}) => {
           <div>
             <h6 className="cart__product-title fs-5">{TENSP}</h6>
             <p className="d-flex align-items-center gap-5 cart__product-price">
-              x{quantity}<span>{DONGIA}đ</span>
+              x{quantity}<span>{parseFloat(DONGIA).toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    })}</span>
             </p>
             <div className="d-flex align-items-center justify-content-between increase__decrease-btn">
               <span className="decrease__btn" onClick={decrementItem}>

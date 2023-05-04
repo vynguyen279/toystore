@@ -13,7 +13,7 @@ const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       const newItem = action.payload;
-      const gia = (newItem.DONGIA).replace(/[^0-9\.-]+/g,"")
+      const gia = (newItem.DONGIA)
       const existingItem = state.cartItems.find(
         (item) => item.MASP === newItem.MASP
       );
@@ -37,7 +37,7 @@ const cartSlice = createSlice({
       }
 
       state.totalAmount = state.cartItems.reduce(
-        (total, item) => parseFloat(parseFloat(total) + parseFloat((item.DONGIA).replace(/[^0-9\.-]+/g,"")) * parseFloat(item.quantity)).toFixed(3),
+        (total, item) => parseFloat(parseFloat(total) + parseFloat((item.DONGIA)) * parseFloat(item.quantity)).toFixed(3),
         0
       );
     },
@@ -55,7 +55,7 @@ const cartSlice = createSlice({
         parseFloat(existingItem.totalPrice) - parseFloat(existingItem.price);
       }
       state.totalAmount = state.cartItems.reduce(
-        (total, item) => parseFloat(parseFloat(total) + parseFloat((item.DONGIA).replace(/[^0-9\.-]+/g,"")) * parseFloat(item.quantity)).toFixed(3),
+        (total, item) => parseFloat(parseFloat(total) + parseFloat((item.DONGIA)) * parseFloat(item.quantity)).toFixed(3),
         0
       );
     },
@@ -69,7 +69,7 @@ const cartSlice = createSlice({
         state.totalQuantity = state.totalQuantity - existingItem.quantity
       }
       state.totalAmount = state.cartItems.reduce(
-        (total, item) => parseFloat((parseFloat(total) + parseFloat((item.DONGIA).replace(/[^0-9\.-]+/g,"")) * parseFloat(item.quantity))).toFixed(3),
+        (total, item) => parseFloat((parseFloat(total) + parseFloat((item.DONGIA)) * parseFloat(item.quantity))).toFixed(3),
         0
       );
     }

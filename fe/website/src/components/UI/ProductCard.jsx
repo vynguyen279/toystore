@@ -15,10 +15,6 @@ const ProductCard = ({ item }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   const { MASP, TENSP, NUOCSX, DONGIA, HINHANH } = item;
-  item.DONGIA = item.DONGIA.toLocaleString("it-IT", {
-    style: "currency",
-    currency: "VND",
-  });
 
   const dispatch = useDispatch();
 
@@ -80,7 +76,10 @@ const ProductCard = ({ item }) => {
           <span>{NUOCSX}</span>
         </div>
         <div className="product__card-bottom d-flex align-items-center justify-content-between p-3">
-          <span className="price fs-6">{DONGIA}</span>
+          <span className="price fs-6">{DONGIA.toLocaleString("it-IT", {
+    style: "currency",
+    currency: "VND",
+  })}</span>
           <motion.span whileHover={{ scale: 1.2 }} onClick={addToCart}>
             <i class="fa-solid fa-plus"></i>
           </motion.span>

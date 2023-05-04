@@ -34,7 +34,7 @@ class DonHangControllers {
     const { MSDDH, TRANGTHAI } = req.body;
     let params = [
       { name: "MSDDH", type: "Nchar(10)", value: MSDDH },
-      { name: "TRANGTHAI", type: "Nchar(10)", value: TRANGTHAI },
+      { name: "TRANGTHAI", type: "Nvarchar(15)", value: TRANGTHAI },
     ];
 
     let rs = await DonHang.update(MSDDH, TRANGTHAI);
@@ -45,11 +45,7 @@ class DonHangControllers {
 
     let params = [
       { name: "MAKH", type: "Nchar(10)", value: MAKH },
-<<<<<<< HEAD
       { name: "TRANGTHAI", type: "Nvarchar(15)", value: TRANGTHAI },
-=======
-      { name: "TRANGTHAI", type: "Nchar(15)", value: TRANGTHAI },
->>>>>>> dcaf279d32dcd7da11d277ef2be40275c0779770
     ];
     let rs = await DonHang.insert(params);
     if (rs.rowsAffected > 0) {

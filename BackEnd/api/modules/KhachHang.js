@@ -11,7 +11,7 @@ class KhachHang {
     this.GIOITINH = GIOITINH;
   }
   static select(EMAIL) {
-    return DB.query(`SELECT * FROM KHACHHANG WHERE EMAIL ='${EMAIL}'`);
+    return DB.query(`SELECT MAKH, HOTEN, DIACHI, SDT, EMAIL, CONVERT(VARCHAR(10), NGAYSINH , 103) NGAYSINH, GIOITINH FROM KHACHHANG WHERE EMAIL ='${EMAIL}' OR MAKH = '${EMAIL}'`);
   }
   static getList() {
     return DB.query(`SELECT * FROM V_GETLIST_KH`);

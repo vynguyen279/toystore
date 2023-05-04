@@ -9,7 +9,8 @@ class CTDDH {
 
   static insert(MSDDH, MASP, SL) {
     return DB.query(
-      `insert into CTDDH(MSDDH,MASP,SL) values ('${MSDDH}','${MASP}', '${SL}')`
+      `insert into CTDDH(MSDDH,MASP,SL) values ('${MSDDH}','${MASP}', '${SL}')
+           `
     );
   }
   static getListKH(MSDDH) {

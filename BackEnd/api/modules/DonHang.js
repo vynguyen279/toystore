@@ -24,7 +24,7 @@ class DonHang {
   // }
   static update(MSDDH, TRANGTHAI) {
     return DB.query(
-      `UPDATE DONDATHANG SET TRANGTHAI = '${TRANGTHAI}'  WHERE MSDDH = '${MSDDH}'`
+      `UPDATE DONDATHANG SET TRANGTHAI = N'${TRANGTHAI}'  WHERE MSDDH = '${MSDDH}'`
     );
   }
   // static search(params) {
