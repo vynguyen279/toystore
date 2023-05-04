@@ -12,6 +12,7 @@ import styles from '../res/styles';
 
 function DetailOrder({ navigation, route }) {
     const dateOrder = route.params?.date;
+    const code = route.params?.code;
     const listDetail = route.params?.list;
     return (
         <View
@@ -35,6 +36,7 @@ function DetailOrder({ navigation, route }) {
             <Text style={[styles.txtName, { marginLeft: 20, marginTop: 20 }]}>
                 Ngày đặt: {moment(dateOrder).format('DD-MM-yyyy')}
             </Text>
+            <Text style={[styles.txtName, { marginLeft: 20 }]}>Mã đơn hàng: {code}</Text>
             <View style={{ marginTop: 15, alignItems: 'center' }}>
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
                     {listDetail.map((item, index) => (

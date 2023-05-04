@@ -58,11 +58,9 @@ class DonHangControllers {
 
   cancelOrder = async (req, res) => {
     const { MSDDH } = req.body;
-    let params = [
-      { name: "MSDDH", type: "Nchar(10)", value: MSDDH }
-    ];
+    let params = [{ name: "MSDDH", type: "Nchar(10)", value: MSDDH }];
 
-    let rs = await DonHang.cancel(params);
+    let rs = await DonHang.cancel(MSDDH);
     res.send(json(true, "Hủy đơn hàng thành công!"));
   };
 }

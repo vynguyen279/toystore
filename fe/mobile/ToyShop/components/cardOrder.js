@@ -42,7 +42,6 @@ function CardOrder({ item, navigation }) {
     const updateOrderKH = () => {
         let data = {
             MSDDH: item.MSDDH.toString().trim(),
-            TRANGTHAI: 'Đã hủy',
         };
         updateOrder(data)
             .then(function (res) {
@@ -63,7 +62,7 @@ function CardOrder({ item, navigation }) {
         <TouchableOpacity
             style={styles.card}
             onPress={() => {
-                navigation.navigate('DetailOrder', { list: listDetail, date: item.NGAYDAT });
+                navigation.navigate('DetailOrder', { list: listDetail, date: item.NGAYDAT, code: item.MSDDH });
             }}
         >
             <Image source={{ uri: url }} style={styles.img} />
