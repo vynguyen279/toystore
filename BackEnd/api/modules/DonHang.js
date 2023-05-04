@@ -29,6 +29,13 @@ class DonHang {
       `UPDATE DONDATHANG SET TRANGTHAI = N'${TRANGTHAI}'  WHERE MSDDH = '${MSDDH}'`
     );
   }
+
+  static cancel(MSDDH) {
+    return DB.query(
+      `UPDATE DONDATHANG SET TRANGTHAI = N'Đã hủy'  WHERE MSDDH = '${MSDDH}'
+      UPDATE SANPHAM  SET SOLUONGTON = SOLUONGTON + CTDDH.SL FROM SANPHAM INNER JOIN CTDDH ON SANPHAM.MASP = CTDDH.MASP AND CTDDH.MSDDH = '${MSDDH}'`
+    );
+  }
   // static search(params) {
   //     return DB.excute('SP_TIM_KIEM_DDH', params)
   // }

@@ -10,10 +10,7 @@ const Carts = () => {
   const dispatch = useDispatch();
   const cartProducts = useSelector(state => state.cart.cartItems);
   const total = useSelector(state => state.cart.totalAmount)
-  console.log(total.toLocaleString("it-IT", {
-    style: "currency",
-    currency: "VND",
-  }))
+
 
 
 
@@ -40,7 +37,10 @@ const Carts = () => {
         </div>
         <div className="cart__bottom d-flex flex-column align-items-center justify-content-between">
           <h6 className=" w-100 d-flex justify-content-between">
-            Tổng tiền: <span>{total}đ</span>
+            Tổng tiền: <span>{parseFloat(total).toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    })}</span>
           </h6>
           <button>
             <Link to="checkout">Thanh toán</Link>

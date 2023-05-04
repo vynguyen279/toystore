@@ -15,13 +15,13 @@ const Cart = () => {
       <CommonSection title="Giỏ hàng" />
       <section>
         <Container>
-          <Row>
-            <Col lg="9">
-              {cartItems.length === 0 ? (
-                <h1 className="fs-4 text-center">
-                  Không có sản phẩm trong giỏ hàng
-                </h1>
-              ) : (
+          {cartItems.length === 0 ? (
+            <h1 className="fs-4 text-center">
+              Không có sản phẩm trong giỏ hàng!
+            </h1>
+          ) : (
+            <Row>
+              <Col lg="9">
                 <table className="table bordered">
                   <thead>
                     <tr>
@@ -39,26 +39,35 @@ const Cart = () => {
                     ))}
                   </tbody>
                 </table>
-              )}
-            </Col>
-
-            <Col lg="3">
-              <div className="checkout-info">
-                <h4 className="d-flex align-items-center justify-content-between">
-                  Tổng tiền: <span>{totalAmount} đ</span>
-                </h4>
-              </div>
-              <p className="mt-1">Kiểm tra đầy đủ giỏ hàng trước khi đặt đơn</p>
-              <div>
-                <button className="btn-continue">
-                  <Link to="/shop">Tiếp tục mua hàng</Link>
-                </button>
-                <button className="btn-checkout">
-                  <Link to="/checkout">Thanh toán</Link>
-                </button>
-              </div>
-            </Col>
-          </Row>
+                </Col>
+                <Col lg="3">
+                  <div className="checkout-info">
+                    <h4 className="d-flex align-items-center justify-content-between">
+                      Tổng tiền:{" "}
+                      <span>
+                        {parseFloat(
+                          totalAmount.replace(/[^0-9\.-]+/g, "")
+                        ).toLocaleString("it-IT", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </span>
+                    </h4>
+                  </div>
+                  <p className="mt-1">
+                    Kiểm tra đầy đủ giỏ hàng trước khi đặt đơn
+                  </p>
+                  <div>
+                    <button className="btn-continue">
+                      <Link to="/shop">Tiếp tục mua hàng</Link>
+                    </button>
+                    <button className="btn-checkout">
+                      <Link to="/checkout">Thanh toán</Link>
+                    </button>
+                  </div>
+                </Col>
+            </Row>
+          )}
         </Container>
       </section>
     </Helmet>

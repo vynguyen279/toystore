@@ -12,9 +12,9 @@ class HoaDon {
     static insert(params) {
         return DB.excute('SP_THEM_HOA_DON', params)
     }
-    static getList() {
-        return DB.query(`SELECT * FROM HOADON`)
-      }
+  static search(params) {
+      return DB.excute('SP_TIM_KIEM_HOA_DON', params)
+  }
 }
 
 module.exports = HoaDon

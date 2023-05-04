@@ -35,20 +35,7 @@ export async function imgUpload(data) {
     //   console.log(res.data.image.url);
       return res.data.image.url;
     });
-    // let body = new FormData()
-    // body.set('key', '4c4909ed144cd9ff41bd9bb2d2aa7fbb')
-    // body.append('image', data)
-
-    // return axios({
-    //   method: 'post',
-    //   url: 'https://api.imgbb.com/1/upload',
-    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //   data: body
-    // })
 }
-// export async function forgotPassword(data) {
-//     return axios.post('/account/forgot-password', data);
-// }
 
 // SAN PHAM 
 export async function getListProduct(data) {
@@ -148,7 +135,7 @@ export async function listCart(data) {
 }
 
 export async function deleteAllCart(data) {
-    return axios.post('/GioHang/DeleteAllCart', data);
+    return axios.post(`/GioHang/DeleteAllCart`, data);
 }
 
 // DON HANG
@@ -159,51 +146,23 @@ export async function addOrder(data) {
 export async function filterOrder(data) {
     return axios.post('/DonHang/FilterOrder', data);
 }
+export async function updateOrder(data) {
+    return axios.post('/DonHang/UpdateOrder', data);
+}
 export async function addDetailOrder(data) {
     return axios.post('/CTDDH/AddDetail', data);
 }
-// export async function getListTour(searchKey = '', paging = 1) {
-//     return axios.get(`/tour/list?${searchKey && 'key=' + searchKey}&paging=${paging}`);
-// }
-// export async function getListOrderOfTour(idTour) {
-//     return axios.get(`/order-tours/list?idTour=${idTour}`);
-// }
-// export async function getTour(id) {
-//     return axios.get(`/tour/${id}/detail`);
-// }
-// export async function orderTour(data) {
-//     return axios.post('/order-tours/order', data);
-// }
-// export async function getListOrderTour(id = '', status = 'Tất cả') {
-//     return axios.get(`/order-tours/list?id=${id}&status=${status}`);
-// }
-// export async function getOwnInfor() {
-//     return axios.get(`site/get-own-infor`);
-// }
-// export async function changePassword(data) {
-//     return axios.patch('/account/change-password', data);
-// }
-// export async function updateCustomerInfo(data) {
-//     return axios.patch('/customer/update', data);
-// }
-// export async function updateStaffInfo(data, id) {
-//     return axios.put(`/staff/${id}/update`, data);
-// }
+export async function getInfoPurchase(data) {
+    return axios.post('/CTDDH/Detail', data);
+}
 
-// export async function addStaff(data) {
-//     return axios.post('/staff/add', data);
-// }
+// HOA DON
+export async function getListBill(data) {
+    return axios.post('/HoaDon/GetList', data);
+}
 
-// export async function updateTour(data, idTour) {
-//     return axios.put(`/tour/${idTour}/update`, data);
-// }
-// export async function requestCancelTour(idTourOrder) {
-//     return axios.patch(`/order-tours/${idTourOrder}/customer-need-cancel`);
-// }
-// export async function confirmCancelTour(idTourOrder) {
-//     return axios.patch(`/order-tours/${idTourOrder}/cancel`);
-// }
-// export async function confirmOrderTour(idTourOrder) {
-//     return axios.patch(`/order-tours/${idTourOrder}/confirm`);
-// }
+export async function addBill(data) {
+    return axios.post('/HoaDon/Insert', data);
+}
+
 

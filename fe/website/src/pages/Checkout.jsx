@@ -3,7 +3,8 @@ import { Container, Row, Col, Form, FormGroup } from "reactstrap";
 import "../styles/checkout.css";
 import { useSelector, useDispatch } from "react-redux";
 import Helmet from "../components/Helmet/Helmet";
-import { getInfo, addOrder, addDetailOrder } from "../server/callAPI";
+import { getInfo, addOrder, addDetailOrder, deleteAllCart } from "../server/callAPI";
+import { cartActions } from "../store/shopping-cart/cartSlice";
 import CommonSection from "../components/UI/CommonSection";
 import "../styles/product-details.css";
 import "../App.css";
@@ -12,7 +13,8 @@ import { useEffect } from "react";
 const Checkout = () => {
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const total = useSelector((state) => state.cart.totalAmount);
-  const cart = useSelector((state) => state.cart.cartItems);
+  const cart = useSelector((state) => state.cart.cartItems)
+  const dispatch = useDispatch()
 
   const [name, setName] = useState("");
   const [sdt, setSDT] = useState("");
@@ -44,26 +46,27 @@ const Checkout = () => {
     } else return;
   };
 
-  // const addDetailOrder = (MSDDH) => {
-  //   // console.log(cart)
-  //   cart.map((item) => {
-  //     let dataDetail = {
-  //       MSDDH: MSDDH,
-  //       MASP: item.MASP,
-  //       SL: item.quantity,
-  //     };
-  //     addDetailOrder(dataDetail)
-  //       .then(function (res) {
-  //         if (res.data.status) {
-  //           console.log(res.data.data);
-  //         }
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   });
-  //   // deleteCart();
-  // };
+  const deletetItem = (item) => {
+    dispatch(cartActions.deleteItem(item.MASP))
+ }
+
+  const deleteAll = () => {
+    if (localStorage.getItem("username")) {
+      let data = {
+        MAKH: ma,
+    };
+    deleteAllCart(data)
+        .then(function (res) {
+            if (res.data.status) {
+                cart.map((item, index) => deletetItem(item));
+                console.log(res.data.data);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
+};
 
   const addOrderKH = (e) => {
     e.preventDefault();
@@ -93,7 +96,8 @@ const Checkout = () => {
                 console.log(error);
               });
           });
-          alert("Đặt hàng thành công!");
+          deleteAll()
+          alert("Đặt hàng thành công!")
         } else {
           alert(response.data.data);
         }
@@ -101,6 +105,7 @@ const Checkout = () => {
       .catch(function (error) {
         console.log(error);
       });
+      // deleteAll()
   };
 
   return (
@@ -108,6 +113,8 @@ const Checkout = () => {
       <CommonSection title="Thanh toán" />
       <section className="pt-4">
         <Container>
+          {
+          totalQuantity == 0? <h1>Chưa có sản phẩm trong giỏ hàng!</h1>:
           <Row>
             <Col lg="7">
               <h6 className="mb-4 fw-bold fs-4">Thông tin thanh toán</h6>
@@ -136,13 +143,19 @@ const Checkout = () => {
                   Tổng số lượng: <span>{totalQuantity}</span>
                 </h4>
                 <h4>
-                  Tạm tính: <span>{total}đ</span>
+                  Tạm tính: <span>{parseFloat(total.replace(/[^0-9\.-]+/g,"")).toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    })}</span>
                 </h4>
                 <h4>
                   Phí giao hàng: <span>0đ</span>
                 </h4>
                 <h6>
-                  Tổng tiền: <span>{total}đ</span>
+                  Tổng tiền: <span>{parseFloat(total.replace(/[^0-9\.-]+/g,"")).toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    })}</span>
                 </h6>
                 <button onClick={addOrderKH} className="w-100 order__btn">
                   Đặt hàng
@@ -150,6 +163,8 @@ const Checkout = () => {
               </div>
             </Col>
           </Row>
+          }
+          
         </Container>
       </section>
     </Helmet>

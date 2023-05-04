@@ -33,6 +33,16 @@ class CTDDHControllers {
     //   res.send(json(false, "Thêm chi tiết đơn hàng thất bại!"));
     // }
   };
+
+  cancelOrder = async (req, res) => {
+    const { MSDDH } = req.body;
+    let params = [
+      { name: "MSDDH", type: "Nchar(10)", value: MSDDH }
+    ];
+
+    let rs = await CTDDH.cancel(params);
+    res.send(json(true, "Hủy đơn hàng thành công!"));
+  };
 }
 
 module.exports = new CTDDHControllers();

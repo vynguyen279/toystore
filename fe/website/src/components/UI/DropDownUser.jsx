@@ -94,7 +94,7 @@ const DropDownUser = () => {
       NGAYSINH: moment(ngaySinh).format('yyyy-MM-DD'),
       GIOITINH: JSON.parse(gt),
     };
-
+    console.log(data)
     updateCustomer(data)
       .then(function (response) {
         if (response.data.status) alert("Cập nhật thông tin thành công!");
