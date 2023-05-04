@@ -17,18 +17,20 @@ function CardOrder({ item, navigation }) {
         let data = {
             MSDDH: item.MSDDH.toString().trim(),
         };
+        setTotal(0);
+        setCount(0);
         setListDetail([]);
         detail(data)
             .then(function (res) {
                 if (res.data.status) {
                     setUrl(res.data.data[0].HINHANH);
                     setListDetail(res.data.data);
-                    AsyncStorage.setItem('listDetail', JSON.stringify(listDetail));
+                    //AsyncStorage.setItem('listDetail', JSON.stringify(listDetail));
                     res.data.data.map((item) => [
                         setTotal((preState) => preState + (((100 - 100 * item.SALE) * item.DONGIA) / 100) * item.SL),
-                        AsyncStorage.setItem('total', JSON.stringify(total)),
+                        //AsyncStorage.setItem('total', JSON.stringify(total)),
                         setCount((preState) => preState + item.SL),
-                        AsyncStorage.setItem('count', JSON.stringify(count)),
+                        //AsyncStorage.setItem('count', JSON.stringify(count)),
                     ]);
                 }
             })

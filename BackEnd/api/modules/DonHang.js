@@ -17,15 +17,15 @@ class DonHang {
     return DB.excute("SP_LOC_DDH", params);
   }
   static getListKH(MAKH) {
-    return DB.query(`SELECT * FROM DONDATHANG WHERE MAKH = '${MAKH}'`);
+    return DB.query(
+      `SELECT * FROM DONDATHANG WHERE MAKH = '${MAKH}' ORDER BY MSDDH DESC`
+    );
   }
   // static insert(params) {
   //     return DB.excute('SP_THEM_DDH', params)
   // }
-  static update(MSDDH, TRANGTHAI) {
-    return DB.query(
-      `UPDATE DONDATHANG SET TRANGTHAI = '${TRANGTHAI}'  WHERE MSDDH = '${MSDDH}'`
-    );
+  static update(params) {
+    return DB.excute("SP_CAP_NHAT_DON_HANG", params);
   }
   // static search(params) {
   //     return DB.excute('SP_TIM_KIEM_DDH', params)
