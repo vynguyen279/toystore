@@ -20,8 +20,9 @@ class DonHangControllers {
   filterOrder = async (req, res) => {
     const { KEY, TYPE } = req.body;
     let params = [
-    { name: "KEY", type: "Nvarchar(50)", value: KEY },
-    { name: "TYPE", type: "Nvarchar(50)", value: TYPE }];
+      { name: "KEY", type: "Nvarchar(50)", value: KEY },
+      { name: "TYPE", type: "Nvarchar(50)", value: TYPE },
+    ];
     let rs = await DonHang.getList(params);
     if (rs.recordset.length == 0) {
       res.send(json(false, "Không có kết quả phù hợp"));
@@ -37,7 +38,7 @@ class DonHangControllers {
       { name: "TRANGTHAI", type: "Nvarchar(15)", value: TRANGTHAI },
     ];
 
-    let rs = await DonHang.update(MSDDH, TRANGTHAI);
+    let rs = await DonHang.update(params);
     res.send(json(true, "Hủy thành công!"));
   };
   themDH = async (req, res) => {

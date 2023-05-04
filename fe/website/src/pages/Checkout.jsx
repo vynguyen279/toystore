@@ -22,9 +22,9 @@ const Checkout = () => {
   const [dc, setDc] = useState("");
   const [ma, setMa] = useState("");
 
-  useEffect(()=>{
-    getInfoByEmail()
-  }, [])
+  useEffect(() => {
+    getInfoByEmail();
+  }, []);
 
   const getInfoByEmail = () => {
     if (localStorage.getItem("username")) {
@@ -69,7 +69,7 @@ const Checkout = () => {
 };
 
   const addOrderKH = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let data = {
       MAKH: ma,
       TRANGTHAI: "Chờ xác nhận",
@@ -88,9 +88,8 @@ const Checkout = () => {
               .then(function (res) {
                 if (res.data.status) {
                   // console.log(res.data.data);
-                }
-                else{
-                  alert("Đặt đơn thất bại!")
+                } else {
+                  alert("Đặt đơn thất bại!");
                 }
               })
               .catch(function (error) {

@@ -17,7 +17,9 @@ class DonHang {
     return DB.excute("SP_LOC_DDH", params);
   }
   static getListKH(MAKH) {
-    return DB.query(`SELECT * FROM DONDATHANG WHERE MAKH = '${MAKH}'`);
+    return DB.query(
+      `SELECT * FROM DONDATHANG WHERE MAKH = '${MAKH}' ORDER BY MSDDH DESC`
+    );
   }
   // static insert(params) {
   //     return DB.excute('SP_THEM_DDH', params)

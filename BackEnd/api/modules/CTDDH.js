@@ -7,11 +7,8 @@ class CTDDH {
     this.SL = SL;
   }
 
-  static insert(MSDDH, MASP, SL) {
-    return DB.query(
-      `insert into CTDDH(MSDDH,MASP,SL) values ('${MSDDH}','${MASP}', '${SL}')
-           `
-    );
+  static insert(params) {
+    return DB.excute("SP_THEM_CHI_TIET_DON_HANG", params);
   }
   static getListKH(MSDDH) {
     return DB.query(

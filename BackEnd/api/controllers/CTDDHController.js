@@ -24,7 +24,7 @@ class CTDDHControllers {
       { name: "MASP", type: "Nchar(10)", value: MASP },
       { name: "SL", type: "INT", value: SL },
     ];
-    let rs = await CTDDH.insert(MSDDH, MASP, SL);
+    let rs = await CTDDH.insert(params);
     res.send(json(true, "Thêm chi tiết đơn hàng thành công!"));
 
     // if (rs.rowsAffected > 0) {
