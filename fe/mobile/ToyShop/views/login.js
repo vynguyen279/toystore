@@ -97,7 +97,7 @@ function Login({ navigation }) {
                     AsyncStorage.setItem('user', JSON.stringify(user))
                         .then(() => console.log('Object stored successfully'))
                         .catch((error) => console.log('Error storing object: ', error));
-                    navigation.navigate('MyTabs');
+                    navigation.replace('MyTabs');
                 } else {
                     Alert.alert('Thông báo!', response.data.data, [
                         { text: 'OK', onPress: () => console.log('OK Pressed') },
@@ -147,7 +147,7 @@ function Login({ navigation }) {
             >
                 <StatusBar />
 
-                <BtnBack navigate={navigation} nameNavi="Welcome" />
+                {/* <BtnBack navigate={navigation} nameNavi="Welcome" /> */}
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
                     <Text style={style.title}>Đăng nhập</Text>
                     <Formik
@@ -235,7 +235,7 @@ const style = StyleSheet.create({
         color: '#000',
         fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 50,
+        marginTop: 120,
         marginLeft: 100,
         marginBottom: 50,
     },

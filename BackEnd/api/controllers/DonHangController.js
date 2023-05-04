@@ -38,7 +38,7 @@ class DonHangControllers {
       { name: "TRANGTHAI", type: "Nvarchar(15)", value: TRANGTHAI },
     ];
 
-    let rs = await DonHang.update(params);
+    let rs = await DonHang.update(MSDDH, TRANGTHAI);
     res.send(json(true, "Hủy thành công!"));
   };
   themDH = async (req, res) => {

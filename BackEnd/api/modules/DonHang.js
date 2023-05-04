@@ -24,8 +24,10 @@ class DonHang {
   // static insert(params) {
   //     return DB.excute('SP_THEM_DDH', params)
   // }
-  static update(params) {
-    return DB.excute("SP_CAP_NHAT_DON_HANG", params);
+  static update(MSDDH, TRANGTHAI) {
+    return DB.query(
+      `UPDATE DONDATHANG SET TRANGTHAI = N'${TRANGTHAI}'  WHERE MSDDH = '${MSDDH}'`
+    );
   }
   // static search(params) {
   //     return DB.excute('SP_TIM_KIEM_DDH', params)
