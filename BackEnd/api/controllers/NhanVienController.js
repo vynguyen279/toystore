@@ -1,5 +1,6 @@
 const json = require('../components/json');
 const NhanVien = require("../modules/NhanVien");
+const KhachHang = require("../modules/KhachHang");
 
 class NhanVienControllers {
   index(req, res) {
@@ -22,7 +23,7 @@ class NhanVienControllers {
   };
 
   themNv = async (req, res) => {
-    const { HOTEN, SDT, NGAYVAOLAM, HINHANH, EMAIL, DIACHI, NGAYSINH, TRANGTHAI, GIOITINH} = req.body;
+    const { HOTEN, SDT, NGAYVAOLAM, HINHANH, EMAIL, DIACHI, NGAYSINH, TRANGTHAI, GIOITINH, CHUCVU} = req.body;
     let params = [
       { name: "HOTEN", type: "Nvarchar(50)", value: HOTEN },
       { name: "SDT", type: "Nchar(10)", value: SDT },
@@ -33,7 +34,22 @@ class NhanVienControllers {
       { name: "NGAYSINH", type: "Date", value: NGAYSINH },
       { name: "TRANGTHAI", type: "Bit", value: TRANGTHAI },
       { name: "GIOITINH", type: "Bit", value: GIOITINH },
+      { name: "CHUCVU", type: "varchar(10)", value: CHUCVU },
     ];
+    let rs1 = await KhachHang.select(EMAIL)
+    if (rs1.length > 0) {
+      res.send(
+        json(false, "Email này đã được đăng ký. Vui lòng chọn email khác!")
+      );
+      return;
+    }
+    let rs2 = await NhanVien.select(EMAIL)
+    if (rs2.length > 0) {
+      res.send(
+        json(false, "Email này đã được đăng ký. Vui lòng chọn email khác!")
+      );
+      return;
+    }
     let rs = await NhanVien.insert(params);
     if (rs.rowsAffected > 0) {
       res.send(json(true, rs));
@@ -43,7 +59,7 @@ class NhanVienControllers {
   };
 
   capNhatNv = async (req, res) => {
-    const { MANV, HOTEN, SDT, NGAYVAOLAM, HINHANH, EMAIL, DIACHI, NGAYSINH, TRANGTHAI, GIOITINH } = req.body;
+    const { MANV, HOTEN, SDT, NGAYVAOLAM, HINHANH, EMAIL, DIACHI, NGAYSINH, TRANGTHAI, GIOITINH, CHUCVU } = req.body;
     let params = [
       { name: "MANV", type: "Nchar(10)", value: MANV },
       { name: "HOTEN", type: "Nvarchar(50)", value: HOTEN },
@@ -55,6 +71,7 @@ class NhanVienControllers {
       { name: "NGAYSINH", type: "Date", value: NGAYSINH },
       { name: "TRANGTHAI", type: "Bit", value: TRANGTHAI },
       { name: "GIOITINH", type: "Bit", value: GIOITINH },
+      { name: "CHUCVU", type: "varchar(10)", value: CHUCVU },
     ];
 
     let rs = await NhanVien.update(params);
@@ -88,6 +105,7 @@ class NhanVienControllers {
     }
     res.send(json(true, rs.recordset));
   };
+
 }
 
 module.exports = new NhanVienControllers();

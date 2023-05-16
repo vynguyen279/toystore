@@ -40,7 +40,7 @@ class HoaDonControllers {
     if (rs.rowsAffected > 0) {
       res.send(json(true, rs.recordset));
     } else {
-      res.send(json(false, "Thêm hóa đơn thất bại!"));
+      res.send(json(false, rs));
     }
   };
 }

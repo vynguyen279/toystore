@@ -11,6 +11,7 @@ import {
   deleteOfficer,
   updateOfficer,
   imgUpload,
+  updateTitle,
 } from "../server/callAPI";
 import {
   Button,
@@ -24,6 +25,7 @@ import {
 const Officer = () => {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showTT, setShowTT] = useState(false);
 
   const [ten, setTen] = useState("");
   const [ten2, setTen2] = useState("");
@@ -36,6 +38,7 @@ const Officer = () => {
   const [ngaySinh, setNgaySinh] = useState("");
   const [gt, setGt] = useState(false);
   const [tt, setTt] = useState(false);
+  const [cv, setCv] = useState("");
 
   const [sdt2, setSdt2] = useState("");
   const [ngayLam2, setNgayLam2] = useState("");
@@ -45,6 +48,8 @@ const Officer = () => {
   const [ngaySinh2, setNgaySinh2] = useState("");
   const [gt2, setGt2] = useState(false);
   const [tt2, setTt2] = useState(false);
+  const [cv2, setCv2] = useState("");
+  const [lock, setLock] = useState(false);
 
   const [err, setErr] = useState("");
   const [err2, setErr2] = useState("");
@@ -158,12 +163,13 @@ const Officer = () => {
         NGAYSINH: ngaySinh,
         TRANGTHAI: JSON.parse(tt),
         GIOITINH: JSON.parse(gt),
+        CHUCVU: cv,
       };
       console.log(data);
       addOfficer(data)
         .then((rs) => {
           if (rs.data.status) alert("Thêm thành công");
-          console.log(rs);
+          else console.log(rs.data.data);
         })
         .catch(function (error) {
           alert("Thêm thất bại!");
@@ -186,6 +192,7 @@ const Officer = () => {
         NGAYSINH: ngaySinh2,
         TRANGTHAI: JSON.parse(tt2),
         GIOITINH: JSON.parse(gt2),
+        CHUCVU: cv2,
       };
       console.log(data);
       updateOfficer(data)
@@ -197,6 +204,23 @@ const Officer = () => {
           alert("Cập nhật thất bại!");
         });
     }
+  };
+  
+  const changeTitle = () => {
+    const data = {
+      TAIKHOAN: email2,
+      TRANGTHAI: JSON.parse(lock),
+    };
+    // console.log(data)
+    updateTitle(data)
+      .then((rs) => {
+        if (rs.data.status) {alert("Cập nhật thành công");
+        setShowTT(false);}
+        else alert(rs.data.data)
+      })
+      .catch(function (error) {
+        alert("Cập nhật thất bại!");
+      });
   };
 
   const confirm = (manv) => {
@@ -275,7 +299,7 @@ const Officer = () => {
                 {/* <TableRow data={products}/> */}
                 {officers?.map((item, index) => (
                   <tr key={item.MANV}>
-                    <td>{index+1}</td>
+                    <td>{index + 1}</td>
                     <td>
                       <img src={item.HINHANH} />
                     </td>
@@ -293,6 +317,7 @@ const Officer = () => {
                         class="fa-solid fa-pen-to-square"
                         style={{ marginRight: 10, color: "#0a1d37" }}
                         onClick={() => {
+                          // setCv3('')
                           setShowEdit(true);
                           setTen2(item.HOTEN);
                           setMa(item.MANV);
@@ -304,6 +329,19 @@ const Officer = () => {
                           setNgayLam2(item.NGAYVAOLAM);
                           setNgaySinh2(item.NGAYSINH);
                           setDC2(item.DIACHI);
+                          setCv2(item.CHUCVU);
+                        }}
+                      ></i>
+
+                      <i
+                        class="fa-solid fa-lock"
+                        style={{ marginRight: 10, color: "#0a1d37" }}
+                        onClick={() => {
+                          // console.log(item.KHOA)
+                          setShowTT(true);
+                          setEmail2(item.EMAIL);
+                          setCv2(item.CHUCVU);
+                          setLock(item.KHOA)
                         }}
                       ></i>
                       <i
@@ -444,6 +482,26 @@ const Officer = () => {
                   onChange={(e) => setGt(e.target.value)}
                 />{" "}
                 Nam
+              </div>
+              <div class="form-group mt-3">
+                <input
+                  type="radio"
+                  name="title"
+                  value="nhanvien"
+                  checked={cv === "nhanvien" ? true : false}
+                  style={{ marginRight: 10 }}
+                  onChange={(e) => setCv(e.target.value)}
+                />{" "}
+                Nhân viên
+                <input
+                  style={{ marginLeft: 20 }}
+                  type="radio"
+                  name="title"
+                  value="admin"
+                  checked={cv === "admin" ? true : false}
+                  onChange={(e) => setCv(e.target.value)}
+                />{" "}
+                Quản lý
               </div>
 
               <button type="submit" class="btn btn-success mt-4 center">
@@ -591,6 +649,26 @@ const Officer = () => {
                 />{" "}
                 Nam
               </div>
+              <div class="form-group mt-3">
+                <input
+                  type="radio"
+                  name="title"
+                  value="nhanvien"
+                  checked={cv2.includes("nhanvien") ? true : false}
+                  style={{ marginRight: 10 }}
+                  onChange={(e) => setCv2(e.target.value)}
+                />{" "}
+                Nhân viên
+                <input
+                  style={{ marginLeft: 20 }}
+                  type="radio"
+                  name="title"
+                  value="admin"
+                  checked={cv2.includes("admin") ? true : false}
+                  onChange={(e) => setCv2(e.target.value)}
+                />{" "}
+                Quản lý
+              </div>
               <button type="submit" class="btn btn-success mt-4 center">
                 Cập nhật
               </button>
@@ -598,6 +676,59 @@ const Officer = () => {
 
             <ModalFooter>
               <Button variant="secondary" onClick={() => setShowEdit(false)}>
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
+
+          {/* Model Box Finsihs */}
+        </div>
+
+        <div className="model_box">
+          <Modal
+            isOpen={showTT}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+          >
+            <ModalHeader closeButton>Cập nhật trạng thái tài khoản</ModalHeader>
+            <form
+            
+            >
+              <div className="form-group mt-3">
+                <label htmlFor="">Chức vụ:</label>
+                <p>{cv2.includes('nhanvien')? 'Nhân viên' : 'Quản lý'}</p>
+              </div>
+              <div class="form-group mt-3">
+                <input
+                  type="radio"
+                  name="title2"
+                  value="true"
+                  checked={JSON.parse(lock) === true ? true : false}
+                  style={{ marginRight: 10 }}
+                  onChange={(e) => setLock(e.target.value)}
+                />{" "}
+                Mở khóa tài khoản
+                <input
+                  style={{ marginLeft: 20 }}
+                  type="radio"
+                  name="title2"
+                  value="false"
+                  checked={JSON.parse(lock) === false ? true : false}
+                  onChange={(e) => setLock(e.target.value)}
+                />{" "}
+                Khóa tài khoản
+              </div>
+              <button type="button" class="btn btn-success mt-4 center" onClick={(e) => {
+                e.preventDefault();
+                changeTitle();
+              }}>
+                Cập nhật
+              </button>
+            </form>
+
+            <ModalFooter>
+              <Button variant="secondary" onClick={() => setShowTT(false)}>
                 Close
               </Button>
             </ModalFooter>

@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import {
   filterOrder,
-  getInfo,
+  getInfoById,
   getInfoPurchase,
   updateOrder,
   addBill
@@ -47,13 +47,12 @@ const Purchase = () => {
 
   useEffect(() => {
     getPurchases();
-  }, [key, type]);
+  }, [key, type, tt]);
 
-  // useEffect(() => {
-  //   GetUser();
-  // }, [id]);
+
 
   const confirm = (MSDDH, TRANGTHAI) => {
+    console.log(MSDDH, TRANGTHAI)
     updateOrder({ MSDDH: MSDDH, TRANGTHAI: TRANGTHAI })
       .then((rs) => {
         if (rs.data.status) {
@@ -66,12 +65,12 @@ const Purchase = () => {
         console.log(error);
       });
   };
-  const confirmPay = (MSDDH, TRANGTHAI, MANV, TONGGIA) => {
+  const confirmPay = (MSDDH, TRANGTHAI, TONGGIA, MANV) => {
     console.log(total)
-    updateOrder({ MSDDH: MSDDH, TRANGTHAI: TRANGTHAI })
+    addBill({ MANV: MANV, TONGGIA: TONGGIA, MSDDH: MSDDH })
       .then((rs) => {
         if (rs.data.status) {
-          addBill({ MANV: MANV, TONGGIA: TONGGIA, MSDDH: MSDDH })
+          updateOrder({ MSDDH: MSDDH, TRANGTHAI: TRANGTHAI })
           .then((rs) => {
             if (rs.data.status) {
               alert("Thay đổi trạng thái đơn hàng thành công");
@@ -91,7 +90,7 @@ const Purchase = () => {
       });
   };
   const GetUser = (MAKH, MSDDH) => {
-    getInfo({ EMAIL: MAKH })
+    getInfoById({ MAKH: MAKH })
       .then((rs) => {
         if (rs.data.status) {
           // console.log(rs.data.data[0]);
@@ -104,7 +103,7 @@ const Purchase = () => {
           getInfoPurchase({ MSDDH: MSDDH })
             .then((rs) => {
               if (rs.data.status) {
-                
+                setTotal(0.0)
                 for (let i = 0; i < rs.data.data.length; i++) {
                   // console.log(rs.data.data[i]);
                   let obj = {
@@ -114,7 +113,7 @@ const Purchase = () => {
                     DONGIA: rs.data.data[i].DONGIA,
                   };
                   setItems((prevArray) => [...prevArray, obj]);
-                  // setTotal((pre)=>pre+(DONGIA*SOLUONG))
+                  setTotal((pre)=>pre+(rs.data.data[i].DONGIA*rs.data.data[i].SL))
                   // cartItems.push(obj);
                 }
               }
@@ -138,7 +137,9 @@ const Purchase = () => {
 
     filterOrder(data)
       .then(function (response) {
-        if (response.data.status) setPurchases(response.data.data);
+        if (response.data.status) 
+        setPurchases(response.data.data);
+        // console.logzzz(response.data.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -174,7 +175,7 @@ const Purchase = () => {
                 <option value="Chờ xác nhận">Chờ xác nhận</option>
                 <option value="Đã xác nhận">Đã xác nhận</option>
                 <option value="Đã thanh toán">Đã thanh toán</option>
-                <option value="Hoàn thành">Hoàn thành</option>
+                <option value="Hoàn thành">Đã hủy</option>
               </select>
             </div>
           </div>
@@ -207,10 +208,11 @@ const Purchase = () => {
                         style={{ marginRight: 10, color: "#0a1d37" }}
                         onClick={() => {
                           setItems([]);
-                          setTt(item.TRANGTHAI);
                           GetUser(item.MAKH, item.MSDDH);
                           setDDH(item.MSDDH); 
+                          setTt(item.TRANGTHAI);
                           setOpen(true);
+                          // console.log(item.TRANGTHAI)
                         }}
                       ></i>
                     </td>
@@ -324,16 +326,6 @@ const Purchase = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {cartItems.map((item, index) => (
-                      <tr item={item} key={index} />
-                    ))} */}
-                  {/* {cartItems.map((item, index) => (
-                  <tr key={index}>
-                    {Object.values(item).map((val) => (
-                      <td>{val}</td>
-                    ))}
-                  </tr>
-                ))} */}
                   {cartItems?.map((item, index) => (
                     <tr key={index + 1}>
                       <td>{index + 1}</td>
@@ -359,18 +351,19 @@ const Purchase = () => {
                   disabled
                 />
               </div>
-              {tt == "Chờ xác nhận" ? (
+              {tt.includes("Chờ xác nhận") ? (
                 <Button
                   color="success"
                   onClick={() => {
                     confirm(ddh, "Đã xác nhận");
+                    getPurchases()
                   }}
                 >
                   Xác nhận
                 </Button>
-              ) : tt == "Đã xác nhận" ?(
+              ) : tt.includes("Đã xác nhận") ? (
                 <Button color="primary"  onClick={() => {
-                  confirmPay(ddh, "Đã thanh toán", 1000,'NV00000001');
+                  confirmPay(ddh, "Đã thanh toán", total,'NV00000001');
                 }}>Đã thanh toán</Button>
               ): <p></p>}
             </Col>

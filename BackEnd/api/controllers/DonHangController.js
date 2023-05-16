@@ -38,8 +38,8 @@ class DonHangControllers {
       { name: "TRANGTHAI", type: "Nvarchar(15)", value: TRANGTHAI },
     ];
 
-    let rs = await DonHang.update(params);
-    res.send(json(true, "Hủy thành công!"));
+    let rs = await DonHang.update(MSDDH, TRANGTHAI);
+    res.send(json(true, "Cập nhật thành công"));
   };
   themDH = async (req, res) => {
     const { MAKH, TRANGTHAI } = req.body;

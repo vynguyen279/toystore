@@ -3,6 +3,7 @@ import React from "react";
 import Home from "../pages/Home";
 import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
+import History from "../pages/History";
 import Login from "../pages/Login";
 import ProductDetail from "../pages/ProductDetail";
 import Shop from "../pages/Shop";
@@ -20,6 +21,7 @@ const Routers = () => {
     <Routes>
       <Route path="/" element={<Navigate to='home' />} />
       <Route path="home" element={<Home />} />
+      <Route path="history" element={<History />} />
       <Route path="shop" element={<Shop />} />
       <Route path="shop/:id" element={<ProductDetail />} />
       <Route path="cart" element={<Cart />} />

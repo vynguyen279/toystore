@@ -87,7 +87,10 @@ const Tr = ({ item }) => {
       </td>
       <td>{item.TENSP}</td>
       <td>{item.NUOCSX}</td>
-      <td>{item.DONGIA}đ</td>
+      <td>{parseFloat((item.DONGIA).replace(/[^0-9\.-]+/g,"")).toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    })}</td>
       <td>{item.quantity}</td>
       <td>
         <i onClick={deleteItems} className="ri-delete-bin-line"></i>

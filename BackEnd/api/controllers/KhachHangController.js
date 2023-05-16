@@ -9,9 +9,20 @@ class KhachHangControllers {
     const { EMAIL } = req.body;
     let params = [{ name: "EMAIL", type: "Nchar(200)", value: EMAIL }];
 
-    let rs = await KhachHang.select(EMAIL);
+    let rs = await KhachHang.selectByEmail(EMAIL);
     if (rs.length == 0) {
       res.send(json(false, "Tài khoản không tồn tại!"));
+      return;
+    }
+    res.send(json(true, rs));
+  };
+  getKHById = async (req, res) => {
+    const { MAKH } = req.body;
+    let params = [{ name: "MAKH", type: "Nchar(10)", value: MAKH }];
+
+    let rs = await KhachHang.selectById(MAKH);
+    if (rs.length == 0) {
+      res.send(json(false, "Khách hàng không tồn tại!"));
       return;
     }
     res.send(json(true, rs));

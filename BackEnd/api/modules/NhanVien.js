@@ -28,6 +28,9 @@ class NhanVien {
     static search(params) {
         return DB.excute('SP_TIM_KIEM_NHAN_VIEN', params)
     }
+    static select(email) {
+        return DB.query(`SELECT EMAIL FROM NHANVIEN WHERE EMAIL = '${email}'`)
+    }
 }
 
 module.exports = NhanVien

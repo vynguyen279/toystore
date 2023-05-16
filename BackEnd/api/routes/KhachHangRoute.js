@@ -3,6 +3,7 @@ const router = express.Router();
 const khachHangController = require("../controllers/KhachHangController");
 
 router.use("/GetInf", khachHangController.getKH);
+router.use("/GetInfById", khachHangController.getKHById);
 router.use("/GetList", khachHangController.getList);
 router.use("/Insert", khachHangController.themKh);
 router.use("/Delete", khachHangController.xoaKh);

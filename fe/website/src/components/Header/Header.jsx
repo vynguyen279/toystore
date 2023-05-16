@@ -47,6 +47,10 @@ const nav__links2 = [
     display: "Giỏ hàng",
   },
   {
+    path: "history",
+    display: "Đơn mua",
+  },
+  {
     path: "signup",
     display: "Tạo tài khoản",
   },

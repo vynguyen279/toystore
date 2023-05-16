@@ -10,7 +10,7 @@ class KhachHang {
     this.DIACHI = DIACHI;
     this.GIOITINH = GIOITINH;
   }
-  static select(EMAIL) {
+  static selectByEmail(EMAIL) {
     return DB.query(`SELECT MAKH, HOTEN, DIACHI, SDT, EMAIL, CONVERT(VARCHAR(10), NGAYSINH , 103) NGAYSINH, GIOITINH FROM KHACHHANG WHERE EMAIL ='${EMAIL}' OR MAKH = '${EMAIL}'`);
   }
   static getList() {
@@ -28,6 +28,9 @@ class KhachHang {
   static search(params) {
     return DB.excute("SP_TIM_KIEM_KHACH_HANG", params);
   }
+  static selectById(id) {
+    return DB.query(`SELECT HOTEN, DIACHI, SDT, EMAIL, CONVERT(VARCHAR(10), NGAYSINH , 103) NGAYSINH, GIOITINH FROM KHACHHANG WHERE MAKH = '${id}'`)
+}
 }
 
 module.exports = KhachHang;

@@ -45,7 +45,7 @@ class TaiKhoanControllers {
     }
   };
 
-  capTaiKhoan = async (req, res) => {
+  dangKy = async (req, res) => {
     const { HOTEN, DIACHI, SDT, EMAIL, NGAYSINH, GIOITINH, MATKHAU } = req.body;
 
     let rs = await TaiKhoan.select(EMAIL);
@@ -73,7 +73,7 @@ class TaiKhoanControllers {
 
     let encryptedMATKHAU = await bcrypt.hash(MATKHAU, 10);
     rs = await TaiKhoan.insert(
-      new TaiKhoan(EMAIL, encryptedMATKHAU, "khachhang")
+      new TaiKhoan(EMAIL, encryptedMATKHAU, "khachhang", 'true')
     );
     let rs3 = await TaiKhoan.select(EMAIL);
     if (rs3.length > 0) {
@@ -120,26 +120,8 @@ class TaiKhoanControllers {
     console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
     res.send(json(true, "Đổi mật khẩu thành công!"));
   };
-  //   khoaOrMoKhoaTaiKhoan = async (req, res) => {
-  //     let { TENDANGNHAP } = req.body;
-  //     let rs = await TaiKhoan.select(TENDANGNHAP);
-  //     if (rs.length == 0) {
-  //       console.log(json(false, "Nhân viên không có tài khoản"));
-  //       res.send(json(false, "Nhân viên không có tài khoản"));
-  //       return;
-  //     }
-  //     //mở khóa
-  //     if (rs[0].KHOA) {
-  //       rs = await TaiKhoan.updateTaiKhoan(TENDANGNHAP, "", false);
-  //       console.log("Mở Khóa tài khoản:" + TENDANGNHAP);
-  //       res.send(json(true, "Đã mở khóa tài khoản: " + TENDANGNHAP));
-  //       return;
-  //     }
-  //     //khóa
-  //     rs = await TaiKhoan.updateTaiKhoan(TENDANGNHAP, "", true);
-  //     console.log("Khóa tài khoản:" + TENDANGNHAP);
-  //     res.send(json(true, "Đã khóa tài khoản: " + TENDANGNHAP));
-  //   };
+
+
   dangNhap = async (req, res) => {
     let rs = await TaiKhoan.select(req.body.TAIKHOAN);
     if (rs.length == 0) {
@@ -162,11 +144,20 @@ class TaiKhoanControllers {
     }
     res.send(json(true, rs.recordset));
   };
-  // let rs = await NhanVien.searchNhanVien(params)
-  // if(rs.recordset.length == 0){
-  //     res.send(json(false, []))
-  //     return
-  // }
+
+  capNhatChucVu = async (req, res) => {
+    let TAIKHOAN = req.body.TAIKHOAN
+    let TRANGTHAI = req.body.TRANGTHAI
+
+    let params = [
+      { name: "TAIKHOAN", type: "Nvarchar(50)", value: TAIKHOAN },
+      { name: "TRANGTHAI", type: "bit", value: TRANGTHAI },
+    ];
+
+    let rs = await TaiKhoan.updateTitle(TAIKHOAN, TRANGTHAI);
+    // console.log(rs)
+    res.send(json(true, "Cập nhật thành công"));
+  };
 }
 
 module.exports = new TaiKhoanControllers();

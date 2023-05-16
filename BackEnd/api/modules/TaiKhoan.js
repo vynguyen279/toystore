@@ -1,10 +1,11 @@
 const DB = require("../components/SqlDb");
 
 class TaiKhoan {
-  constructor(TAIKHOAN, MATKHAU, CHUCVU) {
+  constructor(TAIKHOAN, MATKHAU, CHUCVU, TRANGTHAI) {
     this.TAIKHOAN = TAIKHOAN;
     this.MATKHAU = MATKHAU;
     this.CHUCVU = CHUCVU;
+    this.TRANGTHAI = TRANGTHAI;
   }
 
   static select(TAIKHOAN) {
@@ -13,13 +14,12 @@ class TaiKhoan {
   static selectAll() {
     return DB.query(`SELECT * FROM DSTAIKHOAN`);
   }
-  static insert(taiKhoan) {
+  static insert(taiKhoan, trangthai) {
     return DB.query(
-      `insert into DSTAIKHOAN(TAIKHOAN,MATKHAU,CHUCVU) values ('${taiKhoan.TAIKHOAN}','${taiKhoan.MATKHAU}', '${taiKhoan.CHUCVU}')`
+      `insert into DSTAIKHOAN(TAIKHOAN,MATKHAU,CHUCVU, TRANGTHAI) values ('${taiKhoan.TAIKHOAN}','${taiKhoan.MATKHAU}', '${taiKhoan.CHUCVU}', '${taiKhoan.TRANGTHAI}')`
     );
   }
   static update(TAIKHOAN, MATKHAU) {
-    console.log("update");
     if (MATKHAU.length > 0) {
       return DB.query(
         `UPDATE DSTAIKHOAN SET MATKHAU = '${MATKHAU}' WHERE TAIKHOAN ='${TAIKHOAN}'`
@@ -28,6 +28,9 @@ class TaiKhoan {
     // else {
     //   return DB.query(`UPDATE TAIKHOAN SET KHOA ='${KHOA}' WHERE TENDANGNHAP ='${TENDANGNHAP}'`)
     // }
+  }
+  static updateTitle(TAIKHOAN, TRANGTHAI) {
+    return DB.query(`UPDATE DSTAIKHOAN SET TRANGTHAI = '${TRANGTHAI}' WHERE TAIKHOAN = '${TAIKHOAN}'`);
   }
 }
 

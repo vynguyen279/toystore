@@ -18,7 +18,7 @@ class DonHang {
   }
   static getListKH(MAKH) {
     return DB.query(
-      `SELECT * FROM DONDATHANG WHERE MAKH = '${MAKH}' ORDER BY MSDDH DESC`
+      `SELECT MSDDH, MAKH, TRANGTHAI, CONVERT(VARCHAR(10), NGAYDAT , 103) NGAYDAT FROM DONDATHANG WHERE MAKH = '${MAKH}' ORDER BY MSDDH ASC`
     );
   }
   // static insert(params) {

@@ -63,7 +63,7 @@ const Login = () => {
       signIn(data)
         .then(function (response) {
           if (response.data.status) {
-            localStorage.removeItem('isAuth')
+            // localStorage.removeItem('isAuth')
             localStorage.setItem('isAuth', true)
             localStorage.setItem('username', username)
             localStorage.setItem('pass', pass)

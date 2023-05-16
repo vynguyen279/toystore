@@ -11,10 +11,13 @@ export async function sendEmail(data) {
     return axios.post('/TaiKhoan/SendEmail', data);
 }
 export async function signUp(data) {
-    return axios.put('/TaiKhoan/CapTaiKhoanOrResetMatKhau', data);
+    return axios.put('/TaiKhoan/DangKy', data);
 }
 export async function changePassword(data) {
     return axios.put('/TaiKhoan/DoiMatKhau', data);
+}
+export async function updateTitle(data) {
+    return axios.put('/TaiKhoan/UpdateTitle', data);
 }
 export async function imgUpload(data) {
     var form = new FormData();
@@ -100,6 +103,9 @@ export async function searchCustomer(data) {
 export async function getInfo(data) {
     return axios.post(`/KhachHang/GetInf`, data);
 }
+export async function getInfoById(data) {
+    return axios.post(`/KhachHang/GetInfById`, data);
+}
 
 // NHAN VIEN
 export async function getListOfficer(data) {
@@ -121,6 +127,7 @@ export async function deleteOfficer(data) {
 export async function searchOfficer(data) {
     return axios.get(`/NhanVien/Search`, data);
 }
+
 // GIOHANG
 export async function addCart(data) {
     return axios.post('/GioHang/AddCart', data);
@@ -148,6 +155,9 @@ export async function filterOrder(data) {
 }
 export async function updateOrder(data) {
     return axios.post('/DonHang/UpdateOrder', data);
+}
+export async function getOrderKH(data) {
+    return axios.post('/DonHang/ListOrder', data);
 }
 export async function addDetailOrder(data) {
     return axios.post('/CTDDH/AddDetail', data);

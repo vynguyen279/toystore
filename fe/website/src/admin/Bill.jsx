@@ -14,7 +14,7 @@ const Bill = () => {
 
     getListBill(data)
     .then(function (response) {
-      console.log(response.data.data)
+      // console.log(response.data.data)
       setBill(response.data.data);
     })
     .catch(function (error) {
