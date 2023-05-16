@@ -1,9 +1,86 @@
-import React from 'react';
-import { Image, Text, View, Linking, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { listCart } from '../services/untils';
+import { addToCart, incrementQuantity } from '../store/CartReducer';
 import Color from '../res/color';
+import { AppContext } from './';
 
 function Welcome({ navigation }) {
+    const { user, setUser } = useContext(AppContext);
+    const cart = useSelector((state) => state.cart.cart);
+    const dispatch = useDispatch();
+
+    const addItemToCart = (items) => {
+        dispatch(addToCart(items));
+    };
+    const incrementCart = (items) => {
+        dispatch(incrementQuantity(items));
+    };
+
+    const addAll = (items, count) => {
+        if (cart.some((value) => value.MASP == items.MASP)) {
+            for (var i = 1; i <= count; i++) {
+                incrementCart(items);
+            }
+        } else {
+            addItemToCart(items);
+            for (var i = 1; i < count; i++) {
+                incrementCart(items);
+            }
+        }
+    };
+
+    const getListCart = (maKH) => {
+        const data = {
+            MAKH: maKH,
+        };
+        listCart(data)
+            .then(function (response) {
+                if (response.data.status) {
+                    for (var i = 0; i < response.data.data.length; i++) {
+                        const count = response.data.data[i].SOLUONG;
+                        const items = {
+                            MASP: response.data.data[i].MASP,
+                            TENSP: response.data.data[i].TENSP,
+                            LOAISP: response.data.data[i].LOAISP,
+                            NUOCSX: response.data.data[i].NUOCSX,
+                            NGAYTHEM: response.data.data[i].NGAYTHEM,
+                            DONGIA: response.data.data[i].DONGIA,
+                            MOTA: response.data.data[i].MOTA,
+                            SOLUONGTON: response.data.data[i].SOLUONGTON,
+                            HINHANH: response.data.data[i].HINHANH,
+                            SALE: response.data.data[i].SALE,
+                            TRANGTHAIXOA: response.data.data[i].TRANGTHAIXOA,
+                        };
+                        addAll(items, count);
+                    }
+                } else {
+                    console.log(response.data.data);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+    const handleGetToken = async () => {
+        const token = await AsyncStorage.getItem('user');
+        if (!token) {
+            navigation.navigate('Login');
+        } else {
+            setUser(JSON.parse(token));
+            getListCart(user.MAKH);
+            navigation.replace('MyTabs');
+        }
+    };
+    useEffect(() => {
+        setTimeout(() => {
+            handleGetToken();
+        }, 2000);
+    });
     return (
         <View
             style={{
@@ -45,7 +122,7 @@ function Welcome({ navigation }) {
                     marginTop: 80,
                 }}
             >
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
                         navigation.navigate('Login');
@@ -74,7 +151,7 @@ function Welcome({ navigation }) {
                     >
                         Quên mật khẩu?
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );
@@ -85,7 +162,7 @@ const styles = StyleSheet.create({
     img: {
         height: 300,
         width: 313,
-        marginTop: 43,
+        marginTop: 150,
         marginLeft: 38,
     },
 

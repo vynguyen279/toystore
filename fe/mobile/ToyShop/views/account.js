@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector, useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Account, Frame } from '../components';
 import { removeFromCart } from '../store/CartReducer';
@@ -20,8 +21,10 @@ function AccountUser({ navigation, route }) {
     const reset = () => {
         setUser('');
         setListOrder([]);
+        AsyncStorage.removeItem('user');
+        AsyncStorage.removeItem('listOrder');
         cart.map((item, index) => removeItemFromCart(item));
-        navigation.navigate('Welcome');
+        navigation.navigate('Login');
     };
 
     return (

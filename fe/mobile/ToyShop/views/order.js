@@ -9,7 +9,6 @@ import { CardOrder } from '../components';
 
 function Order({ navigation }) {
     const { listOrder } = useContext(AppContext);
-
     return (
         <View
             style={{

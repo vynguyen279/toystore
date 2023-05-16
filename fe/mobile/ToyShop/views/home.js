@@ -118,9 +118,7 @@ function Home({ navigation }) {
         getListOrder(data)
             .then((response) => {
                 setListOrder(response.data.data);
-                AsyncStorage.setItem('listOrder', JSON.stringify(listOrder))
-                    .then(() => console.log('Object stored successfully'))
-                    .catch((error) => console.log('Error storing object: ', error));
+                AsyncStorage.setItem('listOrder', JSON.stringify(listOrder));
             })
             .catch((error) => {
                 console.log(error);

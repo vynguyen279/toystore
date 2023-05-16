@@ -75,7 +75,7 @@ export async function addOrder(data) {
     return await request.post(`/DonHang/AddOrder`, data);
 }
 export async function updateOrder(data) {
-    return await request.put(`/DonHang/UpdateOrder`, data);
+    return await request.put(`/DonHang/CancelOrder`, data);
 }
 export async function addDetail(data) {
     return await request.post(`/CTDDH/AddDetail`, data);
