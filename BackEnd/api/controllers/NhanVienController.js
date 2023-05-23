@@ -96,14 +96,13 @@ class NhanVienControllers {
   };
 
   timKiemNv = async (req, res) => {
-    const KEY = req.body;
-    let params = [{ name: "KEY", type: "Nvarchar(50)", value: KEY }];
+    const {KEY} = req.body;
+    let params = [{ name: "KEY", type: "nvarchar(50)", value: KEY }];
     let rs = await NhanVien.search(params);
     if (rs.recordset.length == 0) {
-      res.send(json(false, rs));
-      return json(false, "Không có kết quả phù hợp");
-    }
-    res.send(json(true, rs.recordset));
+      res.send(json(false, "Không có kết quả phù hợp"));
+    } else
+    res.send(json(true, rs));
   };
 
 }

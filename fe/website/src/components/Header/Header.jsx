@@ -65,8 +65,8 @@ const Header = () => {
   const stickyHederFunc = () => {
     window.addEventListener("scroll", () => {
       if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
+        window.document.body.scrollTop > 80 ||
+        window.document.documentElement.scrollTop > 80
       ) {
         headerRef.current.classList.add("sticky__header");
       } else {
@@ -98,7 +98,7 @@ const Header = () => {
             <div className="navigation">
               <ul className="menu">
                 {localStorage.getItem('isAuth')? (nav__links2.map((item, index) => (
-                  <li className="nav__item" key={index}>
+                  <li className="nav__item1" key={index}>
                     <NavLink
                       to={item.path}
                       className={(navClass) =>
@@ -109,7 +109,7 @@ const Header = () => {
                     </NavLink>
                   </li>
                 ))):(nav__links.map((item, index) => (
-                  <li className="nav__item" key={index}>
+                  <li className="nav__item2" key={index}>
                     <NavLink
                       to={item.path}
                       className={(navClass) =>

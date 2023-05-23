@@ -38,10 +38,10 @@ class TaiKhoanControllers {
     let rs = await TaiKhoan.select(EMAIL);
     if (rs.length > 0) {
       res.send(
-        json(false, "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác!")
+        json(true, rs)
       );
     } else {
-      res.send(json(true, "Email chưa tồn tại!"));
+      res.send(json(false, "Email chưa tồn tại!"));
     }
   };
 
