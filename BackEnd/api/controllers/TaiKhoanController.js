@@ -73,7 +73,7 @@ class TaiKhoanControllers {
 
     let encryptedMATKHAU = await bcrypt.hash(MATKHAU, 10);
     rs = await TaiKhoan.insert(
-      new TaiKhoan(EMAIL, encryptedMATKHAU, "khachhang", 'true')
+      new TaiKhoan(EMAIL, encryptedMATKHAU, "khachhang", "true")
     );
     let rs3 = await TaiKhoan.select(EMAIL);
     if (rs3.length > 0) {
@@ -102,7 +102,8 @@ class TaiKhoanControllers {
     let MATKHAU = Date.now().toString(36);
     let salt = await bcrypt.genSalt(10);
     let encryptedMATKHAU = await bcrypt.hash(MATKHAU, salt);
-    let rs2 = await TaiKhoan.update(EMAIL, encryptedMATKHAU, "khachhang");
+    console.log(encryptedMATKHAU.length);
+    let rs2 = await TaiKhoan.update(EMAIL, encryptedMATKHAU);
     console.log(
       "Cấp lại mật khẩu thành công, mật khẩu mới: " +
         encryptedMATKHAU +
@@ -120,7 +121,6 @@ class TaiKhoanControllers {
     console.log("Đổi mật khẩu tài khoản:" + TAIKHOAN);
     res.send(json(true, "Đổi mật khẩu thành công!"));
   };
-
 
   dangNhap = async (req, res) => {
     let rs = await TaiKhoan.select(req.body.TAIKHOAN);
@@ -146,8 +146,8 @@ class TaiKhoanControllers {
   };
 
   capNhatChucVu = async (req, res) => {
-    let TAIKHOAN = req.body.TAIKHOAN
-    let TRANGTHAI = req.body.TRANGTHAI
+    let TAIKHOAN = req.body.TAIKHOAN;
+    let TRANGTHAI = req.body.TRANGTHAI;
 
     let params = [
       { name: "TAIKHOAN", type: "Nvarchar(50)", value: TAIKHOAN },

@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { RadioButton } from 'react-native-paper';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,19 +12,26 @@ import isFormValid from '../res/geners';
 import { updateInf } from '../services/untils';
 import { AppContext } from './';
 import styles from '../res/styles';
-import { Account, Inf, BtnConfirm, Phone, BtnBackTab } from '../components';
+import { Account, Inf, Phone, BtnBackTab } from '../components';
 import { UpdateInformationSchema } from '../constans/validation';
 import Color from '../res/color';
 
 function FixInf({ navigation }) {
     const { user } = useContext(AppContext);
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
+    const [email, setEmail] = useState(user.EMAIL);
+    const [name, setName] = useState(user.HOTEN);
+    const [phone, setPhone] = useState(user.SDT);
+    const [address, setAddress] = useState(user.DIACHI);
     const [showDate, setShowDate] = useState(false);
-    const [sex, setSex] = useState(true);
-    const [date, setDate] = useState(new Date());
+    const [sex, setSex] = useState(user.GIOITINH);
+    const [date, setDate] = useState(
+        new Date(user.NGAYSINH),
+        // new Date(
+        //     Number(user.NGAYSINH[6] + user.NGAYSINH[7] + user.NGAYSINH[8] + user.NGAYSINH[9]),
+        //     Number(user.NGAYSINH[3] + user.NGAYSINH[4]) - 1,
+        //     Number(user.NGAYSINH[0] + user.NGAYSINH[1]),
+        // ),
+    );
     const openDatePicker = () => {
         setShowDate(true);
     };
@@ -38,16 +44,24 @@ function FixInf({ navigation }) {
     const onConfirm = (date1) => {
         // You should close the modal in here
         setShowDate(false);
-        setDate(date1.date);
+        setDate(date1.dateString);
     };
 
     useEffect(() => {
-        setEmail(user.EMAIL);
-        setName(user.HOTEN);
-        setPhone(user.SDT);
-        setAddress(user.DIACHI);
-        setSex(user.GIOITINH);
-        setDate(user.NGAYSINH);
+        // setEmail(user.EMAIL);
+        // setName(user.HOTEN);
+        // setPhone(user.SDT);
+        // setAddress(user.DIACHI);
+        // setSex(user.GIOITINH);
+        // setDate(user.NGAYSINH);
+        console.log(user.NGAYSINH);
+        console.log(
+            new Date(
+                Number(user.NGAYSINH[6] + user.NGAYSINH[7] + user.NGAYSINH[8] + user.NGAYSINH[9]),
+                Number(user.NGAYSINH[3] + user.NGAYSINH[4]) - 1,
+                Number(user.NGAYSINH[0] + user.NGAYSINH[1]) + 1,
+            ),
+        );
     }, []);
     const update = (Name, Phone, Email, Address) => {
         const data = {

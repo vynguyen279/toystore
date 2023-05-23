@@ -220,6 +220,16 @@ function Login({ navigation }) {
                                         <Text style={style.text}>Quên mật khẩu?</Text>
                                     </TouchableOpacity>
                                 </View>
+                                <View style={style.final}>
+                                    <Text style={[style.text, { marginTop: 10 }]}>Tôi chưa có tài khoản </Text>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            navigation.navigate('Register');
+                                        }}
+                                    >
+                                        <Text style={style.txtReg}>đăng ký</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </>
                         )}
                     </Formik>
@@ -245,5 +255,16 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 20,
         marginLeft: 105,
+    },
+
+    txtReg: {
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        color: Color.primary,
+        marginTop: 10,
+    },
+
+    final: {
+        flexDirection: 'row',
     },
 });

@@ -25,15 +25,15 @@ function ChangePass({ navigation }) {
                     { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ]);
             } else {
-                changePassAcc();
+                changePassAcc(pass);
             }
         }
     };
 
-    const changePassAcc = () => {
+    const changePassAcc = (pass) => {
         const data = {
             EMAIL: user.EMAIL,
-            MATKHAUMOI: user.MATKHAU,
+            MATKHAUMOI: pass,
         };
 
         changePass(data)
@@ -42,6 +42,7 @@ function ChangePass({ navigation }) {
                     Alert.alert('Thông báo', response.data.data, [
                         { text: 'OK', onPress: () => console.log('OK Pressed') },
                     ]);
+                    user.MATKHAU = pass;
                     navigation.goBack();
                 } else {
                     Alert.alert('Thông báo', 'Đổi mật khẩu thất bại!', [
