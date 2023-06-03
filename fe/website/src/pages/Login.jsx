@@ -1,17 +1,32 @@
-
 import React, { useState, useEffect } from "react";
 import { signIn } from "../server/callAPI";
-import {useNavigate  } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../store/shopping-cart/cartSlice";
-import { Container, Row, Col, Form, FormGroup, Input, Label,   Button,
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Button,
   Modal,
-  ModalFooter, ModalHeader} from "reactstrap";
+  ModalFooter,
+  ModalHeader,
+} from "reactstrap";
 import "../styles/login.css";
 import isEmpty from "validator/lib/isEmpty";
 import login from "../assets/login.svg";
-import { listCart, getInfo, resetMK, sendEmail } from "../server/callAPI";
+import {
+  listCart,
+  getInfo,
+  resetMK,
+  sendEmail,
+  getTK,
+} from "../server/callAPI";
 import { Link } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
 import "../styles/product-details.css";
@@ -20,11 +35,11 @@ import "../App.css";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [pass, setPass] = useState("");
-  const history = useNavigate()
-  const cartProducts = useSelector(state => state.cart.cartItems);
+  const history = useNavigate();
+  const cartProducts = useSelector((state) => state.cart.cartItems);
   const [emailSend, setEmailSend] = useState("");
   const [showEmailSend, setShowEmailSend] = useState(false);
-  const [err1, setErr2] = useState('');
+  const [err1, setErr2] = useState("");
   const handleCloseEmail = () => setShowEmailSend(false);
   const handleShowEmail = () => setShowEmailSend(true);
   // const total = useSelector(state => state.cart.totalAmount)
@@ -33,7 +48,7 @@ const Login = () => {
   //   currency: "VND",
   // }))
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [err, setErr] = useState("");
 
@@ -64,68 +79,83 @@ const Login = () => {
         .then(function (response) {
           if (response.data.status) {
             // localStorage.removeItem('isAuth')
-            localStorage.setItem('isAuth', true)
-            localStorage.setItem('username', username)
-            localStorage.setItem('pass', pass)
+            localStorage.setItem("isAuth", true);
+            localStorage.setItem("username", username);
+            localStorage.setItem("pass", pass);
             alert("Đăng nhập thành công!");
-            history('/shop')
-            getListCart()
+            getTK({ EMAIL: username })
+              .then(function (response) {
+                if (response.data.status) {
+                  localStorage.setItem("role", response.data.data[0].CHUCVU);
+                  if (response.data.data[0].CHUCVU.includes("khachhang")) {
+
+                    history("/shop", { replace: true });
+                    getListCart();
+                  } else {
+                    history("/admin/customer", { replace: true });
+                    window.location.reload()
+                  }
+                } else alert(response.data.data);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
           } else alert(response.data.data);
         })
         .catch(function (error) {
           console.log(error);
         });
-    }
-    else return
+    } else return;
   };
 
   const incrementItem = (item) => {
-    dispatch(cartActions.addItem(item))
-  }
+    dispatch(cartActions.addItem(item));
+  };
 
   const addAll = (item, count) => {
     if (cartProducts.some((value) => value.MASP == item.MASP)) {
-        for (var i = 1; i <= count; i++) {
-          incrementItem(item);
-        }
+      for (var i = 1; i <= count; i++) {
+        incrementItem(item);
+      }
     } else {
       incrementItem(item);
-        for (var i = 1; i < count; i++) {
-          incrementItem(item);
-        }
+      for (var i = 1; i < count; i++) {
+        incrementItem(item);
       }
-};
+    }
+  };
 
   const getListCart = () => {
-      if (window.localStorage.getItem("isAuth")) {
-        getInfo({ EMAIL: window.localStorage.getItem("username") })
-          .then(function (response) {
-            if (response.data.status)
-              listCart({ MAKH: response.data.data[0].MAKH })
-                .then(function (response) {
-                  if (response.data.status) {
-                    for (var i = 0; i < response.data.data.length; i++) {
-                      const count = response.data.data[i].SOLUONG;
-                      const item = {
-                          MASP: response.data.data[i].MASP,
-                          TENSP: response.data.data[i].TENSP,
-                          DONGIA: String(response.data.data[i].DONGIA),
-                          HINHANH: response.data.data[i].HINHANH,
-                      };
-                      addAll(item, count);
-                    }
-                  } 
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
-            // console.log(response.data.data[0].MAKH);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-  }
+    if (window.localStorage.getItem("isAuth")) {
+      getInfo({ EMAIL: window.localStorage.getItem("username") })
+        .then(function (response) {
+          if (response.data.status)
+            listCart({ MAKH: response.data.data[0].MAKH })
+              .then(function (response) {
+                if (response.data.status) {
+                  for (var i = 0; i < response.data.data.length; i++) {
+                    const count = response.data.data[i].SOLUONG;
+                    const item = {
+                      MASP: response.data.data[i].MASP,
+                      TENSP: response.data.data[i].TENSP,
+                      DONGIA: String(response.data.data[i].DONGIA),
+                      SALE: String(response.data.data[i].SALE),
+                      HINHANH: response.data.data[i].HINHANH,
+                    };
+                    addAll(item, count);
+                  }
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          // console.log(response.data.data[0].MAKH);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
 
   const isValidate2 = () => {
     const err = {};
@@ -142,25 +172,26 @@ const Login = () => {
     e.preventDefault();
     const isValid = isValidate2();
     if (isValid) {
-      console.log(emailSend)
-      resetMK({EMAIL: emailSend}).then(function (response) {
-        if (response.data.status) {
-          sendEmail({EMAIL: emailSend, mess: response.data.data}).then(function (response) {
-            if (response.data.status) {
-              alert(String(response.data.data));
-            } else alert("Thất bại!");;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        } else alert(String(response.data.data));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }
-    else return
-  }
+      console.log(emailSend);
+      resetMK({ EMAIL: emailSend })
+        .then(function (response) {
+          if (response.data.status) {
+            sendEmail({ EMAIL: emailSend, mess: response.data.data })
+              .then(function (response) {
+                if (response.data.status) {
+                  alert(String(response.data.data));
+                } else alert("Thất bại!");
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          } else alert(String(response.data.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else return;
+  };
 
   return (
     <Helmet title="Đăng nhập">
@@ -181,7 +212,6 @@ const Login = () => {
                     id="username"
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Tên đăng nhập"
-                    
                   />
                   <p className="err">{err.username}</p>
                 </FormGroup>
@@ -193,7 +223,6 @@ const Login = () => {
                     id="password"
                     onChange={(e) => setPass(e.target.value)}
                     placeholder="Mật khẩu"
-                    
                   />
                   <p className="err">{err.pass}</p>
                 </FormGroup>
@@ -204,7 +233,11 @@ const Login = () => {
                   <p className="text-center">
                     Chưa có tài khoản? <Link to="/signup">Đăng ký</Link>
                   </p>
-                  <a className="text-center" style={{cursor: 'pointer', marginLeft: '30%'}} onClick={handleShowEmail}>
+                  <a
+                    className="text-center"
+                    style={{ cursor: "pointer", marginLeft: "30%" }}
+                    onClick={handleShowEmail}
+                  >
                     Quên mật khẩu?
                   </a>
                 </div>
@@ -249,7 +282,6 @@ const Login = () => {
         </div>
       </section>
     </Helmet>
-    
   );
 };
 export default Login;

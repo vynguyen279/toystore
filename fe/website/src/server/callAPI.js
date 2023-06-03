@@ -4,6 +4,9 @@ import {axios} from './AxiosConfig';
 export async function signIn(data) {
     return axios.post('/TaiKhoan/DangNhap', data);
 }
+export async function getTK(data) {
+    return axios.post('/TaiKhoan/CheckEmail', data);
+}
 export async function resetMK(data) {
     return axios.post('/TaiKhoan/ResetMatKhau', data);
 }
@@ -125,7 +128,7 @@ export async function deleteOfficer(data) {
 }
 
 export async function searchOfficer(data) {
-    return axios.get(`/NhanVien/Search`, data);
+    return axios.post(`/NhanVien/Search`, data);
 }
 
 // GIOHANG

@@ -15,7 +15,7 @@ const Footer = () => {
                 <h1 className="text-white">ToyStore</h1>
               </div>
             </div>
-            <p className="footer__text mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, officia tempora, eum aliquid voluptatem nemo, commodi fugit reprehenderit culpa sunt praesentium quaerat animi enim omnis accusantium reiciendis quibusdam tempore perspiciatis?</p>
+            <p className="footer__text mt-4">Cam kết cung cấp sản phẩm chất lượng cao, đa dạng.</p>
           </Col>
           <Col lg="2">
             <div className="footer__quick-link">

@@ -5,28 +5,46 @@ import { NavLink } from "react-router-dom";
 import { Container, Row } from "reactstrap";
 import { motion } from "framer-motion";
 import logo from "../assets/images/eco-logo.png";
-import user_icon from "../assets/images/user-icon.png";
 
 
 const nav__links = [
   {
-    path: "admin/officer",
+    path: "/admin/officer",
     display: "Nhân viên",
   },
   {
-    path: "admin/bill",
+    path: "/admin/bill",
     display: "Hóa đơn",
   },
   {
-    path: "admin/customer",
+    path: "/admin/customer",
     display: "Khách hàng",
   },
   {
-    path: "admin/product",
+    path: "/admin/product",
     display: "Sản phẩm",
   },
   {
-    path: "admin/purchase",
+    path: "/admin/purchase",
+    display: "Đơn hàng",
+  },
+];
+
+const nav__links2 = [
+  {
+    path: "/admin/bill",
+    display: "Hóa đơn",
+  },
+  {
+    path: "/admin/customer",
+    display: "Khách hàng",
+  },
+  {
+    path: "/admin/product",
+    display: "Sản phẩm",
+  },
+  {
+    path: "/admin/purchase",
     display: "Đơn hàng",
   },
 ];
@@ -68,7 +86,7 @@ const AdminNav = () => {
             </div>
             <div className="navigation">
               <ul className="menu">
-                {nav__links.map((item, index) => (
+                {/* {nav__links.map((item, index) => (
                   <li className="nav__item" key={index}>
                     <NavLink
                       to={item.path}
@@ -79,7 +97,32 @@ const AdminNav = () => {
                       {item.display}
                     </NavLink>
                   </li>
-                ))}
+                ))} */}
+                {
+                  localStorage.getItem('role').includes('admin') ? (nav__links.map((item, index) => (
+                    <li className="nav__item" key={index}>
+                      <NavLink
+                        to={item.path}
+                        className={(navClass) =>
+                          navClass.isActive ? "nav__active" : ""
+                        }
+                      >
+                        {item.display}
+                      </NavLink>
+                    </li>
+                  ))):(nav__links2.map((item, index) => (
+                    <li className="nav__item" key={index}>
+                      <NavLink
+                        to={item.path}
+                        className={(navClass) =>
+                          navClass.isActive ? "nav__active" : ""
+                        }
+                      >
+                        {item.display}
+                      </NavLink>
+                    </li>
+                  )))
+                }
               </ul>
             </div>
             <div className="nav__icons">

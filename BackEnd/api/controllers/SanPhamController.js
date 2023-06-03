@@ -19,6 +19,7 @@ class SanPhamControllers {
       return;
     }
     res.send(json(true, rs.recordset));
+    // console.log(rs)
   };
 
   getListType = async (req, res) => {
@@ -120,7 +121,6 @@ class SanPhamControllers {
       DONGIA,
       MOTA,
       SOLUONGTON,
-      HINHANH,
       SALE,
       TRANGTHAIXOA,
     } = req.body;
@@ -132,7 +132,6 @@ class SanPhamControllers {
       { name: "DONGIA", type: "Money", value: DONGIA },
       { name: "MOTA", type: "Ntext", value: MOTA },
       { name: "SOLUONGTON", type: "Int", value: SOLUONGTON },
-      { name: "HINHANH", type: "Nchar(100)", value: HINHANH },
       { name: "SALE", type: "Float", value: SALE },
       { name: "TRANGTHAIXOA", type: "Bit", value: TRANGTHAIXOA },
     ];

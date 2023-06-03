@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import '../styles/shop.css'
 import ProductList from "../components/UI/ProductList";
 import '../App.css';
+import checkRole from "../components/checkRole";
 
 const Shop = () => {
+    checkRole()
     const [products, setProducts] = useState([])
     const [type, setType] = useState([])
     const [loai, setLoai] = useState('Tất cả')

@@ -38,10 +38,10 @@ class TaiKhoanControllers {
     let rs = await TaiKhoan.select(EMAIL);
     if (rs.length > 0) {
       res.send(
-        json(false, "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác!")
+        json(true, rs)
       );
     } else {
-      res.send(json(true, "Email chưa tồn tại!"));
+      res.send(json(false, "Email chưa tồn tại!"));
     }
   };
 
@@ -128,9 +128,14 @@ class TaiKhoanControllers {
       res.send(json(false, "Tài khoản không tồn tại"));
       return json(false, "Tài khoản không tồn tại");
     }
+    if (!rs[0].TRANGTHAI) {
+      res.send(json(false, "Tài khoản này đã bị khóa!"));
+      return json(false, "Tài khoản này đã bị khóa!");
+    }
 
     rs = await bcrypt.compare(req.body.MATKHAU.trim(), rs[0].MATKHAU.trim());
-    if (rs == true) res.send(json(rs));
+    if (rs == true) 
+      res.send(json(rs));
     else res.send(json(rs, "Sai mật khẩu"));
   };
 

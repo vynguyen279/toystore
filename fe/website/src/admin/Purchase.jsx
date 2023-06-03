@@ -9,6 +9,7 @@ import {
   ModalHeader,
   Table,
 } from "reactstrap";
+import checkRole from "../components/checkRole";
 import { useState, useEffect } from "react";
 import {
   filterOrder,
@@ -19,6 +20,7 @@ import {
 } from "../server/callAPI";
 
 const Purchase = () => {
+  checkRole()
   const [purchases, setPurchases] = useState([]);
   const [type, setType] = useState("Tất cả");
   const [open, setOpen] = useState(false);
@@ -357,6 +359,7 @@ const Purchase = () => {
                   onClick={() => {
                     confirm(ddh, "Đã xác nhận");
                     getPurchases()
+                    setOpen(false)
                   }}
                 >
                   Xác nhận
@@ -364,6 +367,8 @@ const Purchase = () => {
               ) : tt.includes("Đã xác nhận") ? (
                 <Button color="primary"  onClick={() => {
                   confirmPay(ddh, "Đã thanh toán", total,'NV00000001');
+                  getPurchases()
+                  setOpen(false)
                 }}>Đã thanh toán</Button>
               ): <p></p>}
             </Col>

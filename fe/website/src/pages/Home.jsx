@@ -8,9 +8,10 @@ import { motion } from "framer-motion";
 import heroImg from "../assets/images/hero-img.png";
 import { Container, Row, Col } from "reactstrap";
 import "../styles/home.css";
+import checkRole from "../components/checkRole";
 import "../App.css";
 const Home = () => {
-
+  checkRole()
   const [sale, setSale] = useState([]);
   const [newsp, setNewSp] = useState([]);
   const [best, setBest] = useState([]);
@@ -87,10 +88,8 @@ const Home = () => {
                 <h1 className="hero__subtitle">Let's enjoy</h1>
                 <h2>Welcome To My Playground</h2>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Blanditiis amet facere obcaecati hic rem consectetur nulla
-                  alias dicta dignissimos quam dolorem ipsa voluptatem, omnis
-                  odio iste sapiente. Nisi, quis autem?
+                  Thỏa thích mua sắm với những ưu đãi hấp dẫn. Cam kết mang lại những sản phẩm chất lượng cao, mang đến niềm vui cho hàng ngàn trẻ nhỏ.
+
                 </p>
                 <motion.button whileHover={{scale: 1.1}}className="buy__btn">
                   <Link to="/shop">Mua Ngay</Link>

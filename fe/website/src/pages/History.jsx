@@ -8,6 +8,7 @@ import {
   ModalHeader,
   Table,
 } from "reactstrap";
+import checkRole from "../components/checkRole";
 import { useState, useEffect } from "react";
 import {
   filterOrder,
@@ -19,7 +20,7 @@ import {
 } from "../server/callAPI";
 
 const History = () => {
-
+    checkRole()
     const [purchases, setPurchases] = useState([]);
     const [type, setType] = useState("Tất cả");
     const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ const History = () => {
     
       useEffect(() => {
         getPurchases();
-      }, [tt]);
+      }, [tt, type]);
     
       const GetUser = (MAKH, MSDDH) => {
         getInfoById({ MAKH: MAKH })
@@ -150,15 +151,15 @@ const History = () => {
                 </h2>
               </div>
               <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-                <div className="filter__widget">
-                  <select onChange={handleFilter2}>
+                {/* <div className="filter__widget">
+                  <select onChange={handleFilter}>
                     <option value="Tất cả">Tất cả</option>
                     <option value="Chờ xác nhận">Chờ xác nhận</option>
                     <option value="Đã xác nhận">Đã xác nhận</option>
                     <option value="Đã thanh toán">Đã thanh toán</option>
                     <option value="Hoàn thành">Đã hủy</option>
                   </select>
-                </div>
+                </div> */}
               </div>
             </div>
             <div class="row">
@@ -338,6 +339,7 @@ const History = () => {
                       onClick={() => {
                         confirm(ddh, "Đã hủy");
                         getPurchases()
+                        setOpen(false)
                       }}
                     >
                       Hủy đơn

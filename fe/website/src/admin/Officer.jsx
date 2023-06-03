@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import isEmpty from "validator/lib/isEmpty";
 import "./style/form.css";
 import moment from "moment";
+import checkRole from "../components/checkRole";
 import "../App.css";
 import {
   addOfficer,
@@ -23,6 +24,7 @@ import {
 } from "reactstrap";
 
 const Officer = () => {
+  checkRole()
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showTT, setShowTT] = useState(false);
@@ -198,6 +200,7 @@ const Officer = () => {
       updateOfficer(data)
         .then((rs) => {
           if (rs.data.status) alert("Cập nhật thành công");
+          getListOfficer()
           setShowEdit(false);
         })
         .catch(function (error) {
@@ -366,7 +369,7 @@ const Officer = () => {
             backdrop="static"
             keyboard={false}
           >
-            <ModalHeader closeButton></ModalHeader>
+            <ModalHeader closeButton>Thêm nhân viên</ModalHeader>
             <form onSubmit={handleAdd}>
               <div class="form-group">
                 <label htmlFor="">Họ tên Nhân viên</label>
@@ -527,7 +530,7 @@ const Officer = () => {
             backdrop="static"
             keyboard={false}
           >
-            <ModalHeader closeButton></ModalHeader>
+            <ModalHeader closeButton>Cập nhật thông tin nhân viên</ModalHeader>
             <form onSubmit={handleEdit}>
               <div class="form-group">
                 <label htmlFor="">Họ tên Nhân viên</label>

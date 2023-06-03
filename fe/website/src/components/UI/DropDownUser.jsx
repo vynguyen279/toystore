@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { searchCustomer, updateCustomer, changePassword } from "../../server/callAPI";
-import {useNavigate  } from 'react-router-dom'
-import isEmpty from "validator/lib/isEmpty";
-import {Login} from '../../pages/Login'
-import moment from 'moment'
-import '../../App.css'
 import {
-  Button,
-  Modal,
-  ModalFooter,
-} from "reactstrap";
+  getInfo,
+  updateCustomer,
+  changePassword,
+  updateOfficer,
+  searchOfficer,
+} from "../../server/callAPI";
+import { useNavigate } from "react-router-dom";
+import isEmpty from "validator/lib/isEmpty";
+import { Login } from "../../pages/Login";
+import moment from "moment";
+import "../../App.css";
+import { Button, Modal, ModalFooter } from "reactstrap";
 import "../../styles/dropdown-user.css";
 
 const DropDownUser = () => {
-  const history = useNavigate()
+  const history = useNavigate();
   const [ten, setTen] = useState("");
   const [ma, setMa] = useState("");
   const [ngaySinh, setNgaySinh] = useState(new Date());
@@ -24,7 +26,6 @@ const DropDownUser = () => {
   const [rePass, setRePass] = useState("");
   const [dc, setDC] = useState("");
   const [gt, setGt] = useState(false);
-  
 
   const [err, setErr] = useState("");
   const [err2, setErr2] = useState("");
@@ -33,11 +34,11 @@ const DropDownUser = () => {
   const [showEditInfo, setShowEditInfo] = useState(false);
 
   const handleClosePass = () => {
-    setShowEditPass(false)
-    setErr2('')
-    setRePass('')
-    setPass('')
-    setNewPass('')
+    setShowEditPass(false);
+    setErr2("");
+    setRePass("");
+    setPass("");
+    setNewPass("");
   };
   const handleCloseInfo = () => setShowEditInfo(false);
 
@@ -65,114 +66,152 @@ const DropDownUser = () => {
   };
 
   const isValidate2 = () => {
-    const err = {}
-    const userpass = localStorage.getItem('pass').split(" ").join("").trim()
+    const err = {};
+    const userpass = localStorage.getItem("pass").split(" ").join("").trim();
     if (isEmpty(pass)) err.pass = "Vui lòng nhập mật khẩu!";
-    if (pass!==userpass) err.pass = "Sai mật khẩu!";
+    if (pass !== userpass) err.pass = "Sai mật khẩu!";
     if (isEmpty(rePass)) err.rePass = "Vui lòng nhập lại mật khẩu mới!";
     if (isEmpty(newPass)) err.newPass = "Vui lòng nhập mật khẩu mới!";
-    if(rePass!==newPass) err.rePass = "Mật khẩu không khớp!"
+    if (rePass !== newPass) err.rePass = "Mật khẩu không khớp!";
 
     setErr2(err);
     if (Object.keys(err).length > 0) return false;
     return true;
   };
 
-
-
   const handleEditInfo = (e) => {
     // setShowEditInfo(false)
     e.preventDefault();
     const isValid = isValidate();
-    if(isValid){
-    const data = {
-      MAKH: ma,
-      HOTEN: ten,
-      SDT: sdt,
-      DIACHI: dc,
-      EMAIL: email,
-      NGAYSINH: moment(ngaySinh).format('yyyy-MM-DD'),
-      GIOITINH: JSON.parse(gt),
-    };
-    updateCustomer(data)
-      .then(function (response) {
-        if (response.data.status) alert("Cập nhật thông tin thành công!");
-        setShowEditInfo(false)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }
-    else return
+    if (isValid) {
+      const data = {
+        MAKH: ma,
+        HOTEN: ten,
+        SDT: sdt,
+        DIACHI: dc,
+        EMAIL: email,
+        NGAYSINH: moment(ngaySinh).format("yyyy-MM-DD"),
+        GIOITINH: JSON.parse(gt),
+      };
+      updateCustomer(data)
+        .then(function (response) {
+          if (response.data.status) alert("Cập nhật thông tin thành công!");
+          setShowEditInfo(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else return;
   };
 
-  const handleEditPass= (e) => {
-
+  const handleEditPass = (e) => {
     e.preventDefault();
     const isValid = isValidate2();
     // console.log(isValid)
-    if(isValid){
-    const data = {
-      EMAIL: email,
-      MATKHAUMOI: rePass
-    };
+    if (isValid) {
+      const data = {
+        EMAIL: localStorage.getItem('username'),
+        MATKHAUMOI: rePass,
+      };
+      console.log(data)
 
-    changePassword(data)
-      .then(function (response) {
-        if (response.data.status) alert("Đổi mật khẩu thành công!");
-        setShowEditPass(false)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }
-    else return
+      changePassword(data)
+        .then(function (response) {
+          if (response.data.status) 
+              // alert("Đổi mật khẩu thành công!");
+              console.log(response.data.data)
+          setShowEditPass(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else return;
   };
 
-  const handleShowSignOut= (e) => {
-
+  const handleShowSignOut = (e) => {
     e.preventDefault();
-    localStorage.setItem('username', '')
-    localStorage.setItem('pass', '')
-    localStorage.setItem('isAuth', false)
-    history('/Login')
-    window.location.reload()
+    localStorage.setItem("username", "");
+    localStorage.setItem("pass", "");
+    localStorage.setItem("isAuth", false);
+    localStorage.setItem("role", "");
+    history("/Login");
+    window.location.reload();
     // alert('Đã đăng xuất!')
   };
 
   const search = () => {
     const data = {
-      KEY: localStorage.getItem("username"),
+      EMAIL: localStorage.getItem("username"),
     };
-    searchCustomer(data)
-      .then(function (response) {
-        setTen(response.data.data[0].HOTEN);
-        setMa(response.data.data[0].MAKH);
-        setSdt(response.data.data[0].SDT);
-        setEmail(response.data.data[0].EMAIL);
-        setDC(response.data.data[0].DIACHI);
-        setNgaySinh(moment(new Date(response.data.data[0].NGAYSINH)).format('yyyy-MM-DD'));
-        setGt(JSON.parse(response.data.data[0].GIOITINH));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    // const data2 = {
+    //   KEY: localStorage.getItem("username"),
+    // };
+      getInfo(data)
+        .then(function (response) {
+          console.log(response.data);
+          setTen(response.data.data[0].HOTEN);
+          setMa(response.data.data[0].MAKH);
+          setSdt(response.data.data[0].SDT);
+          setEmail(response.data.data[0].EMAIL);
+          setDC(response.data.data[0].DIACHI);
+          setNgaySinh(
+            moment(new Date(response.data.data[0].NGAYSINH)).format(
+              "yyyy-MM-DD"
+            )
+          );
+          setGt(JSON.parse(response.data.data[0].GIOITINH));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    // if (localStorage.getItem("role").includes("admin")) {
+    //   searchOfficer(data2)
+    //     .then(function (response) {
+    //       // console.log(response.data);
+    //       setTen(response.data.data.recordsets[0][0].HOTEN);
+    //       setMa(response.data.data.recordsets[0][0].MANV);
+    //       setSdt(response.data.data.recordsets[0][0].SDT);
+    //       setEmail(response.data.data.recordsets[0][0].EMAIL);
+    //       setDC(response.data.data.recordsets[0][0].DIACHI);
+    //       setNgaySinh(
+    //         moment(
+    //           new Date(response.data.data.recordsets[0][0].NGAYSINH)
+    //         ).format("yyyy-MM-DD")
+    //       );
+    //       setGt(JSON.parse(response.data.data.recordsets[0][0].GIOITINH));
+    //       // console.log(response.data.data.recordsets[0][0].MANV)
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    // }
   };
 
   return (
     <div className="container">
       <div className="dropdown-container">
-        <ul className="dropdown-list">
-          <li onClick={handleShowInfo}>
-            <a onClick={search}>Thay đổi thông tin</a>
-          </li>
-          <li onClick={handleShowPass}>
-            <a>Đổi mật khẩu</a>
-          </li>
-          <li>
-            <a onClick={handleShowSignOut}>Đăng xuất</a>
-          </li>
-        </ul>
+        {localStorage.getItem("role").includes("khachhang") ? (
+          <ul className="dropdown-list">
+            <li onClick={handleShowInfo}>
+              <a onClick={search}>Thay đổi thông tin</a>
+            </li>
+            <li onClick={handleShowPass}>
+              <a>Đổi mật khẩu</a>
+            </li>
+            <li>
+              <a onClick={handleShowSignOut}>Đăng xuất</a>
+            </li>
+          </ul>
+        ) : (
+          <ul className="dropdown-list">
+            <li onClick={handleShowPass}>
+              <a>Đổi mật khẩu</a>
+            </li>
+            <li>
+              <a onClick={handleShowSignOut}>Đăng xuất</a>
+            </li>
+          </ul>
+        )}
       </div>
       <div className="model_box">
         <Modal
@@ -184,7 +223,7 @@ const DropDownUser = () => {
           {/* <ModalHeader closeButton></ModalHeader> */}
           <form onSubmit={handleEditInfo}>
             <div class="form-group">
-              <label htmlFor="">Họ tên khách hàng</label>
+              <label htmlFor="">Họ tên</label>
               <input
                 onChange={(e) => setTen(e.target.value)}
                 type="text"
@@ -238,7 +277,6 @@ const DropDownUser = () => {
                 type="date"
                 class="form-control"
                 id="ngaySinh"
-                
                 placeholder="Nhập ngày sinh"
               />
               <p className="err">{err.ngaySinh}</p>
@@ -250,19 +288,23 @@ const DropDownUser = () => {
                 value="false"
                 // checked={gt ? false : true}
                 // {...(gt && { checked: false })}
-                checked={JSON.parse(gt) === false? true:false}
+                checked={JSON.parse(gt) === false ? true : false}
                 style={{ marginRight: 10 }}
-                onChange={(e)=>{setGt(e.target.value)}}
+                onChange={(e) => {
+                  setGt(e.target.value);
+                }}
               />
               Nữ
               <input
                 style={{ marginLeft: 20 }}
                 type="radio"
                 name="gender"
-                value='true'
+                value="true"
                 // checked={gt ? true : false}
-                checked={JSON.parse(gt) === true? true:false}
-                onChange={(e)=>{setGt(e.target.value)}}
+                checked={JSON.parse(gt) === true ? true : false}
+                onChange={(e) => {
+                  setGt(e.target.value);
+                }}
               />
               Nam
             </div>
@@ -295,7 +337,7 @@ const DropDownUser = () => {
               <label htmlFor="">Email</label>
               <input
                 type="text"
-                value={email}
+                value={localStorage.getItem('username')}
                 class="form-control"
                 id="ten"
                 disabled
@@ -305,7 +347,9 @@ const DropDownUser = () => {
             <div class="form-group mt-3">
               <label htmlFor="">Mật khẩu cũ</label>
               <input
-                onChange={(e) => setPass(e.target.value.split(" ").join("").trim())}
+                onChange={(e) =>
+                  setPass(e.target.value.split(" ").join("").trim())
+                }
                 value={pass}
                 type="password"
                 class="form-control"
@@ -353,8 +397,6 @@ const DropDownUser = () => {
 
         {/* Model Box Finsihs */}
       </div>
-
-      
     </div>
   );
 };
