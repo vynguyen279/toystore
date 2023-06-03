@@ -128,9 +128,14 @@ class TaiKhoanControllers {
       res.send(json(false, "Tài khoản không tồn tại"));
       return json(false, "Tài khoản không tồn tại");
     }
+    if (!rs[0].TRANGTHAI) {
+      res.send(json(false, "Tài khoản này đã bị khóa!"));
+      return json(false, "Tài khoản này đã bị khóa!");
+    }
 
     rs = await bcrypt.compare(req.body.MATKHAU.trim(), rs[0].MATKHAU.trim());
-    if (rs == true) res.send(json(rs));
+    if (rs == true) 
+      res.send(json(rs));
     else res.send(json(rs, "Sai mật khẩu"));
   };
 

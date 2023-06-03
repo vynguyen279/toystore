@@ -6,8 +6,10 @@ import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { cartActions } from "../store/shopping-cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
+import checkRole from "../components/checkRole";
 import "../App.css";
 const Cart = () => {
+  checkRole()
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   return (

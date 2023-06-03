@@ -36,10 +36,10 @@ class KhachHangControllers {
       return;
     }
     let rs = await KhachHang.search(params);
-    if (rs.recordset.length == 0) {
-      res.send(json(false, "Không có kết quả phù hợp"));
-      return;
-    }
+    // if (rs.recordset.length == 0) {
+    //   res.send(json(false, "Không có kết quả phù hợp"));
+    //   return;
+    // }
     res.send(json(true, rs.recordset));
   };
 

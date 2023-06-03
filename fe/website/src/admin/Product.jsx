@@ -5,6 +5,7 @@ import moment from "moment";
 import "../App.css";
 
 import React, { useState, useEffect } from "react";
+import checkRole from "../components/checkRole";
 import "./style/form.css";
 import {
   addProduct,
@@ -24,6 +25,7 @@ import {
 } from "reactstrap";
 
 const Product = () => {
+  checkRole()
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [ten, setTen] = useState("");
@@ -82,19 +84,10 @@ const Product = () => {
         console.log(error);
       });
 
-    getListType()
-      .then(function (response) {
-        // console.log(response.data.data)
-        setType(response.data.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }, [products]);
 
   const handleSearch = (e) => {
     const searchItem = e.target.value;
-    // console.log(searchItem);
     setQuery(searchItem);
   };
 
@@ -157,6 +150,7 @@ const Product = () => {
       addProduct(data)
         .then((rs) => {
           if (rs.data.status) alert("Thêm thành công");
+          
           // console.log(rs);
         })
         .catch(function (error) {
@@ -166,7 +160,6 @@ const Product = () => {
   };
 
   const handleEdit = async (e) => {
-    console.log(anh2)
     e.preventDefault();
     const isValid = isValidate2();
     if (isValid) {
@@ -178,14 +171,16 @@ const Product = () => {
         DONGIA: parseFloat(gia2),
         MOTA: mota2,
         SOLUONGTON: parseInt(soLuong2),
-        HINHANH: anh2,
+        // HINHANH: anh2,
         SALE: parseFloat(sale2),
         TRANGTHAIXOA: JSON.parse(trangThai2),
       };
       // console.log(data);
       updateProduct(data)
         .then((rs) => {
-          if (rs.data.status) alert("Cập nhật thành công");
+          if (rs.data.status) 
+             alert("Cập nhật thành công");
+          alert(rs.data.data)
           setShowEdit(false)
           // console.log(rs);
         })
@@ -216,6 +211,9 @@ const Product = () => {
           if (rs.data.status) {
             alert("Xóa thành công");
             setProducts([]);
+          }
+          else{
+            alert(rs.data.data)
           }
         })
         .catch(function (error) {
@@ -314,7 +312,7 @@ const Product = () => {
                           setNuoc2(item.NUOCSX);
                           setGia2(item.DONGIA);
                           setMota2(item.MOTA);
-                          // setAnh2(item.HINHANH)
+                          setAnh2(item.HINHANH)
                           setSoLuong2(item.SOLUONGTON);
                           setSale2(item.SALE);
                           setTrangThai2(item.TRANGTHAIXOA);
@@ -342,7 +340,7 @@ const Product = () => {
             backdrop="static"
             keyboard={false}
           >
-            <ModalHeader closeButton></ModalHeader>
+            <ModalHeader closeButton>Thêm sản phẩm</ModalHeader>
             <form onSubmit={handleAdd}>
               <div class="form-group">
                 <label htmlFor="">Tên sản phẩm</label>
@@ -437,7 +435,6 @@ const Product = () => {
                   name="state"
                   value="false"
                   checked={JSON.parse(trangThai) === false ? true : false}
-                  style={{ marginRight: 10 }}
                   onChange={(e) => setTrangThai(e.target.value)}
                 />{" "}
                 Sử dụng
@@ -445,6 +442,7 @@ const Product = () => {
                   type="radio"
                   name="state"
                   value="true"
+                  style={{ marginLeft: 10 }}
                   checked={JSON.parse(trangThai) === true ? true : false}
                   onChange={(e) => setTrangThai(e.target.value)}
                 />{" "}
@@ -473,7 +471,7 @@ const Product = () => {
             backdrop="static"
             keyboard={false}
           >
-            <ModalHeader closeButton></ModalHeader>
+            <ModalHeader closeButton>Cập nhật sản phẩm</ModalHeader>
             <form onSubmit={handleEdit}>
               <div class="form-group">
                 <label htmlFor="">Tên sản phẩm</label>
@@ -577,7 +575,6 @@ const Product = () => {
                   name="state"
                   value="false"
                   checked={JSON.parse(trangThai) === false ? true : false}
-                  style={{ marginRight: 10 }}
                   onChange={(e) => setTrangThai2(e.target.value)}
                 />{" "}
                 Sử dụng
@@ -585,6 +582,7 @@ const Product = () => {
                   type="radio"
                   name="state"
                   value="true"
+                  style={{ marginLeft: 10 }}
                   checked={JSON.parse(trangThai) === true ? true : false}
                   onChange={(e) => setTrangThai2(e.target.value)}
                 />{" "}

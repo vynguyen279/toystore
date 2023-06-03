@@ -8,9 +8,11 @@ import { cartActions } from "../store/shopping-cart/cartSlice";
 import CommonSection from "../components/UI/CommonSection";
 import "../styles/product-details.css";
 import "../App.css";
+import checkRole from "../components/checkRole";
 import { useState } from "react";
 import { useEffect } from "react";
 const Checkout = () => {
+  checkRole()
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const total = useSelector((state) => state.cart.totalAmount);
   const cart = useSelector((state) => state.cart.cartItems)

@@ -110,13 +110,16 @@ const DropDownUser = () => {
     // console.log(isValid)
     if (isValid) {
       const data = {
-        EMAIL: email,
+        EMAIL: localStorage.getItem('username'),
         MATKHAUMOI: rePass,
       };
+      console.log(data)
 
       changePassword(data)
         .then(function (response) {
-          if (response.data.status) alert("Đổi mật khẩu thành công!");
+          if (response.data.status) 
+              // alert("Đổi mật khẩu thành công!");
+              console.log(response.data.data)
           setShowEditPass(false);
         })
         .catch(function (error) {

@@ -14,21 +14,21 @@ const ProductCard = ({ item }) => {
   const history = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
 
-  const { MASP, TENSP, NUOCSX, DONGIA, HINHANH } = item;
+  const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE } = item;
+  // var PRICE = Number(parseFloat(DONGIA)-parseFloat(DONGIA)*parseFloat(SALE))
 
   const dispatch = useDispatch();
 
   const addToCart = () => {
-
     if (window.localStorage.getItem("isAuth")) {
       dispatch(
         cartActions.addItem({
           MASP,
           TENSP,
           DONGIA,
+          SALE,
           HINHANH,
           NUOCSX,
-          
         })
       );
       getInfo({ EMAIL: window.localStorage.getItem("username") })
@@ -56,6 +56,7 @@ const ProductCard = ({ item }) => {
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
       history("/Login");
     }
+    
   };
 
   return (
@@ -76,10 +77,47 @@ const ProductCard = ({ item }) => {
           <span>{NUOCSX}</span>
         </div>
         <div className="product__card-bottom d-flex align-items-center justify-content-between p-3">
-          <span className="price fs-6">{DONGIA.toLocaleString("it-IT", {
-    style: "currency",
-    currency: "VND",
-  })}</span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {SALE > 0 ? (
+              <div style={{display:'flex', flexDirection:'column'}}>
+                <span className="price fs-6" style={{ color: "red" }}>
+                  <strike>
+                    {DONGIA.toLocaleString("it-IT", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </strike>
+                </span>
+                <span className="price fs-6">
+                  {(DONGIA - DONGIA * SALE).toLocaleString("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+              </div>
+            ) : (
+              <span className="price fs-6">
+                {(DONGIA - DONGIA * SALE).toLocaleString("it-IT", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </span>
+            )}
+            {/* <span className="price fs-6" style={{color: 'red'}}>
+            <strike>
+              {DONGIA.toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </strike>
+          </span>
+          <span className="price fs-6">
+            {(DONGIA - DONGIA * SALE).toLocaleString("it-IT", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </span> */}
+          </div>
           <motion.span whileHover={{ scale: 1.2 }} onClick={addToCart}>
             <i class="fa-solid fa-plus"></i>
           </motion.span>

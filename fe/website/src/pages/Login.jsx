@@ -139,6 +139,7 @@ const Login = () => {
                       MASP: response.data.data[i].MASP,
                       TENSP: response.data.data[i].TENSP,
                       DONGIA: String(response.data.data[i].DONGIA),
+                      SALE: String(response.data.data[i].SALE),
                       HINHANH: response.data.data[i].HINHANH,
                     };
                     addAll(item, count);

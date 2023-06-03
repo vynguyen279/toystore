@@ -8,9 +8,10 @@ import { motion } from "framer-motion";
 import heroImg from "../assets/images/hero-img.png";
 import { Container, Row, Col } from "reactstrap";
 import "../styles/home.css";
+import checkRole from "../components/checkRole";
 import "../App.css";
 const Home = () => {
-
+  checkRole()
   const [sale, setSale] = useState([]);
   const [newsp, setNewSp] = useState([]);
   const [best, setBest] = useState([]);

@@ -8,8 +8,10 @@ import isEmpty from "validator/lib/isEmpty";
 import { Link } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
 import "../styles/product-details.css";
+import checkRole from "../components/checkRole";
 import "../App.css";
 const Signup = () => {
+  checkRole()
   // eslint-disable-next-line
   const [err, setErr] = useState("");
   const history = useNavigate()
@@ -28,6 +30,7 @@ const Signup = () => {
     // if (isEmpty(email)) err.email = "Vui lòng nhập email!";
     if (isEmpty(ten)) err.ten = "Vui lòng nhập họ tên!";
     if (isEmpty(pass)) err.pass = "Vui lòng nhập mật khẩu!";
+    if (pass.length<8) err.pass2 = "Mật khẩu phải từ 8 kí tự trở lên!";
     if (isEmpty(rePass)) err.rePass = "Vui lòng nhập lại mật khẩu!";
     if (isEmpty(ngaySinh)) err.ngaySinh = "Vui lòng nhập ngày sinh!";
     if (isEmpty(sdt)) err.sdt = "Vui lòng nhập số điện thoại!";
@@ -195,6 +198,9 @@ const Signup = () => {
                   <p
                     className="err"
                   >{err.pass}</p>
+                  <p
+                    className="err"
+                  >{err.pass2}</p>
                 </FormGroup>
                 <FormGroup>
                   <Label for="repassword">Nhập lại mật khẩu</Label>

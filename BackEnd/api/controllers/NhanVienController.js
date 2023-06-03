@@ -36,13 +36,13 @@ class NhanVienControllers {
       { name: "GIOITINH", type: "Bit", value: GIOITINH },
       { name: "CHUCVU", type: "varchar(10)", value: CHUCVU },
     ];
-    let rs1 = await KhachHang.select(EMAIL)
-    if (rs1.length > 0) {
-      res.send(
-        json(false, "Email này đã được đăng ký. Vui lòng chọn email khác!")
-      );
-      return;
-    }
+    // let rs1 = await KhachHang.select(EMAIL)
+    // if (rs1.length > 0) {
+    //   res.send(
+    //     json(false, "Email này đã được đăng ký. Vui lòng chọn email khác!")
+    //   );
+    //   return;
+    // }
     let rs2 = await NhanVien.select(EMAIL)
     if (rs2.length > 0) {
       res.send(

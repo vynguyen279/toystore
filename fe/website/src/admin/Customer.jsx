@@ -3,20 +3,15 @@
 import React, { useState, useEffect } from "react";
 import "./style/form.css"
 import { deleteCustomer, getListCustomer } from "../server/callAPI";
+import checkRole from "../components/checkRole";
 import { Button,Modal,Input, ModalFooter, ModalHeader } from 'reactstrap';
  
 const Customer = () => {
- 
+    checkRole()
     // const [show, setShow] = useState(false);
     const [customers, setCustomers] = useState([])
     const [query, setQuery] = useState("")
 
-    // const [ten, setTen] = useState("");
-    // const [sdt, setSDT] = useState("");
-    // const [DC, setDC] = useState("");
-    // const [ngay, setNgay] = useState(0);
-    // const [email, setEmail] = useState("");
-    // const [gioiTinh, setGioiTinh] = useState(0);
 
     useEffect(()=>{
         let data = {
@@ -63,7 +58,7 @@ const Customer = () => {
            
            <div class="col-sm-3 mt-5 mb-1">
               <div className="search">
-                 <input class="form-control mr-sm-2" type="search" onChange={handleSearch}placeholder="Tìm sản phẩm" aria-label="Search"/>
+                 <input class="form-control mr-sm-2" type="search" onChange={handleSearch}placeholder="Tìm khách hàng" aria-label="Search"/>
               </div>    
               </div>  
               <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green", alignContent: "flex-start"}}><h2><b>Danh sách khách hàng</b></h2></div>
@@ -95,17 +90,6 @@ const Customer = () => {
                     <td>{item.SDT}</td>
                     <td>{item.DIACHI}</td>
                     <td>{item.EMAIL}</td>
-                    <td>
-                      <i
-                        class="fa-solid fa-pen-to-square"
-                        style={{ marginRight: 10, color: "#0a1d37" }}
-                      ></i>
-                      <i
-                        class="fa-solid fa-trash-can"
-                        style={{ color: "#ff0000" }}
-                        onClick={() => handleDelete(item.MAKH)}
-                      ></i>
-                    </td>
                   </tr>
                 ))}
                     </tbody>

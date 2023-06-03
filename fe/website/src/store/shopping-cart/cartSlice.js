@@ -13,7 +13,8 @@ const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       const newItem = action.payload;
-      const gia = (newItem.DONGIA)
+      // const gia = parseFloat(parseFloat(newItem.DONGIA) - parseFloat(newItem.DONGIA)*parseFloat(newItem.SALE))
+      const gia = newItem.DONGIA - newItem.DONGIA*newItem.SALE
       const existingItem = state.cartItems.find(
         (item) => item.MASP === newItem.MASP
       );
@@ -26,6 +27,7 @@ const cartSlice = createSlice({
           TENSP: newItem.TENSP,
           HINHANH: newItem.HINHANH,
           DONGIA: gia,
+          SALE: newItem.SALE,
           NUOCSX: newItem.NUOCSX,
           quantity: 1,
           totalPrice: gia,
