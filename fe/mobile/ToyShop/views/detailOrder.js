@@ -11,7 +11,7 @@ import Color from '../res/color';
 import styles from '../res/styles';
 
 function DetailOrder({ navigation, route }) {
-    const dateOrder = route.params?.date;
+    const date = route.params?.date;
     const code = route.params?.code;
     const listDetail = route.params?.list;
     return (
@@ -34,7 +34,14 @@ function DetailOrder({ navigation, route }) {
                 <Text style={style.title}>Chi tiết đơn hàng</Text>
             </View>
             <Text style={[styles.txtName, { marginLeft: 20, marginTop: 20 }]}>
-                Ngày đặt: {moment(dateOrder).format('DD-MM-yyyy')}
+                Ngày đặt:{' '}
+                {moment(
+                    new Date(
+                        Number(date[6] + date[7] + date[8] + date[9]),
+                        Number(date[3] + date[4]) - 1,
+                        Number(date[0] + date[1]),
+                    ),
+                ).format('DD-MM-yyyy')}
             </Text>
             <Text style={[styles.txtName, { marginLeft: 20 }]}>Mã đơn hàng: {code}</Text>
             <View style={{ marginTop: 15, alignItems: 'center' }}>

@@ -25,12 +25,11 @@ function FixInf({ navigation }) {
     const [showDate, setShowDate] = useState(false);
     const [sex, setSex] = useState(user.GIOITINH);
     const [date, setDate] = useState(
-        new Date(user.NGAYSINH),
-        // new Date(
-        //     Number(user.NGAYSINH[6] + user.NGAYSINH[7] + user.NGAYSINH[8] + user.NGAYSINH[9]),
-        //     Number(user.NGAYSINH[3] + user.NGAYSINH[4]) - 1,
-        //     Number(user.NGAYSINH[0] + user.NGAYSINH[1]),
-        // ),
+        new Date(
+            Number(user.NGAYSINH[6] + user.NGAYSINH[7] + user.NGAYSINH[8] + user.NGAYSINH[9]),
+            Number(user.NGAYSINH[3] + user.NGAYSINH[4]) - 1,
+            Number(user.NGAYSINH[0] + user.NGAYSINH[1]),
+        ),
     );
     const openDatePicker = () => {
         setShowDate(true);
@@ -205,7 +204,7 @@ function FixInf({ navigation }) {
                                                 fontSize: 15,
                                             }}
                                         >
-                                            {moment(date).format('yyyy-MM-DD')}
+                                            {moment(date).format('DD-MM-yyyy')}
                                         </Text>
                                     </View>
                                 </TouchableOpacity>
