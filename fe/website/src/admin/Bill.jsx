@@ -109,7 +109,7 @@ const handleSearch = (e)=>{
                   </tr>
               </thead>
               <tbody>
-              {bills?.map((item, index) => (
+              {typeof(bills)==='object'?bills.map((item, index) => (
             <tr key={item.SOHD}>
               <td>{index+1}</td>
               <td>{item.SOHD}</td>
@@ -134,7 +134,7 @@ const handleSearch = (e)=>{
                 ></i>
               </td>
             </tr>
-          ))}
+          )):<h1>Không tìm thấy kết quả!</h1>}
               </tbody>
           </table>
       </div>   
@@ -270,20 +270,7 @@ const handleSearch = (e)=>{
                         })}</span>
                 </div>
               </div>
-              {/* {tt.includes("Chờ xác nhận") ? (
-                <Button
-                  color="success"
-                  onClick={() => {
 
-                  }}
-                >
-                  Xác nhận
-                </Button>
-              ) : tt.includes("Đã xác nhận") ? (
-                <Button color="primary"  onClick={() => {
-
-                }}>Đã thanh toán</Button>
-              ): <p></p>} */}
             </Col>
           </Row>
 

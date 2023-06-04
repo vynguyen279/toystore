@@ -48,7 +48,7 @@ const Cart = () => {
                       Tổng tiền:{" "}
                       <span>
                         {parseFloat(
-                          totalAmount.replace(/[^0-9\.-]+/g, "")
+                          totalAmount
                         ).toLocaleString("it-IT", {
                           style: "currency",
                           currency: "VND",
@@ -89,7 +89,7 @@ const Tr = ({ item }) => {
       </td>
       <td>{item.TENSP}</td>
       <td>{item.NUOCSX}</td>
-      <td>{parseFloat((item.DONGIA).replace(/[^0-9\.-]+/g,"")).toLocaleString("it-IT", {
+      <td>{parseFloat((item.DONGIA)).toLocaleString("it-IT", {
       style: "currency",
       currency: "VND",
     })}</td>

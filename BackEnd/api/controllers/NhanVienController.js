@@ -59,13 +59,12 @@ class NhanVienControllers {
   };
 
   capNhatNv = async (req, res) => {
-    const { MANV, HOTEN, SDT, NGAYVAOLAM, HINHANH, EMAIL, DIACHI, NGAYSINH, TRANGTHAI, GIOITINH, CHUCVU } = req.body;
+    const { MANV, HOTEN, SDT, NGAYVAOLAM, EMAIL, DIACHI, NGAYSINH, TRANGTHAI, GIOITINH, CHUCVU } = req.body;
     let params = [
       { name: "MANV", type: "Nchar(10)", value: MANV },
       { name: "HOTEN", type: "Nvarchar(50)", value: HOTEN },
       { name: "SDT", type: "Nchar(10)", value: SDT },
       { name: "NGAYVAOLAM", type: "Date", value: NGAYVAOLAM },
-      { name: "HINHANH", type: "Nchar(100)", value: HINHANH },
       { name: "EMAIL", type: "Nchar(200)", value: EMAIL },
       { name: "DIACHI", type: "Nvarchar(100)", value: DIACHI },
       { name: "NGAYSINH", type: "Date", value: NGAYSINH },

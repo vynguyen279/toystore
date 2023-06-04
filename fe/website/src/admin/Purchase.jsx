@@ -197,7 +197,7 @@ const Purchase = () => {
                 </tr>
               </thead>
               <tbody>
-                {purchases?.map((item, index) => (
+                {typeof(purchases)==='object'?purchases.map((item, index) => (
                   <tr key={item.MSDDH}>
                     <td>{index + 1}</td>
                     <td>{item.MSDDH}</td>
@@ -219,7 +219,7 @@ const Purchase = () => {
                       ></i>
                     </td>
                   </tr>
-                ))}
+                )):<h1>Không tìm thấy kết quả!</h1>}
               </tbody>
             </table>
           </div>

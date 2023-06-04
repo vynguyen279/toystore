@@ -81,7 +81,7 @@ const Customer = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {customers?.map((item, index) => (
+                    {typeof(customers)==='object'?customers.map((item, index) => (
                   <tr key={item.MAKH}>
                     <td>{index+1}</td>
                     <td>{item.MAKH}</td>
@@ -91,7 +91,7 @@ const Customer = () => {
                     <td>{item.DIACHI}</td>
                     <td>{item.EMAIL}</td>
                   </tr>
-                ))}
+                )):<h1>Không tìm thấy kết quả!</h1>}
                     </tbody>
                 </table>
             </div>   

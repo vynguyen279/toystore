@@ -113,8 +113,8 @@ const Officer = () => {
     if (isEmpty(dc)) err.dc = "Vui lòng nhập địa chỉ!";
     if (isEmpty(ngaySinh)) err.ngaySinh = "Vui lòng nhập ngày sinh!";
     if (isEmpty(ngayLam)) err.ngayLam = "Vui lòng nhập ngày vào làm!";
-    // if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
-    // err.email = "Email không hợp lệ!";
+    if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
+    err.email2 = "Email không hợp lệ!";
     if (
       !sdt.match(
         /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
@@ -136,15 +136,14 @@ const Officer = () => {
     if (isEmpty(dc2)) err.dc = "Vui lòng nhập địa chỉ!";
     if (isEmpty(email2)) err.email = "Vui lòng nhập email!";
     if (isEmpty(ngaySinh2)) err.ngaySinh = "Vui lòng nhập ngày sinh!";
-    // if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
-    // err.email = "Email!";
+    // if (!email2.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
+    //    err.email2 = "Email không hợp lệ!";
     if (
       !sdt2.match(
         /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
       )
     )
       err.sdt = "Số điện thoại không hợp lệ!";
-    if (isEmpty(email2)) err.email = "Vui lòng nhập email!";
 
     setErr2(err);
     if (Object.keys(err).length > 0) return false;
@@ -167,7 +166,7 @@ const Officer = () => {
         GIOITINH: JSON.parse(gt),
         CHUCVU: cv,
       };
-      console.log(data);
+      // console.log(data);
       addOfficer(data)
         .then((rs) => {
           if (rs.data.status) alert("Thêm thành công");
@@ -188,7 +187,7 @@ const Officer = () => {
         HOTEN: ten2,
         SDT: sdt2,
         NGAYVAOLAM: ngayLam2,
-        HINHANH: anh2,
+        // HINHANH: anh2,
         EMAIL: email2,
         DIACHI: dc2,
         NGAYSINH: ngaySinh2,
@@ -196,7 +195,7 @@ const Officer = () => {
         GIOITINH: JSON.parse(gt2),
         CHUCVU: cv2,
       };
-      console.log(data);
+      // console.log(data);
       updateOfficer(data)
         .then((rs) => {
           if (rs.data.status) alert("Cập nhật thành công");
@@ -226,7 +225,8 @@ const Officer = () => {
       });
   };
 
-  const confirm = (manv) => {
+  const confirm = (e,manv) => {
+    e.preventDefault()
     var r = window.confirm("Bạn có muốn xóa nhân viên này?");
     if (r == true) {
       const data = {
@@ -237,6 +237,9 @@ const Officer = () => {
           if (rs.data.status) {
             alert("Xóa thành công");
             setOfficers([]);
+          }
+          else{
+            alert(rs.data.data)
           }
         })
         .catch(function (error) {
@@ -300,7 +303,7 @@ const Officer = () => {
               </thead>
               <tbody>
                 {/* <TableRow data={products}/> */}
-                {officers?.map((item, index) => (
+                {typeof(officers)==='object'?officers.map((item, index) => (
                   <tr key={item.MANV}>
                     <td>{index + 1}</td>
                     <td>
@@ -350,12 +353,12 @@ const Officer = () => {
                       <i
                         class="fa-solid fa-trash-can"
                         style={{ color: "#ff0000" }}
-                        onClick={() => confirm(item.MANV)}
+                        onClick={(e)=>confirm(e,item.MANV)}
                         // onClick={confirm(item.MASP)}
                       ></i>
                     </td>
                   </tr>
-                ))}
+                )): <h1>Không tìm thấy kết quả!</h1>}
               </tbody>
             </table>
           </div>
@@ -424,6 +427,7 @@ const Officer = () => {
                   placeholder="Nhập email"
                 />
                 <p className="err">{err.email}</p>
+                <p className="err">{err.email2}</p>
               </div>
               <div class="form-group mt-3">
                 <label htmlFor="">Địa chỉ</label>
@@ -588,6 +592,7 @@ const Officer = () => {
                   placeholder="Nhập email"
                 />
                 <p className="err">{err2.email}</p>
+                <p className="err">{err2.email2}</p>
               </div>
               <div class="form-group mt-3">
                 <label htmlFor="">Địa chỉ</label>

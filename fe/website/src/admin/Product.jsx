@@ -62,8 +62,13 @@ const Product = () => {
 
     getListProduct(data)
       .then(function (response) {
-        // console.log(response.data.data);
-        setProducts(response.data.data);
+        // console.log(typeof(response.data.data));
+        // if(typeof(response.data.data)=='string')
+        //    setProducts([]);
+        //   // console.log('rong')
+        // else
+           setProducts(response.data.data)
+          // console.log('co')
       })
       .catch(function (error) {
         console.log(error);
@@ -84,11 +89,20 @@ const Product = () => {
         console.log(error);
       });
 
+    getListType()
+      .then(function (response) {
+        // console.log(response.data.data)
+        setType(response.data.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, [products]);
 
-  const handleSearch = (e) => {
+  const handleSearch = async(e) => {
     const searchItem = e.target.value;
     setQuery(searchItem);
+
   };
 
   const isValidate = () => {
@@ -180,7 +194,7 @@ const Product = () => {
         .then((rs) => {
           if (rs.data.status) 
              alert("Cập nhật thành công");
-          alert(rs.data.data)
+          // alert(rs.data.data)
           setShowEdit(false)
           // console.log(rs);
         })
@@ -234,7 +248,7 @@ const Product = () => {
               <input
                 class="form-control mr-sm-2"
                 type="search"
-                onChange={handleSearch}
+                onChange={(e)=>handleSearch(e)}
                 placeholder="Tìm sản phẩm"
                 aria-label="Search"
               />
@@ -279,7 +293,7 @@ const Product = () => {
               </thead>
               <tbody>
                 {/* <TableRow data={products}/> */}
-                {products?.map((item, index) => (
+                {typeof(products)==='object'?products.map((item, index) => (
                   <tr key={item.MASP}>
                     <td>{index+1}</td>
                     <td>
@@ -326,7 +340,7 @@ const Product = () => {
                       ></i>
                     </td>
                   </tr>
-                ))}
+                )):<h1>Không tìm thấy sản phẩm!</h1>}
               </tbody>
             </table>
           </div>
@@ -547,7 +561,7 @@ const Product = () => {
                 />
                 <p className="err">{err2.sl}</p>
               </div>
-              <div class="form-group mt-3">
+              {/* <div class="form-group mt-3">
                 <label htmlFor="">Ảnh</label>
                 <input
                   onChange={handleImg2}
@@ -556,7 +570,7 @@ const Product = () => {
                   id="anh2"
                   // value={anh2}
                 />
-              </div>
+              </div> */}
               <div class="form-group mt-3">
                 <label htmlFor="">Tỉ lệ sale</label>
                 <input
@@ -572,18 +586,18 @@ const Product = () => {
               <div class="form-group mt-3">
                 <input
                   type="radio"
-                  name="state"
+                  name="tt"
                   value="false"
-                  checked={JSON.parse(trangThai) === false ? true : false}
+                  checked={JSON.parse(trangThai2) === false ? true : false}
                   onChange={(e) => setTrangThai2(e.target.value)}
                 />{" "}
                 Sử dụng
                 <input
                   type="radio"
-                  name="state"
+                  name="tt"
                   value="true"
                   style={{ marginLeft: 10 }}
-                  checked={JSON.parse(trangThai) === true ? true : false}
+                  checked={JSON.parse(trangThai2) === true ? true : false}
                   onChange={(e) => setTrangThai2(e.target.value)}
                 />{" "}
                 Ngừng kinh doanh
