@@ -28,7 +28,7 @@ function Register({ navigation }) {
 
         checkEmail(data)
             .then(function (response) {
-                if (response.data.status) {
+                if (!response.data.status) {
                     checkPass(email, pass, rePass);
                 } else {
                     Alert.alert('Thông báo', 'Email đã tồn tại!', [
@@ -50,7 +50,7 @@ function Register({ navigation }) {
             >
                 <StatusBar />
 
-                <BtnBack navigate={navigation} nameNavi="Welcome" />
+                {/* <BtnBack navigate={navigation} nameNavi="Login" /> */}
                 <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
                     <Text style={style.title}>Đăng ký</Text>
                     <Formik
@@ -132,7 +132,7 @@ const style = StyleSheet.create({
         color: '#000',
         fontSize: 40,
         fontWeight: 'bold',
-        marginTop: 50,
+        marginTop: 120,
         marginLeft: 120,
         marginBottom: 50,
     },

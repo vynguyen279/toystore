@@ -36,7 +36,9 @@ function Home({ navigation }) {
 
         getListBest(data)
             .then((response) => {
-                setListBest(response.data.data);
+                if (response.data.status) {
+                    setListBest(response.data.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -50,7 +52,9 @@ function Home({ navigation }) {
 
         getListBest(data)
             .then((response) => {
-                setListAllBest(response.data.data);
+                if (response.data.status) {
+                    setListAllBest(response.data.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -63,7 +67,9 @@ function Home({ navigation }) {
 
         getListSale(data)
             .then((response) => {
-                setListSale(response.data.data);
+                if (response.data.status) {
+                    setListSale(response.data.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -77,7 +83,9 @@ function Home({ navigation }) {
 
         getListSale(data)
             .then((response) => {
-                setListAllSale(response.data.data);
+                if (response.data.status) {
+                    setListAllSale(response.data.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -91,7 +99,9 @@ function Home({ navigation }) {
 
         getListNew(data)
             .then((response) => {
-                setListNew(response.data.data);
+                if (response.data.status) {
+                    setListNew(response.data.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -105,7 +115,9 @@ function Home({ navigation }) {
 
         getListNew(data)
             .then((response) => {
-                setListAllNew(response.data.data);
+                if (response.data.status) {
+                    setListAllNew(response.data.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -117,8 +129,10 @@ function Home({ navigation }) {
         };
         getListOrder(data)
             .then((response) => {
-                setListOrder(response.data.data);
-                AsyncStorage.setItem('listOrder', JSON.stringify(listOrder));
+                if (response.data.status) {
+                    setListOrder(response.data.data);
+                    AsyncStorage.setItem('listOrder', JSON.stringify(listOrder));
+                }
             })
             .catch((error) => {
                 console.log(error);

@@ -18,7 +18,7 @@ function Card({ items, navigation, maKH }) {
         dispatch(incrementQuantity(items));
     };
 
-    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE } = items;
+    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE, SOLUONGTON } = items;
     const sale = SALE * 100;
     const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 

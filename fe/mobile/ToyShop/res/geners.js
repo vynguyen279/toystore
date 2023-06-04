@@ -31,9 +31,9 @@ const delProCart = (MASP, maKH, sl) => {
         .then((response) => {
             if (response.data.status) {
                 console.log(response.data.data);
-                Alert.alert('Thông báo!', 'Xóa thành công!', [
-                    { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ]);
+                // Alert.alert('Thông báo!', 'Xóa thành công!', [
+                //     { text: 'OK', onPress: () => console.log('OK Pressed') },
+                // ]);
             } else {
                 console.log(response.data.data);
             }

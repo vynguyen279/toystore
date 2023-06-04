@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -9,7 +9,7 @@ import { addProCart, delProCart } from '../res/geners';
 import Color from '../res/color';
 
 function CardCart({ item, maKH }) {
-    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE } = item;
+    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SALE, SOLUONGTON } = item;
     const sale = SALE * 100;
     const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
@@ -28,6 +28,17 @@ function CardCart({ item, maKH }) {
             dispatch(removeFromCart(items));
         } else {
             dispatch(decrementQuantity(items));
+        }
+    };
+
+    const checkCount = (count_1) => {
+        if (count_1 > item.SOLUONGTON) {
+            Alert.alert('Thông báo!', 'Vượt qua số lượng tồn!', [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+        } else {
+            incrementCart(item);
+            addProCart(MASP, maKH, 1);
         }
     };
     return (
@@ -67,8 +78,7 @@ function CardCart({ item, maKH }) {
                     <Text style={style.txtNum}>{item.quantity}</Text>
                     <TouchableOpacity
                         onPress={() => {
-                            incrementCart(item);
-                            addProCart(MASP, maKH, 1);
+                            checkCount(item.quantity + 1);
                         }}
                     >
                         <View style={style.btn}>
