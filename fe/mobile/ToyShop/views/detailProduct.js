@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, Image, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -16,7 +16,7 @@ function DetailPro({ navigation, route }) {
 
     const items = route.params?.item;
     const sale = route.params?.sale;
-    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH } = items;
+    const { MASP, TENSP, NUOCSX, DONGIA, HINHANH, SOLUONGTON } = items;
     const cost = String(((100 - sale) * DONGIA) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
     const cart = useSelector((state) => state.cart.cart);
@@ -44,6 +44,15 @@ function DetailPro({ navigation, route }) {
         navigation.goBack();
     };
 
+    const checkCount = (count_1) => {
+        if (count_1 > items.SOLUONGTON) {
+            Alert.alert('Thông báo!', 'Vượt qua số lượng tồn!', [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ]);
+        } else {
+            setCount(count + 1);
+        }
+    };
     return (
         <View
             style={{
@@ -106,7 +115,7 @@ function DetailPro({ navigation, route }) {
                             </View>
                         </TouchableOpacity>
                         <Text style={style.txtNum}>{count}</Text>
-                        <TouchableOpacity onPress={() => setCount(count + 1)}>
+                        <TouchableOpacity onPress={() => checkCount(count + 1)}>
                             <View style={style.btn}>
                                 <FontAwesome name="plus" size={20} color="#FFFF" style={{}} />
                             </View>

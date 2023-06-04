@@ -37,9 +37,7 @@ class TaiKhoanControllers {
     let params = [{ name: "EMAIL", type: "Nchar(200)", value: EMAIL }];
     let rs = await TaiKhoan.select(EMAIL);
     if (rs.length > 0) {
-      res.send(
-        json(true, rs)
-      );
+      res.send(json(true, rs));
     } else {
       res.send(json(false, "Email chưa tồn tại!"));
     }
@@ -134,8 +132,7 @@ class TaiKhoanControllers {
     }
 
     rs = await bcrypt.compare(req.body.MATKHAU.trim(), rs[0].MATKHAU.trim());
-    if (rs == true) 
-      res.send(json(rs));
+    if (rs == true) res.send(json(rs));
     else res.send(json(rs, "Sai mật khẩu"));
   };
 

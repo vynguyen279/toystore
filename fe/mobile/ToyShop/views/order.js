@@ -28,7 +28,7 @@ function Order({ navigation }) {
                                 source={require('../assets/no-data.png')}
                                 style={{ height: 300, width: 200, marginTop: 100 }}
                             />
-                            <Text style={style.noData}>Chưa có sản phẩm</Text>
+                            <Text style={style.noData}>Chưa có đơn hàng</Text>
                         </View>
                     ) : (
                         listOrder.map((item, index) => <CardOrder item={item} navigation={navigation} />)

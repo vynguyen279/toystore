@@ -28,7 +28,7 @@ function Register({ navigation }) {
 
         checkEmail(data)
             .then(function (response) {
-                if (response.data.status) {
+                if (!response.data.status) {
                     checkPass(email, pass, rePass);
                 } else {
                     Alert.alert('Thông báo', 'Email đã tồn tại!', [
